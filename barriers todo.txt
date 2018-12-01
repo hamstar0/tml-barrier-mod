@@ -1,0 +1,9 @@
+v1
+-	Define barrier entity
+-	Define item (paling accessory) for equipping a barrier
+-	Define item (paling) for placing barriers
+
+-	@Implement magi-tech scrap
+-	Create project
+
+
