@@ -1,4 +1,5 @@
 ﻿using Barriers.Entities.Barrier;
+using Barriers.Items;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -17,7 +18,7 @@ namespace Barriers.Tiles {
 			TileObjectData.newTile.CopyFrom( TileObjectData.Style3x2 );
 			TileObjectData.newTile.Origin = new Point16( 1, 1 );
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
-			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook( BarrierEntity.CreateForTile, -1, 0, false );
+			//TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook( BarrierEntity.CreateForTile, -1, 0, false );
 			TileObjectData.newTile.AnchorInvalidTiles = new int[] { TileID.MagicalIceBlock };
 			TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.LavaDeath = false;
@@ -52,7 +53,7 @@ namespace Barriers.Tiles {
 		}
 
 		public override void KillMultiTile( int i, int j, int frameX, int frameY ) {
-			Item.NewItem( i * 16, j * 16, 32, 16, this.mod.ItemType( "PalingItem" ) );
+			Item.NewItem( i * 16, j * 16, 32, 16, this.mod.ItemType<PalingItem>() );
 		}
 	}
 }

@@ -1,5 +1,3 @@
-# Evil Barriers
+# Barriers
 
-Bosses are now protected with barriers that prevent them from being destroyed. Barrier generators must be found and deactivated to be able to fight them. View the full-screen map to see the status of all boss barriers.
-
-https://forums.terraria.org/index.php?threads/licenses-unlock-items-as-you-progress.69438/
+Implements protective barriers, craftable by way of a 'Protecctive Paling' item. Palings may be equipped as accessories, or placed as a tile to protect an area. Palings may be crafted and upgraded with Magi-Tech items (dropped from mech bosses, martian invasions, or crafted from end-game ingredients). Upgrades include size, strength, and hardness.

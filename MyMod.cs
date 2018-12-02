@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 
 namespace Barriers {
-	class BarriersMod : Mod {
+	partial class BarriersMod : Mod {
 		public static BarriersMod Instance { get; private set; }
 
 

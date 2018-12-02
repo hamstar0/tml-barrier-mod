@@ -40,7 +40,13 @@ namespace Barriers.Entities.Barrier {
 
 
 		////////////////
-		
+
+		private static IDictionary<int, BarrierEntity> PlayerBarriers = new Dictionary<int, BarrierEntity>();
+
+
+
+		////////////////
+
 		public static BarrierEntity CreateBarrierEntity( BarrierTypes[] barriers, float radius, Vector2 position ) {
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				LogHelpers.Log( "Creating new barrier at " + position );
@@ -74,7 +80,7 @@ namespace Barriers.Entities.Barrier {
 				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent(),
 				BarrierDrawOnMapEntityComponent.CreateBarrierDrawOnMapEntityComponent(),
 				BarrierPeriodicSyncEntityComponent.CreateBarrierPeriodicSyncEntityComponent(),
-				BarrierAttackableEntityComponent.CreateBarrierAttackableEntityComponent()
+				BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent( 64 )
 			};
 		}
 
