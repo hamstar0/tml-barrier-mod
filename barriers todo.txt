@@ -1,8 +1,13 @@
 v1
--	Define barrier entity
--	Define item (paling accessory) for equipping a barrier
--	Define item (paling) for placing barriers
+-	Define Magi-Tech Battery
+-	Implement barrier entity
+	-	Implement regen + scaling
+	-	Attack absorb (trades radius for damage)
 
+	-	Rendering
+-	Define item (paling) for placing barriers
+-	Define item (paling accessory) for equipping a barrier
+-	Implement barrier
 -	@Implement magi-tech scrap
 -	Create project
 

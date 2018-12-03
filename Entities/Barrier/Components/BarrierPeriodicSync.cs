@@ -25,7 +25,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		protected BarrierPeriodicSyncEntityComponent( PacketProtocolDataConstructorLock ctor_lock ) : base( ctor_lock ) { }
+		protected BarrierPeriodicSyncEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		////////////////
 

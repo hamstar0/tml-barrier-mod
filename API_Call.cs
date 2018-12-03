@@ -3,8 +3,8 @@
 
 namespace Barriers {
 	public static partial class BarriersAPI {
-		internal static object Call( string call_type, params object[] args ) {
-			switch( call_type ) {
+		internal static object Call( string callType, params object[] args ) {
+			switch( callType ) {
 			case "GetModSettings":
 				return BarriersAPI.GetModSettings();
 			case "SaveModSettingsChanges":
@@ -12,7 +12,7 @@ namespace Barriers {
 				return null;
 			}
 
-			throw new Exception( "No such api call " + call_type );
+			throw new Exception( "No such api call " + callType );
 		}
 	}
 }

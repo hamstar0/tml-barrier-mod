@@ -25,14 +25,14 @@ namespace Barriers {
 
 		public bool UpdateToLatestVersion() {
 			var mymod = BarriersMod.Instance;
-			var new_config = new BarriersConfigData();
-			new_config.SetDefaults();
+			var newConfig = new BarriersConfigData();
+			newConfig.SetDefaults();
 
-			var vers_since = this.VersionSinceUpdate != "" ?
+			var versSince = this.VersionSinceUpdate != "" ?
 				new Version( this.VersionSinceUpdate ) :
 				new Version();
 
-			if( vers_since >= mymod.Version ) {
+			if( versSince >= mymod.Version ) {
 				return false;
 			}
 

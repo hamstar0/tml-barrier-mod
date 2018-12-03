@@ -12,8 +12,8 @@ namespace Barriers.Entities.Barrier.Components {
 			public float Radius;
 
 
-			public BarrierBehaviorEntityComponentFactory( BarrierTypes[] barrier_types, float radius ) {
-				this.BarrierTypes = barrier_types;
+			public BarrierBehaviorEntityComponentFactory( BarrierTypes[] barrierTypes, float radius ) {
+				this.BarrierTypes = barrierTypes;
 				this.Radius = radius;
 			}
 
@@ -27,8 +27,8 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( BarrierTypes[] barrier_types, float radius ) {
-			var factory = new BarrierBehaviorEntityComponentFactory( barrier_types, radius );
+		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( BarrierTypes[] barrierTypes, float radius ) {
+			var factory = new BarrierBehaviorEntityComponentFactory( barrierTypes, radius );
 			return factory.Create();
 		}
 
@@ -43,7 +43,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		protected BarrierBehaviorEntityComponent( PacketProtocolDataConstructorLock ctor_lock ) : base( ctor_lock ) { }
+		protected BarrierBehaviorEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 
 		////////////////

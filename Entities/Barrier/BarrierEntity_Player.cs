@@ -9,6 +9,8 @@ namespace Barriers.Entities.Barrier {
 			if( !BarrierEntity.PlayerBarriers.ContainsKey(player.whoAmI) ) {
 				var factory = new BarrierEntityFactory<BarrierEntity>( new BarrierTypes[] { BarrierTypes.Green }, 64, player.Center );
 				BarrierEntity.PlayerBarriers[player.whoAmI] = factory.Create();
+
+				CustomEntityManager.AddToWorld( BarrierEntity.PlayerBarriers[ player.whoAmI ] );
 			}
 			return BarrierEntity.PlayerBarriers[ player.whoAmI ];
 		}

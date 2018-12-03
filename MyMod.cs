@@ -57,13 +57,13 @@ namespace Barriers {
 		public override object Call( params object[] args ) {
 			if( args.Length == 0 ) { throw new Exception( "Undefined call type." ); }
 
-			string call_type = args[0] as string;
+			string callType = args[0] as string;
 			if( args == null ) { throw new Exception( "Invalid call type." ); }
 
-			var new_args = new object[args.Length - 1];
-			Array.Copy( args, 1, new_args, 0, args.Length - 1 );
+			var newArgs = new object[args.Length - 1];
+			Array.Copy( args, 1, newArgs, 0, args.Length - 1 );
 
-			return BarriersAPI.Call( call_type, new_args );
+			return BarriersAPI.Call( callType, newArgs );
 		}
 	}
 }

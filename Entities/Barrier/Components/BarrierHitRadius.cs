@@ -1,6 +1,7 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network.Data;
+using HamstarHelpers.Helpers.DebugHelpers;
 using Terraria;
 
 
@@ -16,18 +17,23 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static HitRadiusProjectileEntityComponent CreateBarrierHitRadiusProjectileEntityComponent( float radius ) {
-			var factory = new HitRadiusProjectileEntityComponentFactory<HitRadiusProjectileEntityComponent>( radius );
+		public static BarrierHitRadiusProjectileEntityComponent CreateBarrierHitRadiusProjectileEntityComponent( float radius ) {
+			var factory = new BarrierHitRadiusProjectileEntityComponentFactory( radius );
 			return factory.Create();
 		}
 
 
 		////////////////
 
-		protected BarrierHitRadiusProjectileEntityComponent( PacketProtocolDataConstructorLock ctor_lock ) : base( ctor_lock ) { }
+		protected BarrierHitRadiusProjectileEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+
+		public override bool PreHurt( CustomEntity ent, Projectile projectile, ref int damage ) {
+Main.NewText( projectile.hostile+" "+projectile.friendly );
+			return projectile.hostile && !projectile.friendly;
+		}
 
 		public override void PostHurt( CustomEntity ent, Projectile projectile, int damage ) {
-Main.NewText("? "+damage);
+			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
 		}
 	}
 }

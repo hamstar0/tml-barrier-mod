@@ -1,4 +1,3 @@
-using Barriers.Entities.Barrier;
 using Barriers.Tiles;
 using HamstarHelpers.Items;
 using Terraria;
@@ -38,19 +37,21 @@ namespace Barriers.Items {
 
 
 		public override void AddRecipes() {
-			var helper_mod = ModLoader.GetMod( "HamstarHelpers" );
+			var helperMod = ModLoader.GetMod( "HamstarHelpers" );
 
 			ModRecipe recipe = new ModRecipe( this.mod );
-			recipe.AddIngredient( helper_mod.ItemType<MagiTechScrapItem>(), 10 );
+			recipe.AddIngredient( helperMod.ItemType<MagiTechScrapItem>(), 10 );
 			recipe.AddTile( TileID.SteampunkBoiler );
 			recipe.SetResult( this );
 			recipe.AddRecipe();
 		}
 
 
+		////////////////
+
 		public override void UpdateAccessory( Player player, bool hideVisual ) {
-			BarrierEntity ent = BarrierEntity.ApplyToPlayer( player );
-			ent.Core.Center = player.Center;
+			var myplayer = player.GetModPlayer<BarriersPlayer>();
+			myplayer.HasBarrier = true;
 		}
 	}
 }

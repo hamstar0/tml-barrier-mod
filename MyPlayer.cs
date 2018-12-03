@@ -1,4 +1,5 @@
-﻿using Barriers.NetProtocols;
+﻿using Barriers.Entities.Barrier;
+using Barriers.NetProtocols;
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network;
 using HamstarHelpers.Services.Promises;
@@ -10,6 +11,7 @@ using Terraria.ModLoader;
 namespace Barriers {
 	class BarriersPlayer : ModPlayer {
 		public bool NoBuilding = false;
+		public bool HasBarrier = false;
 
 		////////////////
 
@@ -19,9 +21,9 @@ namespace Barriers {
 
 		////////////////
 		
-		public override void SyncPlayer( int to_who, int from_who, bool new_player ) {
+		public override void SyncPlayer( int toWho, int fromWho, bool newPlayer ) {
 			if( Main.netMode == 2 ) {
-				if( to_who == -1 && from_who == this.player.whoAmI ) {
+				if( toWho == -1 && fromWho == this.player.whoAmI ) {
 					this.OnConnectServer();
 				}
 			}
@@ -63,6 +65,15 @@ namespace Barriers {
 
 
 		////////////////
+
+		public override void PostUpdate() {
+			if( this.HasBarrier ) {
+				this.HasBarrier = false;
+
+				BarrierEntity ent = BarrierEntity.ApplyToPlayer( this.player );
+				ent.Core.Center = this.player.Center;
+			}
+		}
 
 		public override void PreUpdateBuffs() {
 			if( this.NoBuilding ) {

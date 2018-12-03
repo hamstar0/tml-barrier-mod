@@ -10,7 +10,7 @@ namespace Barriers.NetProtocols {
 
 		////////////////
 
-		protected ModSettingsProtocol( PacketProtocolDataConstructorLock ctor_lock ) : base( ctor_lock ) { }
+		protected ModSettingsProtocol( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		////////////////
 

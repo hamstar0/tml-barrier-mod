@@ -22,8 +22,8 @@ namespace Barriers.Entities.Barrier {
 			public Vector2 Center;
 
 
-			public BarrierEntityFactory( BarrierTypes[] barriers_types, float radius, Vector2 center ) : base( null ) {
-				this.BarrierTypes = barriers_types;
+			public BarrierEntityFactory( BarrierTypes[] barriersTypes, float radius, Vector2 center ) : base( null ) {
+				this.BarrierTypes = barriersTypes;
 				this.Radius = radius;
 				this.Center = center;
 			}
@@ -60,7 +60,7 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
-		protected BarrierEntity( PacketProtocolDataConstructorLock ctor_lock ) : base( ctor_lock ) { }
+		protected BarrierEntity( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		////
 
@@ -98,7 +98,7 @@ namespace Barriers.Entities.Barrier {
 
 		public Color GetBarrierColor() {
 			var behav = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-			int layers = behav.BarrierLayers.Length;
+			int layers = behav.BarrierLayers.Length * 2;
 			int r=0, g=0, b=0;
 
 			foreach( var hue in behav.BarrierLayers ) {
@@ -115,7 +115,7 @@ namespace Barriers.Entities.Barrier {
 				}
 			}
 
-			return new Color( r / layers, g / layers, b / layers, 192 );
+			return new Color( r / layers, g / layers, b / layers, 128 );
 		}
 	}
 }

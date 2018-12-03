@@ -44,7 +44,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		protected BarrierDrawInGameEntityComponent( PacketProtocolDataConstructorLock ctor_lock ) : base( ctor_lock ) { }
+		protected BarrierDrawInGameEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		protected override void PostPostInitialize() {
 			var mymod = BarriersMod.Instance;
@@ -58,24 +58,22 @@ namespace Barriers.Entities.Barrier.Components {
 
 
 		////////////////
-
-		public override void PreDraw( SpriteBatch sb, CustomEntity ent ) { }
-
+		
 		public override void Draw( SpriteBatch sb, CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
-			var behav = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
-			float radius = behav.Radius;
+			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			float radius = behavComp.Radius;
 			Color color = myent.GetBarrierColor();
 
 			if( radius <= 64 ) {
 				float scale = radius / 64f;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Texture128, 1, color, scale, 0f, Vector2.One * 64 );
+				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Texture128, 1, color, scale );	//, scale * Vector2.One * 64 );
 			} else if( radius <= 256 ) {
 				float scale = radius / 256f;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Texture512, 1, color, scale, 0f, Vector2.One * 256 );
+				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Texture512, 1, color, scale );    //, scale * Vector2.One * 256 );
 			} else {	//if( radius <= 1024 )
 				float scale = radius / 1024;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Texture2048, 1, color, scale, 0f, Vector2.One * 1024 );
+				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Texture2048, 1, color, scale );   //, scale * Vector2.One * 1024 );
 			}
 		}
 	}

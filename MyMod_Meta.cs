@@ -27,10 +27,10 @@ namespace Barriers {
 				throw new Exception( "Cannot reset to default configs outside of single player." );
 			}
 
-			var config_data = new BarriersConfigData();
-			config_data.SetDefaults();
+			var configData = new BarriersConfigData();
+			configData.SetDefaults();
 
-			BarriersMod.Instance.ConfigJson.SetData( config_data );
+			BarriersMod.Instance.ConfigJson.SetData( configData );
 			BarriersMod.Instance.ConfigJson.SaveFile();
 		}
 	}
