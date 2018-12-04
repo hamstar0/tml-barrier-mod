@@ -36,8 +36,9 @@
   <ItemGroup>
     <Compile Include="API.cs" />
     <Compile Include="API_Call.cs" />
-    <Compile Include="Entities\Barrier\BarrierEntity_Player.cs" />
-    <Compile Include="Entities\Barrier\Components\BarrierHitRadius.cs" />
+    <Compile Include="Entities\Barrier\Components\BarrierHitRadiusNpc.cs" />
+    <Compile Include="Entities\Barrier\Manager.cs" />
+    <Compile Include="Entities\Barrier\Components\BarrierHitRadiusProjectile.cs" />
     <Compile Include="MyMod.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity.cs" />

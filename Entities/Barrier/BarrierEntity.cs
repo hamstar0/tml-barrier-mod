@@ -16,7 +16,7 @@ namespace Barriers.Entities.Barrier {
 
 
 	partial class BarrierEntity : CustomEntity {
-		protected class BarrierEntityFactory<T> : CustomEntityFactory<T> where T : BarrierEntity {
+		private class BarrierEntityFactory<T> : CustomEntityFactory<T> where T : BarrierEntity {
 			public BarrierTypes[] BarrierTypes;
 			public float Radius;
 			public Vector2 Center;
@@ -36,12 +36,6 @@ namespace Barriers.Entities.Barrier {
 				}
 			}
 		}
-
-
-
-		////////////////
-
-		private static IDictionary<int, BarrierEntity> PlayerBarriers = new Dictionary<int, BarrierEntity>();
 
 
 
@@ -76,11 +70,12 @@ namespace Barriers.Entities.Barrier {
 			var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
 
 			return new List<CustomEntityComponent> {
-				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( myfactory?.BarrierTypes ?? new BarrierTypes[0], 64 ),
+				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( myfactory?.BarrierTypes ?? new BarrierTypes[0], myfactory.Radius, 1f/64f ),
 				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent(),
 				BarrierDrawOnMapEntityComponent.CreateBarrierDrawOnMapEntityComponent(),
 				BarrierPeriodicSyncEntityComponent.CreateBarrierPeriodicSyncEntityComponent(),
-				BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent( 64 )
+				BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent(),
+				BarrierHitRadiusNpcEntityComponent.CreateBarrierHitRadiusNpcEntityComponent()
 			};
 		}
 

@@ -70,7 +70,9 @@ namespace Barriers {
 			if( this.HasBarrier ) {
 				this.HasBarrier = false;
 
-				BarrierEntity ent = BarrierEntity.ApplyToPlayer( this.player );
+				var mymod = (BarriersMod)this.mod;
+
+				BarrierEntity ent = mymod.Manager.ApplyToPlayer( this.player );
 				ent.Core.Center = this.player.Center;
 			}
 		}

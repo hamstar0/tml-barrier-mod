@@ -10,16 +10,20 @@ namespace Barriers.Entities.Barrier.Components {
 		private class BarrierBehaviorEntityComponentFactory : CustomEntityComponentFactory<BarrierBehaviorEntityComponent> {
 			public BarrierTypes[] BarrierTypes;
 			public float Radius;
+			public float RadiusRegenRate;
 
 
-			public BarrierBehaviorEntityComponentFactory( BarrierTypes[] barrierTypes, float radius ) {
+			public BarrierBehaviorEntityComponentFactory( BarrierTypes[] barrierTypes, float radius, float regenRate ) {
 				this.BarrierTypes = barrierTypes;
 				this.Radius = radius;
+				this.RadiusRegenRate = regenRate;
 			}
 
 			protected override void InitializeComponent( BarrierBehaviorEntityComponent data ) {
 				data.BarrierLayers = this.BarrierTypes;
 				data.Radius = this.Radius;
+				data.MaxRadius = this.Radius;
+				data.RadiusRegenRate = this.RadiusRegenRate;
 			}
 		}
 
@@ -27,17 +31,20 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( BarrierTypes[] barrierTypes, float radius ) {
-			var factory = new BarrierBehaviorEntityComponentFactory( barrierTypes, radius );
+		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( BarrierTypes[] barrierTypes, float radius, float regenRate ) {
+			var factory = new BarrierBehaviorEntityComponentFactory( barrierTypes, radius, regenRate );
 			return factory.Create();
 		}
 
 
 
 		////////////////
-		
+
 		public BarrierTypes[] BarrierLayers;
+
+		public float MaxRadius;
 		public float Radius;
+		public float RadiusRegenRate;
 
 
 
@@ -48,28 +55,45 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public override void UpdateSingle( CustomEntity myent ) {
+		public override void UpdateSingle( CustomEntity ent ) {
+			var myent = (BarrierEntity)ent;
 			this.UpdateLocal( myent );
+			this.UpdateAny( myent );
 		}
 
-		public override void UpdateClient( CustomEntity myent ) {
+		public override void UpdateClient( CustomEntity ent ) {
+			var myent = (BarrierEntity)ent;
 			this.UpdateLocal( myent );
+			this.UpdateAny( myent );
 		}
 
-		public override void UpdateServer( CustomEntity myent ) {
+		public override void UpdateServer( CustomEntity ent ) {
+			var myent = (BarrierEntity)ent;
+			this.UpdateAny( myent );
 		}
 
 
 		////////////////
 
-		private void UpdateLocal( CustomEntity myent ) {
+		private void UpdateLocal( BarrierEntity myent ) {
 			var plr = Main.LocalPlayer;
 			float dist = Vector2.Distance( plr.Center, myent.Core.Center );
-			
+
 			if( dist < myent.Core.width ) {
 				var myplayer = plr.GetModPlayer<BarriersPlayer>();
 
 				myplayer.NoBuilding = true;
+			}
+		}
+
+		private void UpdateAny( BarrierEntity myent ) {
+			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
+
+			if( behavComp.Radius < behavComp.MaxRadius ) {
+				behavComp.Radius += behavComp.RadiusRegenRate;
+			}
+			if( behavComp.Radius > behavComp.MaxRadius ) {
+				behavComp.Radius = behavComp.MaxRadius;
 			}
 		}
 	}

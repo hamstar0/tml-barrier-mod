@@ -1,3 +1,4 @@
+using Barriers.Entities.Barrier;
 using HamstarHelpers.Components.Config;
 using System;
 using Terraria.ModLoader;
@@ -13,6 +14,8 @@ namespace Barriers {
 
 		public JsonConfig<BarriersConfigData> ConfigJson { get; private set; }
 		public BarriersConfigData Config { get { return this.ConfigJson.Data; } }
+
+		public BarrierManager Manager = new BarrierManager();
 
 
 

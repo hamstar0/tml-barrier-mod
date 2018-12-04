@@ -7,9 +7,7 @@ using Terraria;
 
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierHitRadiusProjectileEntityComponent : HitRadiusProjectileEntityComponent {
-		protected class BarrierHitRadiusProjectileEntityComponentFactory : HitRadiusProjectileEntityComponentFactory<BarrierHitRadiusProjectileEntityComponent> {
-			public BarrierHitRadiusProjectileEntityComponentFactory( float radius ) : base( radius ) { }
-
+		private class BarrierHitRadiusProjectileEntityComponentFactory : CustomEntityComponentFactory<BarrierHitRadiusProjectileEntityComponent> {
 			protected override void InitializeComponent( BarrierHitRadiusProjectileEntityComponent data ) { }
 		}
 
@@ -17,23 +15,37 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierHitRadiusProjectileEntityComponent CreateBarrierHitRadiusProjectileEntityComponent( float radius ) {
-			var factory = new BarrierHitRadiusProjectileEntityComponentFactory( radius );
+		public static BarrierHitRadiusProjectileEntityComponent CreateBarrierHitRadiusProjectileEntityComponent() {
+			var factory = new BarrierHitRadiusProjectileEntityComponentFactory();
 			return factory.Create();
+		}
+
+
+
+		////////////////
+		
+		protected BarrierHitRadiusProjectileEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+
+
+		////////////////
+
+		public override float GetRadius( CustomEntity ent ) {
+			return ent.GetComponentByType<BarrierBehaviorEntityComponent>().Radius;
 		}
 
 
 		////////////////
 
-		protected BarrierHitRadiusProjectileEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
-
 		public override bool PreHurt( CustomEntity ent, Projectile projectile, ref int damage ) {
-Main.NewText( projectile.hostile+" "+projectile.friendly );
 			return projectile.hostile && !projectile.friendly;
 		}
 
 		public override void PostHurt( CustomEntity ent, Projectile projectile, int damage ) {
 			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
+Main.NewText( projectile.Name+" "+damage+" vs "+behavComp.Radius+" = "+(behavComp.Radius - damage) );
+
+			behavComp.Radius -= damage;
+			if( behavComp.Radius < 0 ) { behavComp.Radius = 0; }
 		}
 	}
 }
