@@ -32,10 +32,10 @@ namespace Barriers.UI {
 
 		internal static void InitializeStatic( BarriersMod mymod ) {
 			if( BarrierUI.BarrierSizeTex == null ) {
-				/*BarrierUI.BarrierSizeTex = mymod.GetTexture( "UI/BarrierSizeTex" );
-				BarrierUI.BarrierStrengthTex = mymod.GetTexture( "UI/BarrierStrengthTex" );
-				BarrierUI.BarrierHardnessTex = mymod.GetTexture( "UI/BarrierHardnessTex" );
-				BarrierUI.BarrierRegenTex = mymod.GetTexture( "UI/BarrierRegenTex" );*/
+				BarrierUI.BarrierSizeTex = mymod.GetTexture( "UI/BarrierSize" );
+				BarrierUI.BarrierStrengthTex = mymod.GetTexture( "UI/BarrierStrength" );
+				BarrierUI.BarrierHardnessTex = mymod.GetTexture( "UI/BarrierHardness" );
+				BarrierUI.BarrierRegenTex = mymod.GetTexture( "UI/BarrierRegen" );
 
 				Promises.AddModUnloadPromise( () => {
 					BarrierUI.BarrierSizeTex = null;
@@ -89,8 +89,9 @@ namespace Barriers.UI {
 
 		public void RadialInteraction( int whichSpan, double spanAngleRange, IPalingItemType paling ) {
 			bool found = false;
+			int len = paling.Layers.Length;
 
-			for( int i=0; i<paling.Layers.Length; i++ ) {
+			for( int i=0; i< len; i++ ) {
 				if( paling.Layers[i] == -1 ) {
 					paling.Layers[i] = whichSpan;
 					found = true;
@@ -98,14 +99,17 @@ namespace Barriers.UI {
 				}
 
 				if( paling.Layers[i] == whichSpan ) {
-					paling.Layers[i] = -1;
-					found = true;
+					if( i == len - 1 ) {
+						paling.Layers[i-1] = paling.Layers[len - 1];
+					} else {
+						paling.Layers[i] = paling.Layers[len - 1];
+					}
 					break;
 				}
 			}
 
 			if( !found ) {
-				paling.Layers[ paling.Layers.Length - 1 ] = whichSpan;
+				paling.Layers[ len - 1 ] = whichSpan;
 			}
 
 			Main.PlaySound( SoundID.MenuTick );

@@ -96,6 +96,10 @@
     <Content Include="Items\PalingItem.png" />
     <Content Include="Items\PalingItem_Back.png" />
     <Content Include="Tiles\PalingTile.png" />
+    <Content Include="UI\BarrierHardness.png" />
+    <Content Include="UI\BarrierRegen.png" />
+    <Content Include="UI\BarrierSize.png" />
+    <Content Include="UI\BarrierStrength.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />

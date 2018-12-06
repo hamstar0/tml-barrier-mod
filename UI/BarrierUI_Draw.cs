@@ -22,14 +22,15 @@ namespace Barriers.UI {
 			HudHelpers.DrawBorderedRect( sb, Color.DarkOliveGreen * 0.5f, Color.OliveDrab * 0.5f, new Rectangle( x - 48, y - 48, 96, 96 ), 4 );
 
 			double spanAngleRange = 8;
+			int whichSpan = this.FindRadialInteractions( spanAngleRange );
 
-			this.DrawRadialMarks( sb, spanAngleRange );
+			this.DrawRadialMarks( sb, spanAngleRange, whichSpan );
+			this.DrawIcons( sb );
 
 			if( Main.mouseLeft ) {
 				if( !this.IsInteractingWithUI ) {
 					this.IsInteractingWithUI = true;
 
-					int whichSpan = this.FindRadialInteractions( spanAngleRange );
 					if( whichSpan != -1 ) {
 						this.RadialInteraction( whichSpan, spanAngleRange, paling );
 					}
@@ -42,12 +43,27 @@ namespace Barriers.UI {
 		}
 
 
+		public void DrawIcons( SpriteBatch sb ) {
+			int dist = 80;
+			var mid = new Vector2( Main.screenWidth / 2, Main.screenHeight / 2 );
+			var top = mid + new Vector2( -21, -21 - dist );
+			var right = mid + new Vector2( -21 + dist, -21 );
+			var bottom = mid + new Vector2( -21, -21 + dist );
+			var left = mid + new Vector2( -21 - dist, -21 );
+
+			sb.Draw( BarrierUI.BarrierSizeTex, top, Color.White );
+			sb.Draw( BarrierUI.BarrierStrengthTex, right, Color.White );
+			sb.Draw( BarrierUI.BarrierHardnessTex, bottom, Color.White );
+			sb.Draw( BarrierUI.BarrierRegenTex, left, Color.White );
+		}
+
+
 		////////////////
 
 		public void DrawLayers( SpriteBatch sb, IPalingItemType paling, double spanAngleRange ) {
 			for( int i = 0; i < paling.Layers.Length; i++ ) {
 				if( paling.Layers[i] == -1 ) {
-					break;
+					continue;
 				}
 
 				this.DrawRadialMark( sb, paling.Layers[i], spanAngleRange, 120 - (i*4), Color.Yellow );
@@ -57,9 +73,13 @@ namespace Barriers.UI {
 
 		////////////////
 
-		public void DrawRadialMarks( SpriteBatch sb, double spanAngleRange ) {
+		public void DrawRadialMarks( SpriteBatch sb, double spanAngleRange, int highlight ) {
 			for( int i = 0; i < 45; i++ ) {
-				this.DrawRadialMark( sb, i, spanAngleRange, 128, new Color( 128, 128, 128 ) );
+				if( i == highlight ) {
+					this.DrawRadialMark( sb, i, spanAngleRange, 128, new Color( 192, 192, 192 ) );
+				} else {
+					this.DrawRadialMark( sb, i, spanAngleRange, 128, new Color( 128, 128, 128 ) );
+				}
 			}
 		}
 
