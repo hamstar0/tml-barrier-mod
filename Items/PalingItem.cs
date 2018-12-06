@@ -8,13 +8,15 @@ using Terraria.ModLoader;
 
 namespace Barriers.Items {
 	[AutoloadEquip( EquipType.Back )]
-	public class PalingItem : ModItem {
+	public class PalingItem : ModItem, IPalingItemType {
 		private readonly BarrierUI UI = new BarrierUI();
 
 		////
 
 		public bool IsUsingUI { get; private set; }
 		public override bool CloneNewInstances => true;
+
+		public int[] Layers { get; } = new int[] { -1, -1 };
 
 
 

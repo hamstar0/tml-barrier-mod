@@ -85,24 +85,25 @@ namespace Barriers {
 
 			GameInterfaceDrawMethod func = delegate {
 				Player player = Main.LocalPlayer;
-				Item held_item = player.HeldItem;
+				Item heldItem = player.HeldItem;
 
-				if( held_item == null || held_item.IsAir || held_item.type != this.ItemType<PalingItem>() ) {
+				if( heldItem == null || heldItem.IsAir ) {
 					return true;
 				}
 
-				var myitem = (PalingItem)held_item.modItem;
-
-				//if( myitem.IsUsingUI ) {
-					this.BarrierUI.DrawUI( this, Main.spriteBatch );
-				//}
+				var paling = heldItem.modItem as IPalingItemType;
+				if( paling == null ) {
+					return true;
+				}
+				
+				this.BarrierUI.DrawUI( Main.spriteBatch, paling );
 
 				return true;
 			};
 
-			var interface_layer = new LegacyGameInterfaceLayer( "BetterPaint: Paint Blaster UI", func, InterfaceScaleType.UI );
+			var interfaceLayer = new LegacyGameInterfaceLayer( "BetterPaint: Paint Blaster UI", func, InterfaceScaleType.UI );
 
-			layers.Insert( idx, interface_layer );
+			layers.Insert( idx, interfaceLayer );
 		}
 	}
 }
