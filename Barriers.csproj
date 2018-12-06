@@ -51,6 +51,7 @@
     <Compile Include="MyPlayer.cs" />
     <Compile Include="NetProtocols\ModSettingsProtocol.cs" />
     <Compile Include="Tiles\PalingTile.cs" />
+    <Compile Include="UI\BarrierUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="HamstarHelpers">
@@ -79,6 +80,9 @@
     <Reference Include="System" />
     <Reference Include="Terraria">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Terraria\Terraria.exe</HintPath>
+    </Reference>
+    <Reference Include="Terraria.Libraries.ReLogic.ReLogic">
+      <HintPath>..\..\..\Reference\Terraria.Libraries.ReLogic.ReLogic.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

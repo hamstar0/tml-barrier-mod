@@ -12,13 +12,27 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
-		public BarrierEntity ApplyToPlayer( Player player ) {
+		public BarrierEntity GetForPlayer( Player player ) {
 			if( !this.PlayerBarriers.ContainsKey(player.whoAmI) ) {
-				this.PlayerBarriers[player.whoAmI] = BarrierEntity.CreateBarrierEntity( new BarrierTypes[] { BarrierTypes.Green }, 64, player.Center );
+				this.PlayerBarriers[ player.whoAmI ] = BarrierEntity.CreateBarrierEntity( new BarrierTypes[] { BarrierTypes.Green }, 64, player.Center );
 
 				CustomEntityManager.AddToWorld( this.PlayerBarriers[ player.whoAmI ] );
 			}
 			return this.PlayerBarriers[ player.whoAmI ];
+		}
+
+
+		////////////////
+
+		public void UpdatePalingForPlayer( Player player, bool found_paling ) {
+			if( !this.PlayerBarriers.ContainsKey( player.whoAmI ) && !found_paling ) {
+				return;
+			}
+
+			var ent = this.GetForPlayer( player );
+			ent.On = found_paling;
+
+			ent.UpdateForPlayer( player );
 		}
 	}
 }

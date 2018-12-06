@@ -1,8 +1,12 @@
 using Barriers.Entities.Barrier;
+using Barriers.Items;
+using Barriers.UI;
 using HamstarHelpers.Components.Config;
 using System;
+using System.Collections.Generic;
+using Terraria;
 using Terraria.ModLoader;
-
+using Terraria.UI;
 
 namespace Barriers {
 	partial class BarriersMod : Mod {
@@ -12,10 +16,13 @@ namespace Barriers {
 
 		////////////////
 
+		internal BarrierManager Manager = new BarrierManager();
+		internal BarrierUI BarrierUI = new BarrierUI();
+
+		////
+
 		public JsonConfig<BarriersConfigData> ConfigJson { get; private set; }
 		public BarriersConfigData Config { get { return this.ConfigJson.Data; } }
-
-		public BarrierManager Manager = new BarrierManager();
 
 
 
@@ -67,6 +74,35 @@ namespace Barriers {
 			Array.Copy( args, 1, newArgs, 0, args.Length - 1 );
 
 			return BarriersAPI.Call( callType, newArgs );
+		}
+
+
+		////////////////
+
+		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
+			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Inventory" ) );
+			if( idx == -1 ) { return; }
+
+			GameInterfaceDrawMethod func = delegate {
+				Player player = Main.LocalPlayer;
+				Item held_item = player.HeldItem;
+
+				if( held_item == null || held_item.IsAir || held_item.type != this.ItemType<PalingItem>() ) {
+					return true;
+				}
+
+				var myitem = (PalingItem)held_item.modItem;
+
+				//if( myitem.IsUsingUI ) {
+					this.BarrierUI.DrawUI( this, Main.spriteBatch );
+				//}
+
+				return true;
+			};
+
+			var interface_layer = new LegacyGameInterfaceLayer( "BetterPaint: Paint Blaster UI", func, InterfaceScaleType.UI );
+
+			layers.Insert( idx, interface_layer );
 		}
 	}
 }

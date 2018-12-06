@@ -1,9 +1,14 @@
 v1
--	Define Magi-Tech Battery
--	Implement barrier entity
-	-	Implement regen + scaling
-	-	Attack absorb (trades radius for damage)
+-	Implement barrier creation API
+-	Define barrier item upgrades
+-	Implement UI for adjusting the barrier
+	-	Implement barrier settings
+	-	Implement UI interface
+	-	With paling item selected, deploy UI
+	-	Define UI functions
 
+-	Implement barrier entity
+	-	Attack absorb (trades radius for damage)
 	-	Rendering
 -	Define item (paling) for placing barriers
 -	Define item (paling accessory) for equipping a barrier

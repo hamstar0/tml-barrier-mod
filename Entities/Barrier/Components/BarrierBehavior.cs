@@ -6,8 +6,8 @@ using Terraria;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	class BarrierBehaviorEntityComponent : CustomEntityComponent {
-		private class BarrierBehaviorEntityComponentFactory : CustomEntityComponentFactory<BarrierBehaviorEntityComponent> {
+	public class BarrierBehaviorEntityComponent : CustomEntityComponent {
+		protected class BarrierBehaviorEntityComponentFactory<T> : CustomEntityComponentFactory<T> where T : BarrierBehaviorEntityComponent {
 			public BarrierTypes[] BarrierTypes;
 			public float Radius;
 			public float RadiusRegenRate;
@@ -19,7 +19,7 @@ namespace Barriers.Entities.Barrier.Components {
 				this.RadiusRegenRate = regenRate;
 			}
 
-			protected override void InitializeComponent( BarrierBehaviorEntityComponent data ) {
+			protected override void InitializeComponent( T data ) {
 				data.BarrierLayers = this.BarrierTypes;
 				data.Radius = this.Radius;
 				data.MaxRadius = this.Radius;
@@ -32,7 +32,7 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( BarrierTypes[] barrierTypes, float radius, float regenRate ) {
-			var factory = new BarrierBehaviorEntityComponentFactory( barrierTypes, radius, regenRate );
+			var factory = new BarrierBehaviorEntityComponentFactory<BarrierBehaviorEntityComponent>( barrierTypes, radius, regenRate );
 			return factory.Create();
 		}
 
@@ -76,14 +76,14 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		private void UpdateLocal( BarrierEntity myent ) {
-			var plr = Main.LocalPlayer;
+			/*var plr = Main.LocalPlayer;
 			float dist = Vector2.Distance( plr.Center, myent.Core.Center );
 
 			if( dist < myent.Core.width ) {
 				var myplayer = plr.GetModPlayer<BarriersPlayer>();
 
 				myplayer.NoBuilding = true;
-			}
+			}*/
 		}
 
 		private void UpdateAny( BarrierEntity myent ) {

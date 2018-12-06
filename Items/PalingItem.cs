@@ -1,4 +1,5 @@
 using Barriers.Tiles;
+using Barriers.UI;
 using HamstarHelpers.Items;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +9,29 @@ using Terraria.ModLoader;
 namespace Barriers.Items {
 	[AutoloadEquip( EquipType.Back )]
 	public class PalingItem : ModItem {
+		private readonly BarrierUI UI = new BarrierUI();
+
+		////
+
+		public bool IsUsingUI { get; private set; }
+		public override bool CloneNewInstances => true;
+
+
+
+		////////////////
+
+		public PalingItem() {
+			this.IsUsingUI = false;
+		}
+
+
+		////
+
 		public override void SetStaticDefaults() {
+			var mymod = (BarriersMod)this.mod;
+
+			BarrierUI.InitializeStatic( mymod );
+
 			this.DisplayName.SetDefault( "Protective Paling" );
 			this.Tooltip.SetDefault( "Projects a protective barrier." +
 				'\n' + "May be placed freely." );
@@ -18,7 +41,7 @@ namespace Barriers.Items {
 		public override void SetDefaults() {
 			this.item.width = 32;
 			this.item.height = 16;
-			this.item.value = Item.buyPrice(0, 15, 0, 0);
+			this.item.value = Item.buyPrice( 0, 15, 0, 0 );
 			this.item.maxStack = 1;
 			this.item.rare = 4;
 
@@ -44,14 +67,6 @@ namespace Barriers.Items {
 			recipe.AddTile( TileID.SteampunkBoiler );
 			recipe.SetResult( this );
 			recipe.AddRecipe();
-		}
-
-
-		////////////////
-
-		public override void UpdateAccessory( Player player, bool hideVisual ) {
-			var myplayer = player.GetModPlayer<BarriersPlayer>();
-			myplayer.HasBarrier = true;
 		}
 	}
 }

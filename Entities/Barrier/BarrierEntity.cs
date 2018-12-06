@@ -54,6 +54,12 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
+		public bool On = false;
+
+
+
+		////////////////
+
 		protected BarrierEntity( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		////
@@ -63,7 +69,7 @@ namespace Barriers.Entities.Barrier {
 
 			float rad = myfactory?.Radius ?? 0f;
 
-			return new CustomEntityCore( "Evil Barrier", (int)(rad * 2), (int)(rad * 2), (myfactory?.Center ?? default(Vector2)), 1 );
+			return new CustomEntityCore( "Evil Barrier", (int)( rad * 2 ), (int)( rad * 2 ), ( myfactory?.Center ?? default( Vector2 ) ), 1 );
 		}
 
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
@@ -94,7 +100,7 @@ namespace Barriers.Entities.Barrier {
 		public Color GetBarrierColor() {
 			var behav = this.GetComponentByType<BarrierBehaviorEntityComponent>();
 			int layers = behav.BarrierLayers.Length * 2;
-			int r=0, g=0, b=0;
+			int r = 0, g = 0, b = 0;
 
 			foreach( var hue in behav.BarrierLayers ) {
 				switch( hue ) {
@@ -111,6 +117,13 @@ namespace Barriers.Entities.Barrier {
 			}
 
 			return new Color( r / layers, g / layers, b / layers, 128 );
+		}
+
+
+		////////////////
+
+		public void UpdateForPlayer( Player player ) {
+			this.Core.Center = player.Center;
 		}
 	}
 }

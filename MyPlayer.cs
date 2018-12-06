@@ -1,20 +1,15 @@
-﻿using Barriers.Entities.Barrier;
+﻿using Barriers.Items;
 using Barriers.NetProtocols;
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network;
+using HamstarHelpers.Helpers.PlayerHelpers;
 using HamstarHelpers.Services.Promises;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 
 namespace Barriers {
 	class BarriersPlayer : ModPlayer {
-		public bool NoBuilding = false;
-		public bool HasBarrier = false;
-
-		////////////////
-
 		public override bool CloneNewInstances => false;
 
 
@@ -67,23 +62,19 @@ namespace Barriers {
 		////////////////
 
 		public override void PostUpdate() {
-			if( this.HasBarrier ) {
-				this.HasBarrier = false;
+			var mymod = (BarriersMod)this.mod;
+			int palingType = mymod.ItemType<PalingItem>();
+			bool found = false;
 
-				var mymod = (BarriersMod)this.mod;
+			for( int i=PlayerItemHelpers.VanillaAccessorySlotFirst; PlayerItemHelpers.IsAccessorySlot(this.player, i); i++ ) {
+				Item acc = this.player.armor[i];
+				if( acc == null || !acc.active || acc.type != palingType ) { continue; }
 
-				BarrierEntity ent = mymod.Manager.ApplyToPlayer( this.player );
-				ent.Core.Center = this.player.Center;
+				found = true;
+				break;
 			}
-		}
 
-		public override void PreUpdateBuffs() {
-			if( this.NoBuilding ) {
-				this.NoBuilding = false;
-
-				this.player.AddBuff( BuffID.NoBuilding, 3, true );
-				this.player.noBuilding = true;
-			}
+			mymod.Manager.UpdatePalingForPlayer( this.player, found );
 		}
 	}
 }

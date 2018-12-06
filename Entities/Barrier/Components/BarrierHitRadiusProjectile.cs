@@ -37,12 +37,11 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		public override bool PreHurt( CustomEntity ent, Projectile projectile, ref int damage ) {
-			return projectile.hostile && !projectile.friendly;
+			return projectile.hostile || !projectile.friendly;
 		}
 
 		public override void PostHurt( CustomEntity ent, Projectile projectile, int damage ) {
 			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
-Main.NewText( projectile.Name+" "+damage+" vs "+behavComp.Radius+" = "+(behavComp.Radius - damage) );
 
 			behavComp.Radius -= damage;
 			if( behavComp.Radius < 0 ) { behavComp.Radius = 0; }
