@@ -3,9 +3,10 @@ v1
 -	Define barrier item upgrades
 -	Implement UI for adjusting the barrier
 	-	Apply tallies to respective barrier stats
+	-	Lock gameplay functions while UI deployed
+
 	-	Implement radial option tallying
 	-	Define radial options (icon textures)
-
 	-	With paling item selected, deploy UI
 	-	Define UI functions
 -	Implement barrier entity

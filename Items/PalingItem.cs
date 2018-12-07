@@ -16,7 +16,8 @@ namespace Barriers.Items {
 		public bool IsUsingUI { get; private set; }
 		public override bool CloneNewInstances => true;
 
-		public int[] Layers { get; } = new int[] { -1, -1 };
+		public int UiRadialPosition1 { get; set; }
+		public int UiRadialPosition2 { get; set; }
 
 
 

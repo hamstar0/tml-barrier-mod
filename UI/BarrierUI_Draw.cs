@@ -18,28 +18,16 @@ namespace Barriers.UI {
 			float rot = (float)( 45d * DotNetHelpers.RadDeg );
 			var origin = new Vector2( 0.5f, 512f );
 
-			sb.Draw( Main.magicPixel, rect, null, Color.LightPink * 0.3f, rot, origin, SpriteEffects.None, 1f );
-			HudHelpers.DrawBorderedRect( sb, Color.DarkOliveGreen * 0.5f, Color.OliveDrab * 0.5f, new Rectangle( x - 48, y - 48, 96, 96 ), 4 );
+			sb.Draw( Main.magicPixel, rect, null, Color.LightPink * 0.05f, rot, origin, SpriteEffects.None, 1f );
+			
+			int whichSpan = this.FindRadialTickHovered( BarrierUI.SpanAngleRange );
 
-			double spanAngleRange = 8;
-			int whichSpan = this.FindRadialInteractions( spanAngleRange );
-
-			this.DrawRadialMarks( sb, spanAngleRange, whichSpan );
+			this.DrawRadialMarks( sb, BarrierUI.SpanAngleRange, whichSpan );
 			this.DrawIcons( sb );
 
-			if( Main.mouseLeft ) {
-				if( !this.IsInteractingWithUI ) {
-					this.IsInteractingWithUI = true;
+			this.Interact( whichSpan, BarrierUI.SpanAngleRange, paling );
 
-					if( whichSpan != -1 ) {
-						this.RadialInteraction( whichSpan, spanAngleRange, paling );
-					}
-				}
-			} else {
-				this.IsInteractingWithUI = false;
-			}
-
-			this.DrawLayers( sb, paling, spanAngleRange );
+			this.DrawSelectedRadialMarks( sb, paling, BarrierUI.SpanAngleRange );
 		}
 
 
@@ -51,23 +39,18 @@ namespace Barriers.UI {
 			var bottom = mid + new Vector2( -21, -21 + dist );
 			var left = mid + new Vector2( -21 - dist, -21 );
 
-			sb.Draw( BarrierUI.BarrierSizeTex, top, Color.White );
-			sb.Draw( BarrierUI.BarrierStrengthTex, right, Color.White );
-			sb.Draw( BarrierUI.BarrierHardnessTex, bottom, Color.White );
-			sb.Draw( BarrierUI.BarrierRegenTex, left, Color.White );
+			sb.Draw( BarrierUI.BarrierSizeTex, top, Color.White * (0.1f + (this.SizeScale * 0.9f)) );
+			sb.Draw( BarrierUI.BarrierStrengthTex, right, Color.White * (0.1f + (this.StrengthScale * 0.9f)) );
+			sb.Draw( BarrierUI.BarrierHardnessTex, bottom, Color.White * (0.1f + (this.HardScale * 0.9f)) );
+			sb.Draw( BarrierUI.BarrierRegenTex, left, Color.White * (0.1f + (this.RegenScale * 0.9f)) );
 		}
 
 
 		////////////////
 
-		public void DrawLayers( SpriteBatch sb, IPalingItemType paling, double spanAngleRange ) {
-			for( int i = 0; i < paling.Layers.Length; i++ ) {
-				if( paling.Layers[i] == -1 ) {
-					continue;
-				}
-
-				this.DrawRadialMark( sb, paling.Layers[i], spanAngleRange, 120 - (i*4), Color.Yellow );
-			}
+		public void DrawSelectedRadialMarks( SpriteBatch sb, IPalingItemType paling, double spanAngleRange ) {
+			this.DrawRadialMark( sb, paling.UiRadialPosition1, spanAngleRange, 120, Color.Yellow );
+			this.DrawRadialMark( sb, paling.UiRadialPosition2, spanAngleRange, 116, Color.Red );
 		}
 
 

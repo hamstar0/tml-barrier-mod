@@ -3,6 +3,7 @@
 
 namespace Barriers.Items {
 	public interface IPalingItemType {
-		int[] Layers { get; }
+		int UiRadialPosition1 { get; set; }
+		int UiRadialPosition2 { get; set; }
 	}
 }

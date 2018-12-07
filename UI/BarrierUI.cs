@@ -11,6 +11,7 @@ using Terraria.ID;
 namespace Barriers.UI {
 	partial class BarrierUI {
 		public const int LayersRingRadius = 72;
+		public const int SpanAngleRange = 9;
 
 
 		////////////////
@@ -50,13 +51,85 @@ namespace Barriers.UI {
 
 		////////////////
 
-		private bool IsInteractingWithUI = false;
+		private bool IsLeftClickingUI = false;
+		private bool IsRightClickingUI = false;
+		
+		private float SizeScale = 0f;
+		private float HardScale = 0f;
+		private float StrengthScale = 0f;
+		private float RegenScale = 0f;
 
 
 
 		////////////////
 
-		private int FindRadialInteractions( double spanAngleRange ) {
+		private void Interact( int whichSpan, double spanAngleRange, IPalingItemType paling ) {
+			if( !this.IsLeftClickingUI ) {
+				if( Main.mouseLeft ) {
+					this.IsLeftClickingUI = true;
+				}
+			} else {
+				if( !Main.mouseLeft ) {
+					this.IsLeftClickingUI = false;
+					if( whichSpan != -1 ) {
+						this.RadialInteraction( true, whichSpan, paling );
+					}
+				}
+			}
+
+			if( !this.IsRightClickingUI ) {
+				if( Main.mouseRight ) {
+					this.IsRightClickingUI = true;
+				}
+			} else {
+				if( !Main.mouseRight ) {
+					this.IsRightClickingUI = false;
+					if( whichSpan != -1 ) {
+						this.RadialInteraction( false, whichSpan, paling );
+					}
+				}
+			}
+
+			float str1, hard1, regen1, size1;
+			float str2, hard2, regen2, size2;
+
+			this.InteractRadialPosition( paling.UiRadialPosition1, out str1, out hard1, out regen1, out size1 );
+			this.InteractRadialPosition( paling.UiRadialPosition2, out str2, out hard2, out regen2, out size2 );
+			this.StrengthScale = ( str1 + str2 ) * 0.5f;
+			this.HardScale = ( hard1 + hard2 ) * 0.5f;
+			this.RegenScale = ( regen1 + regen2 ) * 0.5f;
+			this.SizeScale = ( size1 + size2 ) * 0.5f;
+		}
+
+		private void InteractRadialPosition( int radialPos, out float strScale, out float hardScale, out float regenScale, out float sizeScale ) {
+			if( radialPos == -1 ) {
+				strScale = 0;
+				hardScale = 0;
+				regenScale = 0;
+				sizeScale = 0;
+				return;
+			}
+
+			float fRadialPos = (float)radialPos;
+
+			strScale =		1f - ( fRadialPos / 10f );
+			hardScale =		1f - ( Math.Abs( fRadialPos - 10f ) / 10f );
+			regenScale =	1f - ( Math.Abs( fRadialPos - 20f ) / 10f );
+			sizeScale =		1f - ( Math.Abs( fRadialPos - 30f ) / 10f );
+
+			strScale = strScale >= 0 ? strScale :
+							1f - ( Math.Abs( fRadialPos - 40f ) / 10f );
+
+			strScale = strScale < 0 ? 0 : strScale;
+			hardScale = hardScale < 0 ? 0 : hardScale;
+			regenScale = regenScale < 0 ? 0 : regenScale;
+			sizeScale = sizeScale < 0 ? 0 : sizeScale;
+		}
+
+
+		////////////////
+
+		private int FindRadialTickHovered( double spanAngleRange ) {
 			for( int i = 0; i < 45; i++ ) {
 				if( this.IsHoveringRadialMark( i, spanAngleRange ) ) {
 					return i;
@@ -87,29 +160,11 @@ namespace Barriers.UI {
 
 		////////////////
 
-		public void RadialInteraction( int whichSpan, double spanAngleRange, IPalingItemType paling ) {
-			bool found = false;
-			int len = paling.Layers.Length;
-
-			for( int i=0; i< len; i++ ) {
-				if( paling.Layers[i] == -1 ) {
-					paling.Layers[i] = whichSpan;
-					found = true;
-					break;
-				}
-
-				if( paling.Layers[i] == whichSpan ) {
-					if( i == len - 1 ) {
-						paling.Layers[i-1] = paling.Layers[len - 1];
-					} else {
-						paling.Layers[i] = paling.Layers[len - 1];
-					}
-					break;
-				}
-			}
-
-			if( !found ) {
-				paling.Layers[ len - 1 ] = whichSpan;
+		public void RadialInteraction( bool isPosition1, int newPosition, IPalingItemType paling ) {
+			if( isPosition1 ) {
+				paling.UiRadialPosition1 = newPosition;
+			} else {
+				paling.UiRadialPosition2 = newPosition;
 			}
 
 			Main.PlaySound( SoundID.MenuTick );
