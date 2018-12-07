@@ -12,6 +12,7 @@ using Terraria;
 namespace Barriers.Entities.Barrier {
 	partial class BarrierEntity : CustomEntity {
 		private class BarrierEntityFactory<T> : CustomEntityFactory<T> where T : BarrierEntity {
+			public float Hp;
 			public float Radius;
 			public float RadiusRegenRate;
 			public int Defense;
@@ -19,7 +20,8 @@ namespace Barriers.Entities.Barrier {
 			public Vector2 Center;
 
 
-			public BarrierEntityFactory( float radius, float regenRate, int defense, float shrinkResist, Vector2 center ) : base( null ) {
+			public BarrierEntityFactory( float hp, float radius, float regenRate, int defense, float shrinkResist, Vector2 center ) : base( null ) {
+				this.Hp = hp;
 				this.Radius = radius;
 				this.RadiusRegenRate = regenRate;
 				this.Defense = defense;
@@ -40,31 +42,45 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
-		public static BarrierEntity CreateBarrierEntity( float radius, float regenRate, int defense, float shrinkResist, Vector2 center ) {
+		public static BarrierEntity CreateBarrierEntity( float hp, float radius, float regenRate, int defense, float shrinkResist, Vector2 center ) {
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				LogHelpers.Log( "Creating new barrier at " + center );
 			}
 
-			var factory = new BarrierEntityFactory<BarrierEntity>( radius, regenRate, defense, shrinkResist, center );
+			var factory = new BarrierEntityFactory<BarrierEntity>( hp, radius, regenRate, defense, shrinkResist, center );
 			return factory.Create();
 		}
 
 		internal static BarrierEntity CreateDefaultBarrierEntity() {
-			return BarrierEntity.CreateBarrierEntity( 64, 1f/60f, 0, 0, Main.LocalPlayer.Center );
+			return BarrierEntity.CreateBarrierEntity( 64, 64, 1f/60f, 0, 0, Main.LocalPlayer.Center );
 		}
 
 
 
 		////////////////
-
-		public int TotalPower;
-
+		
 		[JsonIgnore]
 		[PacketProtocolIgnore]
 		internal int UiRadialPosition1;
 		[JsonIgnore]
 		[PacketProtocolIgnore]
 		internal int UiRadialPosition2;
+		
+		[JsonIgnore]
+		[PacketProtocolIgnore]
+		private int Power;
+		[JsonIgnore]
+		[PacketProtocolIgnore]
+		private float HpScale;
+		[JsonIgnore]
+		[PacketProtocolIgnore]
+		private float RadiusScale;
+		[JsonIgnore]
+		[PacketProtocolIgnore]
+		private float DefenseScale;
+		[JsonIgnore]
+		[PacketProtocolIgnore]
+		private float RegenScale;
 
 
 		////////////////
@@ -83,13 +99,14 @@ namespace Barriers.Entities.Barrier {
 
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
 			var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
+			float hp = myfactory?.Hp ?? 64f;
 			float radius = myfactory?.Radius ?? 64;
 			float regenRate = myfactory?.RadiusRegenRate ?? 1f / 60f;
 			int defense = myfactory?.Defense ?? 0;
 			float shrinkResist = myfactory?.ShrinkResist ?? 0f;
 
 			return new List<CustomEntityComponent> {
-				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( radius, regenRate, defense, shrinkResist ),
+				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( hp, radius, regenRate, defense, shrinkResist ),
 				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent(),
 				BarrierDrawOnMapEntityComponent.CreateBarrierDrawOnMapEntityComponent(),
 				BarrierPeriodicSyncEntityComponent.CreateBarrierPeriodicSyncEntityComponent(),
@@ -131,36 +148,6 @@ namespace Barriers.Entities.Barrier {
 
 			return new Color( r / layers, g / layers, b / layers, 128 );*/
 			return new Color( 0, 128, 0 );
-		}
-
-
-		////////////////
-
-		public void UpdateForPlayer( Player player ) {
-			this.Core.Center = player.Center;
-		}
-
-
-		////////////////
-
-		public void AdjustBarrierSize( float radiusScale ) {
-			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-			behavComp.MaxRadius = (float)this.TotalPower * radiusScale;
-		}
-
-		public void AdjustBarrierDefense( float defenseScale ) {
-			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-			behavComp.Defense = (int)((float)this.TotalPower * defenseScale);
-		}
-		
-		public void AdjustBarrierShrinkResist( float resistScale ) {
-			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-			behavComp.ShrinkResist = resistScale;
-		}
-
-		public void AdjustBarrierRegen( float regenScale ) {
-			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-			behavComp.RadiusRegenRate = (regenScale * this.TotalPower) / 60f;
 		}
 	}
 }

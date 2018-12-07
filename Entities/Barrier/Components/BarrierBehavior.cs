@@ -4,15 +4,17 @@ using HamstarHelpers.Helpers.DebugHelpers;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	public class BarrierBehaviorEntityComponent : CustomEntityComponent {
+	public partial class BarrierBehaviorEntityComponent : CustomEntityComponent {
 		protected class BarrierBehaviorEntityComponentFactory<T> : CustomEntityComponentFactory<T> where T : BarrierBehaviorEntityComponent {
+			public float Hp;
 			public float Radius;
 			public float RadiusRegenRate;
 			public int Defense;
 			public float ShrinkResist;
 
 
-			public BarrierBehaviorEntityComponentFactory( float radius, float regenRate, int defense, float shrinkResist ) {
+			public BarrierBehaviorEntityComponentFactory( float hp, float radius, float regenRate, int defense, float shrinkResist ) {
+				this.Hp = hp;
 				this.Radius = radius;
 				this.RadiusRegenRate = regenRate;
 				this.Defense = defense;
@@ -20,11 +22,13 @@ namespace Barriers.Entities.Barrier.Components {
 			}
 
 			protected override void InitializeComponent( T data ) {
+				data.Hp = this.Hp;
+				data.MaxHp = this.Hp;
 				data.Radius = this.Radius;
 				data.MaxRadius = this.Radius;
-				data.RadiusRegenRate = this.RadiusRegenRate;
+				data.RegenRate = this.RadiusRegenRate;
 				data.Defense = this.Defense;
-				data.ShrinkResist = this.ShrinkResist;
+				data.ShrinkResistScale = this.ShrinkResist;
 			}
 		}
 
@@ -32,20 +36,22 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( float radius, float regenRate, int defense, float shrinkResist ) {
-			var factory = new BarrierBehaviorEntityComponentFactory<BarrierBehaviorEntityComponent>( radius, regenRate, defense, shrinkResist );
+		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, float regenRate, int defense, float shrinkResist ) {
+			var factory = new BarrierBehaviorEntityComponentFactory<BarrierBehaviorEntityComponent>( hp, radius, regenRate, defense, shrinkResist );
 			return factory.Create();
 		}
 
 
 
 		////////////////
-		
+
+		public float Hp; 
+		public float MaxHp;
 		public float MaxRadius;
 		public float Radius;
-		public float RadiusRegenRate;
+		public float RegenRate;
 		public int Defense;
-		public float ShrinkResist;
+		public float ShrinkResistScale;
 
 
 
@@ -59,18 +65,18 @@ namespace Barriers.Entities.Barrier.Components {
 		public override void UpdateSingle( CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
 			this.UpdateLocal( myent );
-			this.UpdateAny( myent );
+			this.ApplyRegen( myent );
 		}
 
 		public override void UpdateClient( CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
 			this.UpdateLocal( myent );
-			this.UpdateAny( myent );
+			this.ApplyRegen( myent );
 		}
 
 		public override void UpdateServer( CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
-			this.UpdateAny( myent );
+			this.ApplyRegen( myent );
 		}
 
 
@@ -85,17 +91,6 @@ namespace Barriers.Entities.Barrier.Components {
 
 				myplayer.NoBuilding = true;
 			}*/
-		}
-
-		private void UpdateAny( BarrierEntity myent ) {
-			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
-
-			if( behavComp.Radius < behavComp.MaxRadius ) {
-				behavComp.Radius += behavComp.RadiusRegenRate;
-			}
-			if( behavComp.Radius > behavComp.MaxRadius ) {
-				behavComp.Radius = behavComp.MaxRadius;
-			}
 		}
 	}
 }

@@ -30,9 +30,7 @@ namespace Barriers.Entities.Barrier {
 			}
 
 			var ent = this.GetForPlayer( player );
-			ent.TotalPower = totalPower;
-
-			ent.UpdateForPlayer( player );
+			ent.AdjustBarrierPower( totalPower );
 		}
 	}
 }

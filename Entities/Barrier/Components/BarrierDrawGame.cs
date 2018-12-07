@@ -63,7 +63,15 @@ namespace Barriers.Entities.Barrier.Components {
 			var myent = (BarrierEntity)ent;
 			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
 			float radius = behavComp.Radius;
+
+			if( radius == 0 ) {
+				return;
+			}
+
 			Color color = myent.GetBarrierColor();
+
+			//sb.End();
+			//sb.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, GameShaders.Misc["ForceField"].Shader, Main.Transform );
 
 			if( radius <= 64 ) {
 				float scale = radius / 64f;
@@ -75,6 +83,9 @@ namespace Barriers.Entities.Barrier.Components {
 				float scale = radius / 1024;
 				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Texture2048, 1, color, scale );   //, scale * Vector2.One * 1024 );
 			}
+
+			//sb.End();
+			//sb.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.Transform );
 		}
 	}
 }

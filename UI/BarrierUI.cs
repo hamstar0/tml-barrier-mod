@@ -100,10 +100,15 @@ namespace Barriers.UI {
 			this.RegenScale = ( regen1 + regen2 ) * 0.5f;
 			this.SizeScale = ( size1 + size2 ) * 0.5f;
 
-			ent.AdjustBarrierSize( this.SizeScale );
-			ent.AdjustBarrierDefense( this.StrengthScale );
-			ent.AdjustBarrierShrinkResist( this.HardScale );
-			ent.AdjustBarrierRegen( this.RegenScale );
+			bool hasChanged = false;
+			hasChanged = hasChanged || ent.AdjustBarrierRadiusScale( this.SizeScale, false );
+			hasChanged = hasChanged || ent.AdjustBarrierDefenseScale( this.StrengthScale, false );
+			hasChanged = hasChanged || ent.AdjustBarrierShrinkResistScale( this.HardScale, false );
+			hasChanged = hasChanged || ent.AdjustBarrierRegenScale( this.RegenScale, false );
+
+			if( hasChanged ) {
+				ent.SyncToAll();
+			}
 		}
 
 		private void InteractRadialPosition( int radialPos, out float strScale, out float hardScale, out float regenScale, out float sizeScale ) {

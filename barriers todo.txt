@@ -1,9 +1,12 @@
 v1
 -	Implement barrier creation API
 -	Define barrier item upgrades
+-	Implement barrier stats
+	-	Defense (applies opacity)
+	-	Shrink resist (applies shield border)
+
 -	Implement UI for adjusting the barrier
 	-	Apply tallies to respective barrier stats
-
 	-	Lock gameplay functions while UI deployed
 	-	Implement radial option tallying
 	-	Define radial options (icon textures)
