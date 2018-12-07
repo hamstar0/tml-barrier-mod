@@ -39,7 +39,6 @@
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusNpc.cs" />
     <Compile Include="Entities\Barrier\Manager.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusProjectile.cs" />
-    <Compile Include="Items\PalingItemType.cs" />
     <Compile Include="MyMod.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity.cs" />

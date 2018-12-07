@@ -61,20 +61,36 @@ namespace Barriers {
 
 		////////////////
 
+		public override void PreUpdate() {
+			if( this.player.whoAmI != Main.myPlayer ) { return; }
+
+			Item heldItem = this.player.HeldItem;
+
+			if( heldItem != null && !heldItem.IsAir ) {
+				var paling = heldItem.modItem as PalingItem;
+
+				if( paling != null ) {
+					this.player.mouseInterface = true;
+				}
+			}
+		}
+
 		public override void PostUpdate() {
+			if( this.player.whoAmI != Main.myPlayer ) { return; }
+
 			var mymod = (BarriersMod)this.mod;
 			int palingType = mymod.ItemType<PalingItem>();
-			bool found = false;
+			int barrierPower = 0;
 
 			for( int i=PlayerItemHelpers.VanillaAccessorySlotFirst; PlayerItemHelpers.IsAccessorySlot(this.player, i); i++ ) {
 				Item acc = this.player.armor[i];
 				if( acc == null || !acc.active || acc.type != palingType ) { continue; }
 
-				found = true;
+				barrierPower = 256;
 				break;
 			}
 
-			mymod.Manager.UpdatePalingForPlayer( this.player, found );
+			mymod.BarrierManager.UpdatePalingForPlayer( this.player, barrierPower );
 		}
 	}
 }

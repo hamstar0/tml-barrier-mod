@@ -1,29 +1,30 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
-using Microsoft.Xna.Framework;
-using Terraria;
 
 
 namespace Barriers.Entities.Barrier.Components {
 	public class BarrierBehaviorEntityComponent : CustomEntityComponent {
 		protected class BarrierBehaviorEntityComponentFactory<T> : CustomEntityComponentFactory<T> where T : BarrierBehaviorEntityComponent {
-			public BarrierTypes[] BarrierTypes;
 			public float Radius;
 			public float RadiusRegenRate;
+			public int Defense;
+			public float ShrinkResist;
 
 
-			public BarrierBehaviorEntityComponentFactory( BarrierTypes[] barrierTypes, float radius, float regenRate ) {
-				this.BarrierTypes = barrierTypes;
+			public BarrierBehaviorEntityComponentFactory( float radius, float regenRate, int defense, float shrinkResist ) {
 				this.Radius = radius;
 				this.RadiusRegenRate = regenRate;
+				this.Defense = defense;
+				this.ShrinkResist = shrinkResist;
 			}
 
 			protected override void InitializeComponent( T data ) {
-				data.BarrierLayers = this.BarrierTypes;
 				data.Radius = this.Radius;
 				data.MaxRadius = this.Radius;
 				data.RadiusRegenRate = this.RadiusRegenRate;
+				data.Defense = this.Defense;
+				data.ShrinkResist = this.ShrinkResist;
 			}
 		}
 
@@ -31,20 +32,20 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( BarrierTypes[] barrierTypes, float radius, float regenRate ) {
-			var factory = new BarrierBehaviorEntityComponentFactory<BarrierBehaviorEntityComponent>( barrierTypes, radius, regenRate );
+		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( float radius, float regenRate, int defense, float shrinkResist ) {
+			var factory = new BarrierBehaviorEntityComponentFactory<BarrierBehaviorEntityComponent>( radius, regenRate, defense, shrinkResist );
 			return factory.Create();
 		}
 
 
 
 		////////////////
-
-		public BarrierTypes[] BarrierLayers;
-
+		
 		public float MaxRadius;
 		public float Radius;
 		public float RadiusRegenRate;
+		public int Defense;
+		public float ShrinkResist;
 
 
 

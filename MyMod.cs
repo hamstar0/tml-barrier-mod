@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
+
 namespace Barriers {
 	partial class BarriersMod : Mod {
 		public static BarriersMod Instance { get; private set; }
@@ -16,7 +17,7 @@ namespace Barriers {
 
 		////////////////
 
-		internal BarrierManager Manager = new BarrierManager();
+		internal BarrierManager BarrierManager = new BarrierManager();
 		internal BarrierUI BarrierUI = new BarrierUI();
 
 		////
@@ -62,8 +63,13 @@ namespace Barriers {
 		}
 
 
+		public override void PostSetupContent() {
+			BarrierUI.InitializeStatic( this );
+		}
+
+
 		////////////////
-		
+
 		public override object Call( params object[] args ) {
 			if( args.Length == 0 ) { throw new Exception( "Undefined call type." ); }
 
@@ -91,12 +97,12 @@ namespace Barriers {
 					return true;
 				}
 
-				var paling = heldItem.modItem as IPalingItemType;
+				var paling = heldItem.modItem as PalingItem;
 				if( paling == null ) {
 					return true;
 				}
 				
-				this.BarrierUI.DrawUI( Main.spriteBatch, paling );
+				this.BarrierUI.DrawUI( Main.spriteBatch, this.BarrierManager.GetForPlayer(Main.LocalPlayer) );
 
 				return true;
 			};

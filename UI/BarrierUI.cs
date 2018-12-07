@@ -1,4 +1,4 @@
-﻿using Barriers.Items;
+﻿using Barriers.Entities.Barrier;
 using HamstarHelpers.Helpers.DotNetHelpers;
 using HamstarHelpers.Services.Promises;
 using Microsoft.Xna.Framework;
@@ -32,7 +32,7 @@ namespace Barriers.UI {
 		}
 
 		internal static void InitializeStatic( BarriersMod mymod ) {
-			if( BarrierUI.BarrierSizeTex == null ) {
+			if( !Main.dedServ && BarrierUI.BarrierSizeTex == null ) {
 				BarrierUI.BarrierSizeTex = mymod.GetTexture( "UI/BarrierSize" );
 				BarrierUI.BarrierStrengthTex = mymod.GetTexture( "UI/BarrierStrength" );
 				BarrierUI.BarrierHardnessTex = mymod.GetTexture( "UI/BarrierHardness" );
@@ -63,7 +63,7 @@ namespace Barriers.UI {
 
 		////////////////
 
-		private void Interact( int whichSpan, double spanAngleRange, IPalingItemType paling ) {
+		private void Interact( int whichSpan, double spanAngleRange, BarrierEntity ent ) {
 			if( !this.IsLeftClickingUI ) {
 				if( Main.mouseLeft ) {
 					this.IsLeftClickingUI = true;
@@ -72,7 +72,7 @@ namespace Barriers.UI {
 				if( !Main.mouseLeft ) {
 					this.IsLeftClickingUI = false;
 					if( whichSpan != -1 ) {
-						this.RadialInteraction( true, whichSpan, paling );
+						this.RadialInteraction( true, whichSpan, ent );
 					}
 				}
 			}
@@ -85,7 +85,7 @@ namespace Barriers.UI {
 				if( !Main.mouseRight ) {
 					this.IsRightClickingUI = false;
 					if( whichSpan != -1 ) {
-						this.RadialInteraction( false, whichSpan, paling );
+						this.RadialInteraction( false, whichSpan, ent );
 					}
 				}
 			}
@@ -93,12 +93,17 @@ namespace Barriers.UI {
 			float str1, hard1, regen1, size1;
 			float str2, hard2, regen2, size2;
 
-			this.InteractRadialPosition( paling.UiRadialPosition1, out str1, out hard1, out regen1, out size1 );
-			this.InteractRadialPosition( paling.UiRadialPosition2, out str2, out hard2, out regen2, out size2 );
+			this.InteractRadialPosition( ent.UiRadialPosition1, out str1, out hard1, out regen1, out size1 );
+			this.InteractRadialPosition( ent.UiRadialPosition2, out str2, out hard2, out regen2, out size2 );
 			this.StrengthScale = ( str1 + str2 ) * 0.5f;
 			this.HardScale = ( hard1 + hard2 ) * 0.5f;
 			this.RegenScale = ( regen1 + regen2 ) * 0.5f;
 			this.SizeScale = ( size1 + size2 ) * 0.5f;
+
+			ent.AdjustBarrierSize( this.SizeScale );
+			ent.AdjustBarrierDefense( this.StrengthScale );
+			ent.AdjustBarrierShrinkResist( this.HardScale );
+			ent.AdjustBarrierRegen( this.RegenScale );
 		}
 
 		private void InteractRadialPosition( int radialPos, out float strScale, out float hardScale, out float regenScale, out float sizeScale ) {
@@ -160,11 +165,11 @@ namespace Barriers.UI {
 
 		////////////////
 
-		public void RadialInteraction( bool isPosition1, int newPosition, IPalingItemType paling ) {
+		public void RadialInteraction( bool isPosition1, int newPosition, BarrierEntity ent ) {
 			if( isPosition1 ) {
-				paling.UiRadialPosition1 = newPosition;
+				ent.UiRadialPosition1 = newPosition;
 			} else {
-				paling.UiRadialPosition2 = newPosition;
+				ent.UiRadialPosition2 = newPosition;
 			}
 
 			Main.PlaySound( SoundID.MenuTick );

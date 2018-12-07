@@ -1,6 +1,5 @@
-﻿using Barriers.Items;
+﻿using Barriers.Entities.Barrier;
 using HamstarHelpers.Helpers.DotNetHelpers;
-using HamstarHelpers.Helpers.HudHelpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
@@ -10,7 +9,7 @@ using Terraria;
 
 namespace Barriers.UI {
 	partial class BarrierUI {
-		public void DrawUI( SpriteBatch sb, IPalingItemType paling ) {
+		public void DrawUI( SpriteBatch sb, BarrierEntity ent ) {
 			int x = Main.screenWidth / 2;
 			int y = Main.screenHeight / 2;
 
@@ -25,9 +24,9 @@ namespace Barriers.UI {
 			this.DrawRadialMarks( sb, BarrierUI.SpanAngleRange, whichSpan );
 			this.DrawIcons( sb );
 
-			this.Interact( whichSpan, BarrierUI.SpanAngleRange, paling );
+			this.Interact( whichSpan, BarrierUI.SpanAngleRange, ent );
 
-			this.DrawSelectedRadialMarks( sb, paling, BarrierUI.SpanAngleRange );
+			this.DrawSelectedRadialMarks( sb, ent, BarrierUI.SpanAngleRange );
 		}
 
 
@@ -48,9 +47,9 @@ namespace Barriers.UI {
 
 		////////////////
 
-		public void DrawSelectedRadialMarks( SpriteBatch sb, IPalingItemType paling, double spanAngleRange ) {
-			this.DrawRadialMark( sb, paling.UiRadialPosition1, spanAngleRange, 120, Color.Yellow );
-			this.DrawRadialMark( sb, paling.UiRadialPosition2, spanAngleRange, 116, Color.Red );
+		public void DrawSelectedRadialMarks( SpriteBatch sb, BarrierEntity ent, double spanAngleRange ) {
+			this.DrawRadialMark( sb, ent.UiRadialPosition1, spanAngleRange, 120, Color.Yellow );
+			this.DrawRadialMark( sb, ent.UiRadialPosition2, spanAngleRange, 116, Color.Red );
 		}
 
 

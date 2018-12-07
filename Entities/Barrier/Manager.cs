@@ -14,7 +14,7 @@ namespace Barriers.Entities.Barrier {
 
 		public BarrierEntity GetForPlayer( Player player ) {
 			if( !this.PlayerBarriers.ContainsKey(player.whoAmI) ) {
-				this.PlayerBarriers[ player.whoAmI ] = BarrierEntity.CreateBarrierEntity( new BarrierTypes[] { BarrierTypes.Green }, 64, player.Center );
+				this.PlayerBarriers[ player.whoAmI ] = BarrierEntity.CreateDefaultBarrierEntity();
 
 				CustomEntityManager.AddToWorld( this.PlayerBarriers[ player.whoAmI ] );
 			}
@@ -24,13 +24,13 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
-		public void UpdatePalingForPlayer( Player player, bool found_paling ) {
-			if( !this.PlayerBarriers.ContainsKey( player.whoAmI ) && !found_paling ) {
+		public void UpdatePalingForPlayer( Player player, int totalPower ) {
+			if( !this.PlayerBarriers.ContainsKey( player.whoAmI ) ) {
 				return;
 			}
 
 			var ent = this.GetForPlayer( player );
-			ent.On = found_paling;
+			ent.TotalPower = totalPower;
 
 			ent.UpdateForPlayer( player );
 		}

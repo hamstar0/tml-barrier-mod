@@ -1,5 +1,4 @@
 using Barriers.Tiles;
-using Barriers.UI;
 using HamstarHelpers.Items;
 using Terraria;
 using Terraria.ID;
@@ -8,16 +7,9 @@ using Terraria.ModLoader;
 
 namespace Barriers.Items {
 	[AutoloadEquip( EquipType.Back )]
-	public class PalingItem : ModItem, IPalingItemType {
-		private readonly BarrierUI UI = new BarrierUI();
-
-		////
-
+	public class PalingItem : ModItem {
 		public bool IsUsingUI { get; private set; }
 		public override bool CloneNewInstances => true;
-
-		public int UiRadialPosition1 { get; set; }
-		public int UiRadialPosition2 { get; set; }
 
 
 
@@ -32,8 +24,6 @@ namespace Barriers.Items {
 
 		public override void SetStaticDefaults() {
 			var mymod = (BarriersMod)this.mod;
-
-			BarrierUI.InitializeStatic( mymod );
 
 			this.DisplayName.SetDefault( "Protective Paling" );
 			this.Tooltip.SetDefault( "Projects a protective barrier." +
