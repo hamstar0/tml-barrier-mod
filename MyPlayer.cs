@@ -2,6 +2,7 @@
 using Barriers.NetProtocols;
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network;
+using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Helpers.PlayerHelpers;
 using HamstarHelpers.Services.Promises;
 using Terraria;
@@ -89,8 +90,8 @@ namespace Barriers {
 				barrierPower = 256;	//TODO
 				break;
 			}
-
-			mymod.BarrierManager.UpdatePalingForPlayer( this.player, barrierPower );
+			
+			mymod.BarrierManager.UpdateBarrierForPlayer( this.player, barrierPower );
 		}
 	}
 }

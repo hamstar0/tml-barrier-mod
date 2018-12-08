@@ -5,7 +5,7 @@ using Terraria;
 
 
 namespace Barriers.Entities.Barrier {
-	partial class BarrierManager {
+	public partial class BarrierManager {
 		private IDictionary<int, BarrierEntity> PlayerBarriers = new Dictionary<int, BarrierEntity>();
 
 
@@ -24,13 +24,14 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
-		public void UpdatePalingForPlayer( Player player, int totalPower ) {
+		public void UpdateBarrierForPlayer( Player player, int power ) {
 			if( !this.PlayerBarriers.ContainsKey( player.whoAmI ) ) {
 				return;
 			}
 
 			var ent = this.GetForPlayer( player );
-			ent.AdjustBarrierPower( totalPower );
+			ent.Core.Center = player.Center;
+			ent.AdjustBarrierPower( power );
 		}
 	}
 }

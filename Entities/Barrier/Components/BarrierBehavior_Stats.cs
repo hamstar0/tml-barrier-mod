@@ -5,20 +5,18 @@ using HamstarHelpers.Helpers.DebugHelpers;
 namespace Barriers.Entities.Barrier.Components {
 	public partial class BarrierBehaviorEntityComponent : CustomEntityComponent {
 		private void ApplyRegen( BarrierEntity myent ) {
-			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
-
-			if( behavComp.Radius < behavComp.MaxRadius ) {
-				behavComp.Radius += behavComp.RegenRate;
+			if( this.Radius < this.MaxRadius ) {
+				this.Radius += this.RegenRate;
 			}
-			if( behavComp.Radius > behavComp.MaxRadius ) {
-				behavComp.Radius = behavComp.MaxRadius;
+			if( this.Radius > this.MaxRadius ) {
+				this.Radius = this.MaxRadius;
 			}
 
-			if( behavComp.Hp < behavComp.MaxHp ) {
-				behavComp.Hp += behavComp.RegenRate;
+			if( this.Hp < this.MaxHp ) {
+				this.Hp += this.RegenRate;
 			}
-			if( behavComp.Hp > behavComp.MaxHp ) {
-				behavComp.Hp = behavComp.MaxHp;
+			if( this.Hp > this.MaxHp ) {
+				this.Hp = this.MaxHp;
 			}
 		}
 	}

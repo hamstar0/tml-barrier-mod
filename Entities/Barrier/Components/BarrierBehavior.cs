@@ -47,8 +47,8 @@ namespace Barriers.Entities.Barrier.Components {
 
 		public float Hp; 
 		public float MaxHp;
-		public float MaxRadius;
 		public float Radius;
+		public float MaxRadius;
 		public float RegenRate;
 		public int Defense;
 		public float ShrinkResistScale;

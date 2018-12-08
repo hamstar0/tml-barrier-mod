@@ -10,22 +10,24 @@ using Terraria;
 
 
 namespace Barriers.Entities.Barrier {
-	partial class BarrierEntity : CustomEntity {
+	public partial class BarrierEntity : CustomEntity {
 		private class BarrierEntityFactory<T> : CustomEntityFactory<T> where T : BarrierEntity {
-			public float Hp;
-			public float Radius;
-			public float RadiusRegenRate;
-			public int Defense;
+			public int Power;
+			public float HpScale;
+			public float RadiusScale;
+			public float DefenseScale;
 			public float ShrinkResist;
+			public float RegenScale;
 			public Vector2 Center;
 
 
-			public BarrierEntityFactory( float hp, float radius, float regenRate, int defense, float shrinkResist, Vector2 center ) : base( null ) {
-				this.Hp = hp;
-				this.Radius = radius;
-				this.RadiusRegenRate = regenRate;
-				this.Defense = defense;
+			public BarrierEntityFactory( int power, float hpScale, float radiusScale, float defenseScale, float shrinkResist, float regenScale, Vector2 center ) : base( null ) {
+				this.Power = power;
+				this.HpScale = hpScale;
+				this.RadiusScale = radiusScale;
+				this.DefenseScale = defenseScale;
 				this.ShrinkResist = shrinkResist;
+				this.RegenScale = regenScale;
 				this.Center = center;
 			}
 
@@ -42,17 +44,17 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
-		public static BarrierEntity CreateBarrierEntity( float hp, float radius, float regenRate, int defense, float shrinkResist, Vector2 center ) {
+		public static BarrierEntity CreateBarrierEntity( int power, float hpScale, float radiusScale, float defenseScale, float shrinkResist, float regenScale, Vector2 center ) {
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				LogHelpers.Log( "Creating new barrier at " + center );
 			}
 
-			var factory = new BarrierEntityFactory<BarrierEntity>( hp, radius, regenRate, defense, shrinkResist, center );
+			var factory = new BarrierEntityFactory<BarrierEntity>( power, hpScale, radiusScale, defenseScale, shrinkResist, regenScale, center );
 			return factory.Create();
 		}
 
 		internal static BarrierEntity CreateDefaultBarrierEntity() {
-			return BarrierEntity.CreateBarrierEntity( 64, 64, 1f/60f, 0, 0, Main.LocalPlayer.Center );
+			return BarrierEntity.CreateBarrierEntity( 128, 1f, 1f, 0f, 0f, (1f / 60f), Main.LocalPlayer.Center );
 		}
 
 
@@ -61,10 +63,10 @@ namespace Barriers.Entities.Barrier {
 		
 		[JsonIgnore]
 		[PacketProtocolIgnore]
-		internal int UiRadialPosition1;
+		internal int UiRadialPosition1 = 0;
 		[JsonIgnore]
 		[PacketProtocolIgnore]
-		internal int UiRadialPosition2;
+		internal int UiRadialPosition2 = 0;
 		
 		[JsonIgnore]
 		[PacketProtocolIgnore]
@@ -92,18 +94,26 @@ namespace Barriers.Entities.Barrier {
 		protected override CustomEntityCore CreateCore<T>( CustomEntityFactory<T> factory ) {
 			var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
 
-			float rad = myfactory?.Radius ?? 0f;
+			float rad = myfactory?.Power * 0.5f ?? 0f;
 
-			return new CustomEntityCore( "Evil Barrier", (int)( rad * 2 ), (int)( rad * 2 ), ( myfactory?.Center ?? default( Vector2 ) ), 1 );
+			return new CustomEntityCore( "Barrier", (int)rad, (int)rad, (myfactory?.Center ?? default(Vector2)), 1 );
 		}
 
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
 			var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
-			float hp = myfactory?.Hp ?? 64f;
-			float radius = myfactory?.Radius ?? 64;
-			float regenRate = myfactory?.RadiusRegenRate ?? 1f / 60f;
-			int defense = myfactory?.Defense ?? 0;
-			float shrinkResist = myfactory?.ShrinkResist ?? 0f;
+			float hp = 64f;
+			float radius = 64f;
+			float regenRate = 1f / 60f;
+			int defense = 0;
+			float shrinkResist = 0f;
+
+			if( myfactory != null ) {
+				hp = BarrierEntity.ComputeBarrierMaxHp( this.Power, myfactory.HpScale );
+				radius = BarrierEntity.ComputeBarrierMaxRadius( this.Power, myfactory.RadiusScale );
+				regenRate = BarrierEntity.ComputeBarrierRegen( this.Power, myfactory.RegenScale );
+				defense = BarrierEntity.ComputeBarrierDefense( this.Power, myfactory.DefenseScale );
+				shrinkResist = BarrierEntity.ComputeBarrierShrinkResist( this.Power, myfactory.ShrinkResist );
+			}
 
 			return new List<CustomEntityComponent> {
 				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( hp, radius, regenRate, defense, shrinkResist ),
