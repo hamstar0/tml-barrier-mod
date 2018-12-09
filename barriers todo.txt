@@ -4,8 +4,8 @@ v1
 -	Implement barrier stats
 	-	Hp (shield 'stability' effect)
 	-	Shrink resist (applies shield border)
-	-	Defense (applies opacity)
 
+	-	Defense (applies opacity)
 -	Implement UI for adjusting the barrier
 	-	Apply tallies to respective barrier stats
 	-	Lock gameplay functions while UI deployed

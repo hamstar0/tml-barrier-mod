@@ -101,6 +101,7 @@ namespace Barriers.UI {
 			this.SizeScale = ( size1 + size2 ) * 0.5f;
 
 			bool hasChanged = false;
+			ent.AdjustBarrierHpScale( this.SizeScale );
 			ent.AdjustBarrierRadiusScale( this.SizeScale );
 			ent.AdjustBarrierDefenseScale( this.StrengthScale );
 			ent.AdjustBarrierShrinkResistScale( this.HardScale );

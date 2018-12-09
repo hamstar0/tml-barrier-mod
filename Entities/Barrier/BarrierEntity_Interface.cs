@@ -7,15 +7,24 @@ using Terraria;
 namespace Barriers.Entities.Barrier {
 	public partial class BarrierEntity : CustomEntity {
 		public static float ComputeBarrierMaxHp( int power, float hpScale ) {
-			return (float)power * hpScale;
+			return BarrierEntity.ComputeBarrierMaxRadius( power, hpScale );
 		}
 
 		public static float ComputeBarrierMaxRadius( int power, float radiusScale ) {
+			if( power <= 0 ) {
+				return 0;
+			}
+
+			float minRadius = 32f;
+			float minScale = minRadius / (float)power;
+			float diff = 1f - minScale;
+			radiusScale = minScale + ( diff * radiusScale );
+
 			return (float)power * radiusScale;
 		}
 
 		public static int ComputeBarrierDefense( int power, float defenseScale ) {
-			return (int)( (float)power * defenseScale * 0.125f );
+			return (int)( ((float)power * defenseScale) / 8f );
 		}
 
 		public static float ComputeBarrierShrinkResist( int power, float resistScale ) {
@@ -23,7 +32,9 @@ namespace Barriers.Entities.Barrier {
 		}
 
 		public static float ComputeBarrierRegen( int power, float regenScale ) {
-			return ( regenScale * power * 0.125f ) / 60f;
+			float minRegen = 1f / 60f;
+
+			return minRegen + (regenScale * (float)power * (minRegen/8f));
 		}
 
 
@@ -31,18 +42,29 @@ namespace Barriers.Entities.Barrier {
 		////////////////
 
 		public bool AdjustBarrierPower( int power ) {
+			bool isChanged = this.Power != power;
+			
 			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
 
-			bool isChanged = this.Power != power;
-
 			this.Power = power;
-			isChanged = isChanged || this.AdjustBarrierHpScale( this.HpScale, true );
-			isChanged = isChanged || this.AdjustBarrierRadiusScale( this.RadiusScale, true );
-			isChanged = isChanged || this.AdjustBarrierDefenseScale( this.DefenseScale, true );
-			isChanged = isChanged || this.AdjustBarrierShrinkResistScale( behavComp.ShrinkResistScale, true );
-			isChanged = isChanged || this.AdjustBarrierRegenScale( this.RegenScale, true );
+			bool isHpChanged = this.AdjustBarrierHpScale( this.HpScale, true );
+			bool isRadiusChanged = this.AdjustBarrierRadiusScale( this.RadiusScale, true );
+			bool isDefenseChanged = this.AdjustBarrierDefenseScale( this.DefenseScale, true );
+			bool isShrinkResistChanged = this.AdjustBarrierShrinkResistScale( behavComp.ShrinkResistScale, true );
+			bool isRegenChanged = this.AdjustBarrierRegenScale( this.RegenScale, true );
+			
+			if( BarriersMod.Instance.Config.DebugModeInfo ) {
+				string pow = "pow:" + this.Power + ( isChanged ? "*" : "" );
+				string hp = "hp%:" + this.HpScale + ( isHpChanged ? "*" : "" );
+				string rad = "rad%:" + this.RadiusScale + ( isRadiusChanged ? "*" : "" );
+				string def = "def%:" + this.DefenseScale + ( isDefenseChanged ? "*" : "" );
+				string res = "res%:" + behavComp.ShrinkResistScale + ( isShrinkResistChanged ? "*" : "" );
+				string reg = "reg%:" + this.RegenScale + ( isRegenChanged ? "*" : "" );
 
-			if( isChanged ) {
+				DebugHelpers.Print( "Barrier "+this.Core.WhoAmI+" scales", pow+", "+hp + ", "+rad+", "+def+", "+res+", "+reg, 20 );
+			}
+
+			if( isChanged || isHpChanged || isRadiusChanged || isDefenseChanged || isShrinkResistChanged || isRegenChanged ) {
 				if( Main.netMode == 1 ) {
 					this.SyncToAll();
 				}

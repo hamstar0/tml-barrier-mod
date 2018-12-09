@@ -5,6 +5,7 @@ using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using Terraria;
 
@@ -108,14 +109,33 @@ namespace Barriers.Entities.Barrier {
 			float shrinkResist = 0f;
 
 			if( myfactory != null ) {
-				hp = BarrierEntity.ComputeBarrierMaxHp( this.Power, myfactory.HpScale );
-				radius = BarrierEntity.ComputeBarrierMaxRadius( this.Power, myfactory.RadiusScale );
-				regenRate = BarrierEntity.ComputeBarrierRegen( this.Power, myfactory.RegenScale );
-				defense = BarrierEntity.ComputeBarrierDefense( this.Power, myfactory.DefenseScale );
-				shrinkResist = BarrierEntity.ComputeBarrierShrinkResist( this.Power, myfactory.ShrinkResist );
+				this.Power = myfactory.Power;
+				this.HpScale = myfactory.HpScale;
+				this.RadiusScale = myfactory.RadiusScale;
+				this.RegenScale = myfactory.RegenScale;
+				this.DefenseScale = myfactory.DefenseScale;
+				//this.ShrinkResist = myfactory.ShrinkResist;
+
+				hp = BarrierEntity.ComputeBarrierMaxHp( myfactory.Power, myfactory.HpScale );
+				radius = BarrierEntity.ComputeBarrierMaxRadius( myfactory.Power, myfactory.RadiusScale );
+				regenRate = BarrierEntity.ComputeBarrierRegen( myfactory.Power, myfactory.RegenScale );
+				defense = BarrierEntity.ComputeBarrierDefense( myfactory.Power, myfactory.DefenseScale );
+				shrinkResist = BarrierEntity.ComputeBarrierShrinkResist( myfactory.Power, myfactory.ShrinkResist );
 			}
 
-			return new List<CustomEntityComponent> {
+			if( BarriersMod.Instance.Config.DebugModeInfo ) {
+				if( myfactory != null ) {
+					LogHelpers.Log( "New barrier scales = hp%:"+myfactory.HpScale
+						+", rad%:"+myfactory.RadiusScale
+						+", def%:"+myfactory.DefenseScale
+						+", reg%:"+myfactory.RegenScale
+						+", hard%:"+myfactory.ShrinkResist );
+				} else {
+					LogHelpers.Log( "New template barrier" );
+				}
+			}
+
+			var comps = new List<CustomEntityComponent> {
 				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( hp, radius, regenRate, defense, shrinkResist ),
 				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent(),
 				BarrierDrawOnMapEntityComponent.CreateBarrierDrawOnMapEntityComponent(),
@@ -123,6 +143,8 @@ namespace Barriers.Entities.Barrier {
 				BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent(),
 				BarrierHitRadiusNpcEntityComponent.CreateBarrierHitRadiusNpcEntityComponent()
 			};
+
+			return comps;
 		}
 
 		public override CustomEntityCore CreateCoreTemplate() {
@@ -138,26 +160,13 @@ namespace Barriers.Entities.Barrier {
 		////////////////
 
 		public virtual Color GetBarrierColor() {
-			/*var behav = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-			int layers = behav.BarrierLayers.Length * 2;
-			int r = 0, g = 0, b = 0;
-
-			foreach( var hue in behav.BarrierLayers ) {
-				switch( hue ) {
-				case BarrierTypes.Red:
-					r += 255;
-					break;
-				case BarrierTypes.Green:
-					g += 255;
-					break;
-				case BarrierTypes.Blue:
-					b += 255;
-					break;
-				}
-			}
-
-			return new Color( r / layers, g / layers, b / layers, 128 );*/
-			return new Color( 0, 128, 0 );
+			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
+			
+			Color baseColor = new Color( 0, 128, 0 );
+			float opacity = Math.Min( (float)behavComp.Defense / 64f, 1f );
+			opacity = 0.15f + (opacity * 0.6f);
+			
+			return new Color( 0, 128, 0 ) * opacity;
 		}
 	}
 }

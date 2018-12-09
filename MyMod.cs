@@ -2,6 +2,7 @@ using Barriers.Entities.Barrier;
 using Barriers.Items;
 using Barriers.UI;
 using HamstarHelpers.Components.Config;
+using HamstarHelpers.Services.Promises;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -43,6 +44,10 @@ namespace Barriers {
 			BarriersMod.Instance = this;
 
 			this.LoadConfig();
+
+			Promises.AddWorldUnloadEachPromise( () => {
+				this.BarrierManager.Clear();
+			} );
 		}
 
 		private void LoadConfig() {

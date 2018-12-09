@@ -92,6 +92,10 @@ namespace Barriers {
 			}
 			
 			mymod.BarrierManager.UpdateBarrierForPlayer( this.player, barrierPower );
+
+			if( mymod.Config.DebugModeInfo ) {
+				DebugHelpers.Print( "Power for " + this.player.name, "" + barrierPower, 20 );
+			}
 		}
 	}
 }

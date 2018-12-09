@@ -1,6 +1,7 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
+using System;
 
 
 namespace Barriers.Entities.Barrier.Components {
@@ -45,7 +46,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public float Hp; 
+		public float Hp;
 		public float MaxHp;
 		public float Radius;
 		public float MaxRadius;
@@ -65,18 +66,18 @@ namespace Barriers.Entities.Barrier.Components {
 		public override void UpdateSingle( CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
 			this.UpdateLocal( myent );
-			this.ApplyRegen( myent );
+			this.UpdateAny( myent );
 		}
 
 		public override void UpdateClient( CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
 			this.UpdateLocal( myent );
-			this.ApplyRegen( myent );
+			this.UpdateAny( myent );
 		}
 
 		public override void UpdateServer( CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
-			this.ApplyRegen( myent );
+			this.UpdateAny( myent );
 		}
 
 
@@ -91,6 +92,24 @@ namespace Barriers.Entities.Barrier.Components {
 
 				myplayer.NoBuilding = true;
 			}*/
+		}
+
+		private void UpdateAny( BarrierEntity myent ) {
+			this.ApplyRegen( myent );
+
+			var center = myent.Core.Center;
+
+			myent.Core.Width = myent.Core.Height = (int)Math.Max( this.Radius * 2, 1 );
+			myent.Core.Center = center;
+
+			if( BarriersMod.Instance.Config.DebugModeInfo ) {
+				DebugHelpers.Print( "Barrier " + myent.Core.WhoAmI + "'s Behavior",
+					"hp:" + this.Hp.ToString( "0.##" ) + "/" + this.MaxHp.ToString( "0.##" )
+					+ ", radius:" + this.Radius.ToString( "0.##" ) + "/" + this.MaxRadius.ToString("0.##")
+					+ ", defense:" + this.Defense
+					+ ", Regen:" + this.RegenRate.ToString( "0.##" ),
+					20 );
+			}
 		}
 	}
 }

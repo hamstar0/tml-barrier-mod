@@ -22,16 +22,20 @@ namespace Barriers.Entities.Barrier {
 		}
 
 
+		public void Clear() {
+			this.PlayerBarriers.Clear();
+		}
+
+
 		////////////////
 
 		public void UpdateBarrierForPlayer( Player player, int power ) {
-			if( !this.PlayerBarriers.ContainsKey( player.whoAmI ) ) {
-				return;
-			}
-
 			var ent = this.GetForPlayer( player );
 			ent.Core.Center = player.Center;
-			ent.AdjustBarrierPower( power );
+
+			if( (Main.netMode == 0 || Main.netMode == 1) && !Main.dedServ ) {
+				ent.AdjustBarrierPower( power );
+			}
 		}
 	}
 }
