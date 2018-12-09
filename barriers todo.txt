@@ -1,6 +1,10 @@
+v2
+-	Define barrier item upgrades
+
+
+
 v1
 -	Implement barrier creation API
--	Define barrier item upgrades
 -	Implement barrier stats
 	-	Hp (shield 'stability' effect)
 	-	Shrink resist (applies shield border)

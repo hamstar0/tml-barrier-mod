@@ -86,6 +86,24 @@ namespace Barriers.Entities.Barrier.Components {
 
 			//sb.End();
 			//sb.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.Transform );
+
+
+			/*
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+			float num143 = 0f;
+			if (nPC.ai[3] > 0f && nPC.ai[3] <= 30f)
+			{
+				num143 = 1f - nPC.ai[3] / 30f;
+			}
+			Filters.Scene[key].GetShader().UseIntensity(1f + num143).UseProgress(0f);
+			DrawData value12 = new DrawData(TextureManager.Load("Images/Misc/Perlin"), value11 + new Vector2(300f, 300f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, 600, 600)), Microsoft.Xna.Framework.Color.White * (num142 * 0.8f + 0.2f), nPC.rotation, new Vector2(300f, 300f), nPC.scale * (1f + num143 * 0.05f), spriteEffects, 0);
+			GameShaders.Misc["ForceField"].UseColor(new Vector3(1f + num143 * 0.5f));
+			GameShaders.Misc["ForceField"].Apply(new DrawData?(value12));
+			value12.Draw(Main.spriteBatch);
+			Main.spriteBatch.End();
+			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, this.Rasterizer, null, Main.Transform);
+			*/
 		}
 	}
 }

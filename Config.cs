@@ -14,6 +14,8 @@ namespace Barriers {
 
 		public bool DebugModeInfo = false;
 
+		public float HardnessDeflectionMaximumAmount = 10;
+
 
 
 		////////////////

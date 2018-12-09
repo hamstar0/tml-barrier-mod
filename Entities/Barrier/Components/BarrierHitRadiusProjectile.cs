@@ -42,14 +42,19 @@ namespace Barriers.Entities.Barrier.Components {
 		}
 
 		public override void PostHurt( CustomEntity ent, Projectile projectile, int damage ) {
+			var mymod = BarriersMod.Instance;
 			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
-			int defDamage = Math.Max( 0, damage - behavComp.Defense );
 
-			behavComp.Hp -= defDamage;
-			if( behavComp.Hp < 0 ) { behavComp.Hp = 0; }
-			
-			behavComp.Radius -= defDamage * (1f - behavComp.ShrinkResistScale);
-			if( behavComp.Radius < 0 ) { behavComp.Radius = 0; }
+			int defDamage = Math.Max( 0, damage - behavComp.Defense );
+			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );
+
+			if( defDamage > (mymod.Config.HardnessDeflectionMaximumAmount * behavComp.ShrinkResistScale) ) {
+				behavComp.Hp -= defDamage;
+				if( behavComp.Hp < 0 ) { behavComp.Hp = 0; }
+
+				behavComp.Radius -= radDamage;
+				if( behavComp.Radius < 0 ) { behavComp.Radius = 0; }
+			}
 		}
 	}
 }

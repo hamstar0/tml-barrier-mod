@@ -32,7 +32,7 @@ namespace Barriers.Entities.Barrier {
 		}
 
 		public static float ComputeBarrierRegen( int power, float regenScale ) {
-			float minRegen = 1f / 60f;
+			float minRegen = 3f / 60f;
 
 			return minRegen + (regenScale * (float)power * (minRegen/8f));
 		}
@@ -55,8 +55,8 @@ namespace Barriers.Entities.Barrier {
 			
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				string pow = "pow:" + this.Power + ( isChanged ? "*" : "" );
-				string hp = "hp%:" + this.HpScale + ( isHpChanged ? "*" : "" );
-				string rad = "rad%:" + this.RadiusScale + ( isRadiusChanged ? "*" : "" );
+				string hp = "hp%:" + this.HpScale.ToString("N0") + ( isHpChanged ? "*" : "" );
+				string rad = "rad%:" + this.RadiusScale.ToString("N0") + ( isRadiusChanged ? "*" : "" );
 				string def = "def%:" + this.DefenseScale + ( isDefenseChanged ? "*" : "" );
 				string res = "res%:" + behavComp.ShrinkResistScale + ( isShrinkResistChanged ? "*" : "" );
 				string reg = "reg%:" + this.RegenScale + ( isRegenChanged ? "*" : "" );
