@@ -48,7 +48,7 @@ namespace Barriers.Entities.Barrier.Components {
 			int defDamage = Math.Max( 0, damage - behavComp.Defense );
 			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );
 
-			if( defDamage > (mymod.Config.HardnessDeflectionMaximumAmount * behavComp.ShrinkResistScale) ) {
+			if( defDamage > (mymod.Config.HardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale) ) {
 				behavComp.Hp -= defDamage;
 				if( behavComp.Hp < 0 ) { behavComp.Hp = 0; }
 

@@ -5,10 +5,17 @@ v2
 
 v1
 -	Implement barrier creation API
+-	F&T
+	-	Fix paling icon
+	-	Disable paling tile
+	-	Label UI icons
+	-	Increase UI opacity
+	-	@Fix train position not loading
+-	Add NPC damage and projectile halt effect
+
 -	Implement barrier stats
 	-	Hp (shield 'stability' effect)
 	-	Shrink resist (applies shield border)
-
 	-	Defense (applies opacity)
 -	Implement UI for adjusting the barrier
 	-	Apply tallies to respective barrier stats

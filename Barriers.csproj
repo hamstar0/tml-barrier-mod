@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="API.cs" />
     <Compile Include="API_Call.cs" />
+    <Compile Include="Entities\Barrier\BarrierEntity_Compute.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Interface.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierBehavior_Stats.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusNpc.cs" />
@@ -94,6 +95,9 @@
     <Content Include="Entities\Barrier\Barrier128.png" />
     <Content Include="Entities\Barrier\Barrier2048.png" />
     <Content Include="Entities\Barrier\Barrier512.png" />
+    <Content Include="Entities\Barrier\BarrierRing128.png" />
+    <Content Include="Entities\Barrier\BarrierRing2048.png" />
+    <Content Include="Entities\Barrier\BarrierRing512.png" />
     <Content Include="Items\PalingItem.png" />
     <Content Include="Items\PalingItem_Back.png" />
     <Content Include="Tiles\PalingTile.png" />

@@ -104,10 +104,10 @@ namespace Barriers.Entities.Barrier.Components {
 
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				DebugHelpers.Print( "Barrier " + myent.Core.WhoAmI + "'s Behavior",
-					"hp:" + this.Hp.ToString( "0.##" ) + "/" + this.MaxHp.ToString( "0.##" )
-					+ ", radius:" + this.Radius.ToString( "0.##" ) + "/" + this.MaxRadius.ToString("0.##")
+					"hp:" + this.Hp.ToString( "N0" ) + "/" + this.MaxHp.ToString( "N0" )
+					+ ", radius:" + this.Radius.ToString( "N0" ) + "/" + this.MaxRadius.ToString("N0")
 					+ ", defense:" + this.Defense
-					+ ", Regen:" + this.RegenRate.ToString( "0.##" ),
+					+ ", Regen:" + this.RegenRate.ToString( "N0" ),
 					20 );
 			}
 		}

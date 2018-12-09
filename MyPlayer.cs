@@ -87,7 +87,7 @@ namespace Barriers {
 				Item acc = this.player.armor[i];
 				if( acc == null || !acc.active || acc.type != palingType ) { continue; }
 
-				barrierPower = 256;	//TODO
+				barrierPower = mymod.Config.DefaultShieldPower;	//TODO
 				break;
 			}
 			

@@ -3,6 +3,7 @@ using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Helpers.NPCHelpers;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 
@@ -44,21 +45,34 @@ namespace Barriers.Entities.Barrier.Components {
 
 		public override void PostHurt( CustomEntity ent, NPC npc, int damage ) {
 			var mymod = BarriersMod.Instance;
+			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
 
+			float oldHp = behavComp.Hp;
 			int defDamage = Math.Max( 0, damage - behavComp.Defense );
 			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );
 
-			if( defDamage > ( mymod.Config.HardnessDeflectionMaximumAmount * behavComp.ShrinkResistScale ) ) {
-				behavComp.Hp -= defDamage;
-				if( behavComp.Hp < 0 ) { behavComp.Hp = 0; }
-
-				behavComp.Radius -= radDamage;
-				if( behavComp.Radius < 0 ) { behavComp.Radius = 0; }
+			if( defDamage > ( mymod.Config.HardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale ) ) {
+				behavComp.Hp = behavComp.Hp > defDamage ? behavComp.Hp - defDamage : 0;
+				behavComp.Radius = behavComp.Radius > radDamage ? behavComp.Radius - radDamage : 0;
 			}
+
+			float npcDamage = oldHp - behavComp.Hp;
+			npcDamage += npcDamage * behavComp.ShrinkResistScale * mymod.Config.HardnessDamageReflectionMultiplierAmount;
 			
-			if( defDamage > 0 ) {
-				NPCHelpers.Hurt( npc, defDamage );
+			if( npcDamage > 0 ) {
+				NPCHelpers.Hurt( npc, (int)npcDamage );
+
+				int particles = Math.Min( (int)npcDamage / 3, 8 );
+
+				for( int i=0; i<particles; i++ ) {
+					Vector2 position = Main.LocalPlayer.Center;
+					Dust.NewDust( npc.Center, npc.width, npc.height, 264, 0f, 0f, 0, myent.GetBarrierColor(true), 0.66f );
+				}
+			}
+
+			if( mymod.Config.DebugModeInfo ) {
+				DebugHelpers.Print( "barrier hurts "+npc.TypeName+" ("+npc.whoAmI+")", "dmg:"+damage+", -hp:"+(oldHp-behavComp.Hp)+", -rad:"+radDamage+", npc hit:"+npcDamage, 20 );
 			}
 		}
 	}

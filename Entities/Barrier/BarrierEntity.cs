@@ -55,20 +55,20 @@ namespace Barriers.Entities.Barrier {
 		}
 
 		internal static BarrierEntity CreateDefaultBarrierEntity() {
-			return BarrierEntity.CreateBarrierEntity( 128, 1f, 1f, 0f, 0f, (1f / 60f), Main.LocalPlayer.Center );
+			return BarrierEntity.CreateBarrierEntity( 128, 1f, 1f, 0f, 0f, ( 1f / 60f ), Main.LocalPlayer.Center );
 		}
 
 
 
 		////////////////
-		
+
 		[JsonIgnore]
 		[PacketProtocolIgnore]
 		internal int UiRadialPosition1 = 0;
 		[JsonIgnore]
 		[PacketProtocolIgnore]
 		internal int UiRadialPosition2 = 0;
-		
+
 		[JsonIgnore]
 		[PacketProtocolIgnore]
 		private int Power;
@@ -97,7 +97,7 @@ namespace Barriers.Entities.Barrier {
 
 			float rad = myfactory?.Power * 0.5f ?? 0f;
 
-			return new CustomEntityCore( "Barrier", (int)rad, (int)rad, (myfactory?.Center ?? default(Vector2)), 1 );
+			return new CustomEntityCore( "Barrier", (int)rad, (int)rad, ( myfactory?.Center ?? default( Vector2 ) ), 1 );
 		}
 
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
@@ -125,11 +125,11 @@ namespace Barriers.Entities.Barrier {
 
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				if( myfactory != null ) {
-					LogHelpers.Log( "New barrier scales = hp%:"+myfactory.HpScale
-						+", rad%:"+myfactory.RadiusScale
-						+", def%:"+myfactory.DefenseScale
-						+", reg%:"+myfactory.RegenScale
-						+", hard%:"+myfactory.ShrinkResist );
+					LogHelpers.Log( "New barrier scales = hp%:" + myfactory.HpScale
+						+ ", rad%:" + myfactory.RadiusScale
+						+ ", def%:" + myfactory.DefenseScale
+						+ ", reg%:" + myfactory.RegenScale
+						+ ", hard%:" + myfactory.ShrinkResist );
 				} else {
 					LogHelpers.Log( "New template barrier" );
 				}
@@ -159,14 +159,30 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
-		public virtual Color GetBarrierColor() {
+		public virtual Color GetBarrierColor( bool baseOnly=false ) {
 			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-			
+
 			Color baseColor = new Color( 0, 128, 0 );
+			if( baseOnly ) {
+				return baseColor;
+			}
+
 			float opacity = Math.Min( (float)behavComp.Defense / 64f, 1f );
-			opacity = 0.15f + (opacity * 0.6f);
-			
-			return new Color( 0, 128, 0 ) * opacity;
+			opacity = 0.25f + ( opacity * 0.6f );
+
+			return baseColor * opacity;
+		}
+
+
+		public virtual Color GetEdgeColor( bool baseOnly = false ) {
+			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
+
+			Color baseColor = new Color( 32, 160, 32 );
+			if( baseOnly ) {
+				return baseColor;
+			}
+
+			return baseColor * behavComp.ShrinkResistScale;
 		}
 	}
 }
