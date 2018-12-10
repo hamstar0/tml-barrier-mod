@@ -5,7 +5,7 @@ using System;
 
 namespace Barriers.Entities.Barrier.Components {
 	public partial class BarrierBehaviorEntityComponent : CustomEntityComponent {
-		private void ApplyRegen( BarrierEntity myent ) {
+		private void ApplyRegen() {
 			if( this.Hp == 0 ) {
 				int regenRegenMax = Math.Max( 30, 120 - (int)(60f * this.RegenRate) );
 

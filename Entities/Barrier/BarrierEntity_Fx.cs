@@ -5,33 +5,13 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 
+
 namespace Barriers.Entities.Barrier {
-	public partial class BarrierEntity : CustomEntity {
-		public virtual Color GetBarrierColor( bool baseOnly = false ) {
-			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-
-			Color baseColor = new Color( 0, 128, 0 );
-			if( baseOnly ) {
-				return baseColor;
-			}
-
-			float opacity = Math.Min( (float)behavComp.Defense / 64f, 1f );
-			opacity = 0.25f + ( opacity * 0.6f );
-
-			return baseColor * opacity;
-		}
+	public abstract partial class BarrierEntity : CustomEntity {
+		public abstract Color GetBarrierColor( bool baseOnly = false );
 
 
-		public virtual Color GetEdgeColor( bool baseOnly = false ) {
-			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-
-			Color baseColor = new Color( 32, 160, 32 );
-			if( baseOnly ) {
-				return baseColor;
-			}
-
-			return baseColor * behavComp.ShrinkResistScale;
-		}
+		public abstract Color GetEdgeColor( bool baseOnly = false );
 
 
 		////////////////

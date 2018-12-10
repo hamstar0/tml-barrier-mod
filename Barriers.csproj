@@ -36,16 +36,20 @@
   <ItemGroup>
     <Compile Include="API.cs" />
     <Compile Include="API_Call.cs" />
+    <Compile Include="Entities\Barrier\BarrierEntity.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Fx.cs" />
-    <Compile Include="Entities\Barrier\BarrierEntity_Compute.cs" />
-    <Compile Include="Entities\Barrier\BarrierEntity_Interface.cs" />
+    <Compile Include="Entities\Barrier\BarrierEntity_Factory.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Factory.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Fx.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Compute.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Interface.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierBehavior_Stats.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusNpc.cs" />
     <Compile Include="Entities\Barrier\Manager.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusProjectile.cs" />
     <Compile Include="MyMod.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Entities\Barrier\BarrierEntity.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierBehavior.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierDrawGame.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierDrawMap.cs" />
@@ -111,6 +115,7 @@
     <None Include="LICENSE" />
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"C:\Program Files (x86)\Steam\steamapps\common\terraria\tModLoaderServer.exe" -build "$(ProjectDir)\" -eac "$(TargetPath)"</PostBuildEvent>

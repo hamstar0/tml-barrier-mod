@@ -70,26 +70,23 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		public override void UpdateSingle( CustomEntity ent ) {
-			var myent = (BarrierEntity)ent;
-			this.UpdateLocal( myent );
-			this.UpdateAny( myent );
+			this.UpdateLocal( ent );
+			this.UpdateAny( ent );
 		}
 
 		public override void UpdateClient( CustomEntity ent ) {
-			var myent = (BarrierEntity)ent;
-			this.UpdateLocal( myent );
-			this.UpdateAny( myent );
+			this.UpdateLocal( ent );
+			this.UpdateAny( ent );
 		}
 
 		public override void UpdateServer( CustomEntity ent ) {
-			var myent = (BarrierEntity)ent;
-			this.UpdateAny( myent );
+			this.UpdateAny( ent );
 		}
 
 
 		////////////////
 
-		private void UpdateLocal( BarrierEntity myent ) {
+		private void UpdateLocal( CustomEntity ent ) {
 			/*var plr = Main.LocalPlayer;
 			float dist = Vector2.Distance( plr.Center, myent.Core.Center );
 
@@ -100,16 +97,16 @@ namespace Barriers.Entities.Barrier.Components {
 			}*/
 		}
 
-		private void UpdateAny( BarrierEntity myent ) {
-			this.ApplyRegen( myent );
+		private void UpdateAny( CustomEntity ent ) {
+			this.ApplyRegen();
 
-			var center = myent.Core.Center;
+			var center = ent.Core.Center;
 
-			myent.Core.Width = myent.Core.Height = (int)Math.Max( this.Radius * 2, 1 );
-			myent.Core.Center = center;
+			ent.Core.Width = ent.Core.Height = (int)Math.Max( this.Radius * 2, 1 );
+			ent.Core.Center = center;
 
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
-				DebugHelpers.Print( "Barrier " + myent.Core.WhoAmI + "'s Behavior",
+				DebugHelpers.Print( "Barrier " + ent.Core.WhoAmI + "'s Behavior",
 					"hp:" + this.Hp.ToString( "N0" ) + "/" + this.MaxHp.ToString( "N0" )
 					+ ", radius:" + this.Radius.ToString( "N0" ) + "/" + this.MaxRadius.ToString("N0")
 					+ ", defense:" + this.Defense

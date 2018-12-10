@@ -4,8 +4,8 @@ using HamstarHelpers.Helpers.DebugHelpers;
 using Terraria;
 
 
-namespace Barriers.Entities.Barrier {
-	public partial class BarrierEntity : CustomEntity {
+namespace Barriers.Entities.Barrier.PlayerBarrier {
+	public partial class PlayerBarrierEntity : BarrierEntity {
 		public bool AdjustBarrierPower( int power ) {
 			bool isChanged = this.Power != power;
 			
@@ -43,7 +43,7 @@ namespace Barriers.Entities.Barrier {
 		internal bool AdjustBarrierHpScale( float hpScale, bool skipSync = false ) {
 			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
 
-			float maxHp = BarrierEntity.ComputeBarrierMaxHp( this.Power, hpScale );
+			float maxHp = PlayerBarrierEntity.ComputeBarrierMaxHp( this.Power, hpScale );
 			float hp = behavComp.Hp > maxHp ? maxHp : behavComp.Hp;
 			bool isChanged = this.HpScale != hpScale
 				|| behavComp.MaxHp != maxHp
@@ -65,7 +65,7 @@ namespace Barriers.Entities.Barrier {
 		internal bool AdjustBarrierRadiusScale( float radiusScale, bool skipSync = false ) {
 			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
 
-			float maxRadius = BarrierEntity.ComputeBarrierMaxRadius( this.Power, radiusScale );
+			float maxRadius = PlayerBarrierEntity.ComputeBarrierMaxRadius( this.Power, radiusScale );
 			float radius = behavComp.Radius > maxRadius ? maxRadius : behavComp.Radius;
 			bool isChanged = this.RadiusScale != radiusScale
 				|| behavComp.MaxRadius != maxRadius
@@ -87,7 +87,7 @@ namespace Barriers.Entities.Barrier {
 		internal bool AdjustBarrierDefenseScale( float defenseScale, bool skipSync = false ) {
 			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
 
-			int defense = BarrierEntity.ComputeBarrierDefense( this.Power, defenseScale );
+			int defense = PlayerBarrierEntity.ComputeBarrierDefense( this.Power, defenseScale );
 			bool isChanged = this.DefenseScale != defenseScale
 				|| behavComp.Defense != defense;
 
@@ -106,7 +106,7 @@ namespace Barriers.Entities.Barrier {
 		internal bool AdjustBarrierShrinkResistScale( float resistScale, bool skipSync = false ) {
 			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
 
-			float resistScaleNew = BarrierEntity.ComputeBarrierShrinkResist( this.Power, resistScale );
+			float resistScaleNew = PlayerBarrierEntity.ComputeBarrierShrinkResist( this.Power, resistScale );
 			bool isChanged = behavComp.ShrinkResistScale != resistScaleNew;
 			
 			behavComp.ShrinkResistScale = resistScaleNew;
@@ -123,7 +123,7 @@ namespace Barriers.Entities.Barrier {
 		internal bool AdjustBarrierRegenScale( float regenScale, bool skipSync = false ) {
 			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
 
-			float regenRate = BarrierEntity.ComputeBarrierRegen( this.Power, regenScale );
+			float regenRate = PlayerBarrierEntity.ComputeBarrierRegen( this.Power, regenScale );
 			bool isChanged = this.RegenScale != regenScale
 				|| behavComp.RegenRate != regenRate;
 

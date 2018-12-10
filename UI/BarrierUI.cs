@@ -1,4 +1,5 @@
 ﻿using Barriers.Entities.Barrier;
+using Barriers.Entities.Barrier.PlayerBarrier;
 using HamstarHelpers.Helpers.DotNetHelpers;
 using HamstarHelpers.Services.Promises;
 using Microsoft.Xna.Framework;
@@ -63,7 +64,7 @@ namespace Barriers.UI {
 
 		////////////////
 
-		private void Interact( int whichSpan, double spanAngleRange, BarrierEntity ent ) {
+		private void Interact( int whichSpan, double spanAngleRange, PlayerBarrierEntity myent ) {
 			if( !this.IsLeftClickingUI ) {
 				if( Main.mouseLeft ) {
 					this.IsLeftClickingUI = true;
@@ -72,7 +73,7 @@ namespace Barriers.UI {
 				if( !Main.mouseLeft ) {
 					this.IsLeftClickingUI = false;
 					if( whichSpan != -1 ) {
-						this.RadialInteraction( true, whichSpan, ent );
+						this.RadialInteraction( true, whichSpan, myent );
 					}
 				}
 			}
@@ -85,7 +86,7 @@ namespace Barriers.UI {
 				if( !Main.mouseRight ) {
 					this.IsRightClickingUI = false;
 					if( whichSpan != -1 ) {
-						this.RadialInteraction( false, whichSpan, ent );
+						this.RadialInteraction( false, whichSpan, myent );
 					}
 				}
 			}
@@ -93,22 +94,22 @@ namespace Barriers.UI {
 			float str1, hard1, regen1, size1;
 			float str2, hard2, regen2, size2;
 
-			this.InteractRadialPosition( ent.UiRadialPosition1, out str1, out hard1, out regen1, out size1 );
-			this.InteractRadialPosition( ent.UiRadialPosition2, out str2, out hard2, out regen2, out size2 );
+			this.InteractRadialPosition( myent.UiRadialPosition1, out str1, out hard1, out regen1, out size1 );
+			this.InteractRadialPosition( myent.UiRadialPosition2, out str2, out hard2, out regen2, out size2 );
 			this.StrengthScale = ( str1 + str2 ) * 0.5f;
 			this.HardScale = ( hard1 + hard2 ) * 0.5f;
 			this.RegenScale = ( regen1 + regen2 ) * 0.5f;
 			this.SizeScale = ( size1 + size2 ) * 0.5f;
 
 			bool hasChanged = false;
-			ent.AdjustBarrierHpScale( this.SizeScale );
-			ent.AdjustBarrierRadiusScale( this.SizeScale );
-			ent.AdjustBarrierDefenseScale( this.StrengthScale );
-			ent.AdjustBarrierShrinkResistScale( this.HardScale );
-			ent.AdjustBarrierRegenScale( this.RegenScale );
+			myent.AdjustBarrierHpScale( this.SizeScale );
+			myent.AdjustBarrierRadiusScale( this.SizeScale );
+			myent.AdjustBarrierDefenseScale( this.StrengthScale );
+			myent.AdjustBarrierShrinkResistScale( this.HardScale );
+			myent.AdjustBarrierRegenScale( this.RegenScale );
 
 			if( hasChanged ) {
-				ent.SyncToAll();
+				myent.SyncToAll();
 			}
 		}
 
@@ -171,11 +172,11 @@ namespace Barriers.UI {
 
 		////////////////
 
-		public void RadialInteraction( bool isPosition1, int newPosition, BarrierEntity ent ) {
+		public void RadialInteraction( bool isPosition1, int newPosition, PlayerBarrierEntity myent ) {
 			if( isPosition1 ) {
-				ent.UiRadialPosition1 = newPosition;
+				myent.UiRadialPosition1 = newPosition;
 			} else {
-				ent.UiRadialPosition2 = newPosition;
+				myent.UiRadialPosition2 = newPosition;
 			}
 
 			Main.PlaySound( SoundID.MenuTick );
