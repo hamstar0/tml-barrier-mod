@@ -1,6 +1,8 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
+using HamstarHelpers.Components.Network;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
+using Newtonsoft.Json;
 using System;
 
 
@@ -45,6 +47,10 @@ namespace Barriers.Entities.Barrier.Components {
 
 
 		////////////////
+
+		[JsonIgnore]
+		[PacketProtocolIgnore]
+		private int RegenRegen = 0;
 
 		public float Hp;
 		public float MaxHp;

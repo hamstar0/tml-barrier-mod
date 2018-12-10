@@ -18,6 +18,7 @@ namespace Barriers {
 
 		public float HardnessDamageDeflectionMaximumAmount = 10f;
 		public float HardnessDamageReflectionMultiplierAmount = 2f;
+		public float BarrierRegenMultiplier = 1f;
 
 
 

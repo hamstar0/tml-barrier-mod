@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Barriers.Entities.Barrier;
+using Terraria;
 
 
 namespace Barriers {
@@ -10,5 +11,11 @@ namespace Barriers {
 		public static void SaveModSettingsChanges() {
 			BarriersMod.Instance.ConfigJson.SaveFile();
 		}
+
+		////////////////
+
+		//public static void CreateFriendlyBarrier( Player player, int maxRadius, int maxHp, float regenRatePerSecond, int defense, float shrinkResistScale ) {
+		//	BarrierEntity.CreateBarrierEntity()
+		//}
 	}
 }

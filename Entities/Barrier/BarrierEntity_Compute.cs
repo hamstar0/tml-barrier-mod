@@ -4,6 +4,12 @@ using HamstarHelpers.Helpers.DebugHelpers;
 
 namespace Barriers.Entities.Barrier {
 	public partial class BarrierEntity : CustomEntity {
+		public const float BaseRegen = 3f / 60f;
+
+
+
+		////////////////
+
 		public static float ComputeBarrierMaxHp( int power, float hpScale ) {
 			return BarrierEntity.ComputeBarrierMaxRadius( power, hpScale );
 		}
@@ -34,9 +40,11 @@ namespace Barriers.Entities.Barrier {
 
 
 		public static float ComputeBarrierRegen( int power, float regenScale ) {
-			float minRegen = 3f / 60f;
+			float regenPerPowerUnit = BarrierEntity.BaseRegen / 12f;
+			float regen = BarrierEntity.BaseRegen;
+			regen += regenScale * (float)power * regenPerPowerUnit;
 
-			return minRegen + (regenScale * (float)power * (minRegen/8f));
+			return regen * BarriersMod.Instance.Config.BarrierRegenMultiplier;
 		}
 	}
 }
