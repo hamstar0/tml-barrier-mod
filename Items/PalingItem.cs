@@ -1,4 +1,3 @@
-using Barriers.Tiles;
 using HamstarHelpers.Items;
 using Terraria;
 using Terraria.ID;
@@ -26,8 +25,8 @@ namespace Barriers.Items {
 			var mymod = (BarriersMod)this.mod;
 
 			this.DisplayName.SetDefault( "Protective Paling" );
-			this.Tooltip.SetDefault( "Projects a protective barrier." +
-				'\n' + "May be placed freely." );
+			this.Tooltip.SetDefault( "Projects a protective barrier." );
+				//+ '\n' + "May be placed freely." );
 		}
 
 
@@ -46,9 +45,10 @@ namespace Barriers.Items {
 			this.item.useTime = 10;
 			this.item.autoReuse = true;
 
-			this.item.consumable = true;
-			this.item.material = true;
-			this.item.createTile = this.mod.TileType<PalingTile>();
+			//this.item.consumable = true;
+			//this.item.createTile = this.mod.TileType<PalingTile>();
+
+			//this.item.material = true;
 		}
 
 
@@ -57,6 +57,8 @@ namespace Barriers.Items {
 
 			ModRecipe recipe = new ModRecipe( this.mod );
 			recipe.AddIngredient( helperMod.ItemType<MagiTechScrapItem>(), 10 );
+			recipe.AddIngredient( ItemID.CrystalShard, 10 );
+			recipe.AddIngredient( ItemID.Cog, 50 );
 			recipe.AddTile( TileID.SteampunkBoiler );
 			recipe.SetResult( this );
 			recipe.AddRecipe();

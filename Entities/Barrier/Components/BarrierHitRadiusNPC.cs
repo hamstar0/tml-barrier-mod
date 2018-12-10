@@ -57,18 +57,15 @@ namespace Barriers.Entities.Barrier.Components {
 				behavComp.Radius = behavComp.Radius > radDamage ? behavComp.Radius - radDamage : 0;
 			}
 
-			float npcDamage = oldHp - behavComp.Hp;
-			npcDamage += npcDamage * behavComp.ShrinkResistScale * mymod.Config.HardnessDamageReflectionMultiplierAmount;
+			float npcDamage = damage;
+			npcDamage += damage * behavComp.ShrinkResistScale * mymod.Config.HardnessDamageReflectionMultiplierAmount;
 			
 			if( npcDamage > 0 ) {
 				NPCHelpers.Hurt( npc, (int)npcDamage );
 
-				int particles = Math.Min( (int)npcDamage / 3, 8 );
+				npc.velocity += Vector2.Normalize( npc.position - ent.Core.position );
 
-				for( int i=0; i<particles; i++ ) {
-					Vector2 position = Main.LocalPlayer.Center;
-					Dust.NewDust( npc.Center, npc.width, npc.height, 264, 0f, 0f, 0, myent.GetBarrierColor(true), 0.66f );
-				}
+				myent.EmitImpactFx( npc.Center, npc.width, npc.height, npcDamage );
 			}
 
 			if( mymod.Config.DebugModeInfo ) {

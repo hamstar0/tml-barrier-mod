@@ -2,6 +2,8 @@
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
+using HamstarHelpers.Helpers.ProjectileHelpers;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 
@@ -43,6 +45,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		public override void PostHurt( CustomEntity ent, Projectile projectile, int damage ) {
 			var mymod = BarriersMod.Instance;
+			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
 
 			int defDamage = Math.Max( 0, damage - behavComp.Defense );
@@ -53,8 +56,16 @@ namespace Barriers.Entities.Barrier.Components {
 				if( behavComp.Hp < 0 ) { behavComp.Hp = 0; }
 
 				behavComp.Radius -= radDamage;
-				if( behavComp.Radius < 0 ) { behavComp.Radius = 0; }
+				if( behavComp.Radius < 0 ) {
+					behavComp.Radius = 0;
+				}
+
+				ProjectileHelpers.Hit( projectile );
 			}
+
+			projectile.velocity = Vector2.Normalize( projectile.position - ent.Core.position ) * projectile.velocity.Length();
+
+			myent.EmitImpactFx( projectile.Center, projectile.width, projectile.height, defDamage );
 		}
 	}
 }

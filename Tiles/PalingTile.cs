@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 
 
 namespace Barriers.Tiles {
-	class PalingTile : ModTile {
+	/*class PalingTile : ModTile {
 		public override void SetDefaults() {
 			Main.tileFrameImportant[ this.Type ] = true;
 			Main.tileNoAttach[ this.Type ] = true;
@@ -55,5 +55,5 @@ namespace Barriers.Tiles {
 		public override void KillMultiTile( int i, int j, int frameX, int frameY ) {
 			Item.NewItem( i * 16, j * 16, 32, 16, this.mod.ItemType<PalingItem>() );
 		}
-	}
+	}*/
 }

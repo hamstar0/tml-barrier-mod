@@ -1,18 +1,21 @@
 v2
+-	Implement paling tile
 -	Define barrier item upgrades
 
 
 
 v1
 -	Implement barrier creation API
+-	Add barrier cooldown (scales by regen rate)
+
 -	F&T
 	-	Fix paling icon
 	-	Disable paling tile
 	-	Label UI icons
 	-	Increase UI opacity
 	-	@Fix train position not loading
+-	Add NPC and projectile deflection
 -	Add NPC damage and projectile halt effect
-
 -	Implement barrier stats
 	-	Hp (shield 'stability' effect)
 	-	Shrink resist (applies shield border)

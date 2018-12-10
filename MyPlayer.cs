@@ -70,7 +70,7 @@ namespace Barriers {
 			if( heldItem != null && !heldItem.IsAir ) {
 				var paling = heldItem.modItem as PalingItem;
 
-				if( paling != null ) {
+				if( paling != null && Main.mouseItem.type != heldItem.type ) {
 					this.player.mouseInterface = true;
 				}
 			}

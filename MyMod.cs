@@ -90,25 +90,31 @@ namespace Barriers {
 
 		////////////////
 
+		private int _NoInteractTimer = 0;
+
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Inventory" ) );
 			if( idx == -1 ) { return; }
-
+			
 			GameInterfaceDrawMethod func = delegate {
 				Player player = Main.LocalPlayer;
 				Item heldItem = player.HeldItem;
 
 				if( heldItem == null || heldItem.IsAir ) {
+					this._NoInteractTimer = 0;
 					return true;
 				}
 
 				var paling = heldItem.modItem as PalingItem;
-				if( paling == null ) {
-					return true;
+				if( paling != null && Main.mouseItem.type != heldItem.type ) {
+					bool noInteract = !player.mouseInterface || this._NoInteractTimer > 30;
+
+					this.BarrierUI.DrawUI( Main.spriteBatch, this.BarrierManager.GetForPlayer(player), noInteract );
+					this._NoInteractTimer++;
+				} else {
+					this._NoInteractTimer = 0;
 				}
 				
-				this.BarrierUI.DrawUI( Main.spriteBatch, this.BarrierManager.GetForPlayer(Main.LocalPlayer) );
-
 				return true;
 			};
 

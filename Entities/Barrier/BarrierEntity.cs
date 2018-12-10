@@ -154,35 +154,5 @@ namespace Barriers.Entities.Barrier {
 		public override IList<CustomEntityComponent> CreateComponentsTemplate() {
 			return this.CreateComponents<BarrierEntity>( null );
 		}
-
-
-
-		////////////////
-
-		public virtual Color GetBarrierColor( bool baseOnly=false ) {
-			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-
-			Color baseColor = new Color( 0, 128, 0 );
-			if( baseOnly ) {
-				return baseColor;
-			}
-
-			float opacity = Math.Min( (float)behavComp.Defense / 64f, 1f );
-			opacity = 0.25f + ( opacity * 0.6f );
-
-			return baseColor * opacity;
-		}
-
-
-		public virtual Color GetEdgeColor( bool baseOnly = false ) {
-			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-
-			Color baseColor = new Color( 32, 160, 32 );
-			if( baseOnly ) {
-				return baseColor;
-			}
-
-			return baseColor * behavComp.ShrinkResistScale;
-		}
 	}
 }
