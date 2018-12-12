@@ -29,7 +29,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 
 		public static int ComputeBarrierDefense( int power, float defenseScale ) {
-			return (int)( ((float)power * defenseScale) / 8f );
+			return (int)( ((float)power * defenseScale) / 16f );
 		}
 
 

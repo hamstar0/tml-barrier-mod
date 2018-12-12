@@ -14,7 +14,7 @@ namespace Barriers {
 
 		public bool DebugModeInfo = false;
 
-		public int DefaultShieldPower = 256;
+		public int DefaultShieldPower = 128;
 
 		public float HardnessDamageDeflectionMaximumAmount = 10f;
 		public float HardnessDamageReflectionMultiplierAmount = 2f;

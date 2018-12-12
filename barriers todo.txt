@@ -6,8 +6,14 @@ v2
 
 v1
 -	Implement barrier creation API
--	Add barrier cooldown (scales by regen rate)
+-	@Test MP
 
+-	Fix starting stats
+-	@Fix MH UI failing to shift correctly
+-	Fix kills without drops
+-	Scale down defense
+-	Use subclass for 'friendly' barrier class
+-	Add barrier cooldown (scales by regen rate)
 -	F&T
 	-	Fix paling icon
 	-	Disable paling tile

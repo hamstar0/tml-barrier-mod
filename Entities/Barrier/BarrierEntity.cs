@@ -13,27 +13,41 @@ namespace Barriers.Entities.Barrier {
 		////
 
 		protected override CustomEntityCore CreateCore<T>( CustomEntityFactory<T> factory ) {
-			var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
+			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
+			var myfactory = factory as IBarrierEntityFactory;
 
-			float rad = myfactory?.Radius * 2f ?? 64f;
+			float rad = myfactory?.RadiusGet * 2f ?? 64f;
 
-			return new CustomEntityCore( "Barrier", (int)rad, (int)rad, ( myfactory?.Center ?? default( Vector2 ) ), 1 );
+			return new CustomEntityCore( "Barrier", (int)rad, (int)rad, ( myfactory?.CenterGetSet ?? default( Vector2 ) ), 1 );
 		}
 
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
-			var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
+			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
+			var myfactory = factory as IBarrierEntityFactory;
 			float hp = 64f;
 			float radius = 64f;
-			float regenRate = 1f / 60f;
 			int defense = 0;
+			float regenRate = 1f / 60f;
 			float shrinkResist = 0f;
 
 			if( myfactory != null ) {
-				hp = myfactory.Hp;
-				radius = myfactory.Radius;
-				regenRate = myfactory.RegenRate;
-				defense = myfactory.Defense;
-				shrinkResist = myfactory.ShrinkResistScale;
+				hp = myfactory.HpGet;
+				radius = myfactory.RadiusGet;
+				defense = myfactory.DefenseGet;
+				regenRate = myfactory.RegenRateGet;
+				shrinkResist = myfactory.ShrinkResistScaleGet;
+			}
+
+			if( BarriersMod.Instance.Config.DebugModeInfo ) {
+				if( myfactory != null ) {
+					LogHelpers.Log( "New barrier stats = hp:" + hp
+						+ ", rad:" + radius
+						+ ", def:" + defense
+						+ ", regen:" + regenRate
+						+ ", hard:" + shrinkResist );
+				} else {
+					LogHelpers.Log( "New template barrier" );
+				}
 			}
 
 			var comps = new List<CustomEntityComponent> {

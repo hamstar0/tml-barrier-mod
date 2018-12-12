@@ -1,5 +1,4 @@
 ﻿using Barriers.Entities.Barrier.Components;
-using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Terraria;
 
@@ -10,7 +9,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 			bool isChanged = this.Power != power;
 			
 			var behavComp = this.GetComponentByType<BarrierBehaviorEntityComponent>();
-
+			
 			this.Power = power;
 			bool isHpChanged = this.AdjustBarrierHpScale( this.HpScale, true );
 			bool isRadiusChanged = this.AdjustBarrierRadiusScale( this.RadiusScale, true );
@@ -25,8 +24,8 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 				string def = "def%:" + this.DefenseScale + ( isDefenseChanged ? "*" : "" );
 				string res = "resist%:" + behavComp.ShrinkResistScale + ( isShrinkResistChanged ? "*" : "" );
 				string reg = "regen%:" + this.RegenScale + ( isRegenChanged ? "*" : "" );
-
-				DebugHelpers.Print( "Barrier "+this.Core.WhoAmI+" scales", pow+", "+hp + ", "+rad+", "+def+", "+res+", "+reg, 20 );
+				
+				DebugHelpers.Print( "Barrier "+this.Core.WhoAmI+" scales", pow+", "+hp+", "+rad+", "+def+", "+res+", "+reg, 20 );
 			}
 
 			if( isChanged || isHpChanged || isRadiusChanged || isDefenseChanged || isShrinkResistChanged || isRegenChanged ) {
