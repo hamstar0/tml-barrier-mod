@@ -27,13 +27,6 @@ namespace Barriers.Entities.Barrier {
 
 
 			protected BarrierEntityFactory( Player ownerPlr ) : base( ownerPlr ) { }
-
-
-			protected override void InitializeEntity( T ent ) {
-				if( Main.netMode == 2 ) {
-					ent.SyncToAll();
-				}
-			}
 		}
 	}
 }

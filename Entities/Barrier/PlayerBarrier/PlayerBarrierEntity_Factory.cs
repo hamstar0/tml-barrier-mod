@@ -1,5 +1,7 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
+using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Helpers.DebugHelpers;
+using HamstarHelpers.Services.Promises;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -47,11 +49,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 			////
 
-			protected override void InitializeEntity( PlayerBarrierEntity ent ) {
-				if( Main.netMode == 2 ) {
-					ent.SyncToAll();
-				}
-			}
+			protected override void InitializeEntity( PlayerBarrierEntity ent ) { }
 		}
 
 

@@ -16,10 +16,16 @@ namespace Barriers.Entities.Barrier {
 		public PlayerBarrierEntity GetForPlayer( Player player ) {
 			if( !this.PlayerBarriers.ContainsKey(player.whoAmI) ) {
 				this.PlayerBarriers[ player.whoAmI ] = PlayerBarrierEntity.CreateDefaultPlayerBarrierEntity( player );
-
-				CustomEntityManager.AddToWorld( this.PlayerBarriers[ player.whoAmI ] );
 			}
-			return this.PlayerBarriers[ player.whoAmI ];
+
+			var barrier = this.PlayerBarriers[player.whoAmI];
+
+			if( !CustomEntityManager.IsInWorld(barrier) ) {
+LogHelpers.Log( "Adding barrier to world: "+barrier.ToString() );
+				CustomEntityManager.AddToWorld( barrier );
+			}
+
+			return barrier;
 		}
 
 

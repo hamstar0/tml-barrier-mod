@@ -54,11 +54,11 @@ namespace Barriers {
 			if( !this.ConfigJson.LoadFile() ) {
 				this.Config.SetDefaults();
 				this.ConfigJson.SaveFile();
-				ErrorLogger.Log( "Evil Barriers config " + this.Version.ToString() + " created." );
+				ErrorLogger.Log( "Barriers config " + this.Version.ToString() + " created." );
 			}
 
 			if( this.Config.UpdateToLatestVersion() ) {
-				ErrorLogger.Log( "Evil Barriers updated to " + this.Version.ToString() );
+				ErrorLogger.Log( "Barriers updated to " + this.Version.ToString() );
 				this.ConfigJson.SaveFile();
 			}
 		}

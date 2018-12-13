@@ -1,4 +1,5 @@
-﻿using HamstarHelpers.Components.Network;
+﻿using System;
+using HamstarHelpers.Components.Network;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Newtonsoft.Json;
@@ -28,6 +29,10 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		[JsonIgnore]
 		[PacketProtocolIgnore]
 		private float RegenScale;
+
+		////
+
+		public override Tuple<bool, bool> SyncClientServer => Tuple.Create( true, false );
 
 
 		////////////////

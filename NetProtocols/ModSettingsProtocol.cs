@@ -14,7 +14,7 @@ namespace Barriers.NetProtocols {
 
 		////////////////
 
-		protected override void SetServerDefaults( int who ) {
+		protected override void InitializeServerSendData( int who ) {
 			this.ModSettings = BarriersMod.Instance.Config;
 		}
 
