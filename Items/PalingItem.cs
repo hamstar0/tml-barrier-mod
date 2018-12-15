@@ -26,7 +26,7 @@ namespace Barriers.Items {
 
 			this.DisplayName.SetDefault( "Protective Paling" );
 			this.Tooltip.SetDefault( "Projects a protective barrier." );
-				//+ '\n' + "May be placed freely." );
+			//+ '\n' + "May be placed freely." );
 		}
 
 
@@ -62,6 +62,14 @@ namespace Barriers.Items {
 			recipe.AddTile( TileID.SteampunkBoiler );
 			recipe.SetResult( this );
 			recipe.AddRecipe();
+		}
+
+
+		////////////////
+
+		public int GetPower() {
+			var mymod = (BarriersMod)this.mod;
+			return mymod.Config.DefaultShieldPower;    //TODO
 		}
 	}
 }

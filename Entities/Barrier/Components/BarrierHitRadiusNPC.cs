@@ -68,9 +68,9 @@ namespace Barriers.Entities.Barrier.Components {
 				myent.EmitImpactFx( npc.Center, npc.width, npc.height, npcDamage );
 			}
 
-			if( mymod.Config.DebugModeInfo ) {
-				DebugHelpers.Print( "barrier hurts "+npc.TypeName+" ("+npc.whoAmI+")", "dmg:"+damage+", -hp:"+(oldHp-behavComp.Hp)+", -rad:"+radDamage+", npc hit:"+npcDamage, 20 );
-			}
+			//if( mymod.Config.DebugModeInfo ) {
+			//	DebugHelpers.Print( "barrier hurts "+npc.TypeName+" ("+npc.whoAmI+")", "dmg:"+damage+", -hp:"+(oldHp-behavComp.Hp)+", -rad:"+radDamage+", npc hit:"+npcDamage, 20 );
+			//}
 		}
 	}
 }

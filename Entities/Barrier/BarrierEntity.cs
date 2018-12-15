@@ -46,7 +46,7 @@ namespace Barriers.Entities.Barrier {
 						+ ", regen:" + regenRate
 						+ ", hard:" + shrinkResist );
 				} else {
-					LogHelpers.Log( "New template barrier" );
+					LogHelpers.LogOnce( "New template barrier (probably sync) "+this.ToString() );
 				}
 			}
 

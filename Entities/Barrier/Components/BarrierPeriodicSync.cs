@@ -1,6 +1,5 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
-using HamstarHelpers.Components.Errors;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 
@@ -26,13 +25,17 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		protected BarrierPeriodicSyncEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+		
+		protected override bool UpdateMe( CustomEntity ent ) {
+			bool isUpdated = base.UpdateMe( ent );
 
-		////////////////
+			if( isUpdated ) {
+				if( BarriersMod.Instance.Config.DebugModeInfo ) {
+					LogHelpers.Log( "Barriers.BarrierPeriodicSyncEntityComponentFactory.UpdateMe - Sync occurred" );
+				}
+			}
 
-		public override void UpdateClient( CustomEntity ent ) {
-			base.UpdateMe( ent );
+			return isUpdated;
 		}
-
-		public override void UpdateServer( CustomEntity ent ) { }
 	}
 }

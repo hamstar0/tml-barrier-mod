@@ -6,10 +6,13 @@ v2
 
 v1
 -	Implement barrier creation API
+-	F&T
+	-	Add power and tweak stats
+	-	Sync barrier scale stats to other clients
+	-	Prevent players from affecting stats of other (current?) player's barrier
 -	@Test MP
--	Fix server sync erasing client barriers
-	1:000:00025 - 000027.85   !ModHelpers.CustomEntity.SyncToAll (PlayerBarrierEntity) - Entities not yet loaded.
 
+-	Fix server sync erasing client barriers
 -	Fix starting stats
 -	@Fix MH UI failing to shift correctly
 -	Fix kills without drops

@@ -77,7 +77,7 @@ namespace Barriers {
 		}
 
 		public override void PostUpdate() {
-			if( this.player.whoAmI != Main.myPlayer ) { return; }
+			bool isMe = this.player.whoAmI == Main.myPlayer;
 
 			var mymod = (BarriersMod)this.mod;
 			int palingType = mymod.ItemType<PalingItem>();
@@ -87,13 +87,15 @@ namespace Barriers {
 				Item acc = this.player.armor[i];
 				if( acc == null || !acc.active || acc.type != palingType ) { continue; }
 
-				barrierPower = mymod.Config.DefaultShieldPower;	//TODO
+				var myBarrier = (PalingItem)acc.modItem;
+
+				barrierPower = myBarrier.GetPower();
 				break;
 			}
 			
 			mymod.BarrierManager.UpdateBarrierForPlayer( this.player, barrierPower );
 
-			if( mymod.Config.DebugModeInfo ) {
+			if( isMe && mymod.Config.DebugModeInfo ) {
 				DebugHelpers.Print( "Power for " + this.player.name, "" + barrierPower, 20 );
 			}
 		}
