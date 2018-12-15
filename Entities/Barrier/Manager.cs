@@ -67,7 +67,7 @@ namespace Barriers.Entities.Barrier {
 			ent.Core.Center = player.Center;
 
 			if( (Main.netMode == 0 || Main.netMode == 1) && !Main.dedServ ) {
-				ent.AdjustBarrierPower( power );
+				ent.SetBarrierPower( power );
 			}
 		}
 	}

@@ -1,5 +1,4 @@
-﻿using Barriers.Entities.Barrier;
-using Barriers.Entities.Barrier.PlayerBarrier;
+﻿using Barriers.Entities.Barrier.PlayerBarrier;
 using HamstarHelpers.Helpers.DotNetHelpers;
 using HamstarHelpers.Services.Promises;
 using Microsoft.Xna.Framework;
@@ -102,11 +101,11 @@ namespace Barriers.UI {
 			this.SizeScale = ( size1 + size2 ) * 0.5f;
 
 			bool hasChanged = false;
-			myent.AdjustBarrierHpScale( this.SizeScale );
-			myent.AdjustBarrierRadiusScale( this.SizeScale );
-			myent.AdjustBarrierDefenseScale( this.StrengthScale );
-			myent.AdjustBarrierShrinkResistScale( this.HardScale );
-			myent.AdjustBarrierRegenScale( this.RegenScale );
+			myent.SetBarrierHpScale( this.SizeScale );
+			myent.SetBarrierRadiusScale( this.SizeScale );
+			myent.SetBarrierDefenseScale( this.StrengthScale );
+			myent.SetBarrierShrinkResistScale( this.HardScale );
+			myent.SetBarrierRegenScale( this.RegenScale );
 
 			if( hasChanged ) {
 				myent.SyncToAll();

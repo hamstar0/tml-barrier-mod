@@ -14,22 +14,6 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		[PacketProtocolIgnore]
 		internal int UiRadialPosition2 = 0;
 
-		[JsonIgnore]
-		[PacketProtocolIgnore]
-		private int Power;
-		[JsonIgnore]
-		[PacketProtocolIgnore]
-		private float HpScale;
-		[JsonIgnore]
-		[PacketProtocolIgnore]
-		private float RadiusScale;
-		[JsonIgnore]
-		[PacketProtocolIgnore]
-		private float DefenseScale;
-		[JsonIgnore]
-		[PacketProtocolIgnore]
-		private float RegenScale;
-
 		////
 
 		public override Tuple<bool, bool> SyncClientServer => Tuple.Create( true, false );

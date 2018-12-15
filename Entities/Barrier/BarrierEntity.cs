@@ -8,6 +8,12 @@ using System.Collections.Generic;
 
 namespace Barriers.Entities.Barrier {
 	public abstract partial class BarrierEntity : CustomEntity {
+		public const float DefaultRegen = 3f / 60f;
+
+
+
+		////////////////
+
 		protected BarrierEntity( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		////
@@ -27,7 +33,7 @@ namespace Barriers.Entities.Barrier {
 			float hp = 64f;
 			float radius = 64f;
 			int defense = 0;
-			float regenRate = 1f / 60f;
+			float regenRate = BarrierEntity.DefaultRegen;
 			float shrinkResist = 0f;
 
 			if( myfactory != null ) {

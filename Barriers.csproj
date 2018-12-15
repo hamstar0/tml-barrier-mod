@@ -39,10 +39,13 @@
     <Compile Include="Entities\Barrier\BarrierEntity.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Fx.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Factory.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\Components\PlayerBarrierBehavior_Factory.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\Components\PlayerBarrierBehavior.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Interface.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Factory.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Fx.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Compute.cs" />
-    <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Interface.cs" />
+    <Compile Include="Entities\Barrier\PlayerBarrier\Components\PlayerBarrierBehavior_Stats.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierBehavior_Stats.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusNpc.cs" />
     <Compile Include="Entities\Barrier\Manager.cs" />

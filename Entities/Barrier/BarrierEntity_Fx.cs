@@ -1,5 +1,4 @@
-﻿using Barriers.Entities.Barrier.Components;
-using HamstarHelpers.Components.CustomEntity;
+﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
 using System;

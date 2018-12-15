@@ -3,12 +3,6 @@
 
 namespace Barriers.Entities.Barrier.PlayerBarrier {
 	public partial class PlayerBarrierEntity : BarrierEntity {
-		public const float BaseRegen = 3f / 60f;
-
-
-
-		////////////////
-
 		public static float ComputeBarrierMaxHp( int power, float hpScale ) {
 			return PlayerBarrierEntity.ComputeBarrierMaxRadius( power, hpScale );
 		}
@@ -39,8 +33,8 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 
 		public static float ComputeBarrierRegen( int power, float regenScale ) {
-			float regenPerPowerUnit = PlayerBarrierEntity.BaseRegen / 12f;
-			float regen = PlayerBarrierEntity.BaseRegen;
+			float regenPerPowerUnit = PlayerBarrierEntity.DefaultRegen / 12f;
+			float regen = PlayerBarrierEntity.DefaultRegen;
 			regen += regenScale * (float)power * regenPerPowerUnit;
 
 			return regen * BarriersMod.Instance.Config.BarrierRegenMultiplier;
