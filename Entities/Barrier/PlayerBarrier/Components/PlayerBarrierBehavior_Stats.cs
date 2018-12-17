@@ -6,8 +6,8 @@ using Terraria;
 
 namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 	public partial class PlayerBarrierBehaviorEntityComponent : CustomEntityComponent {
-		public bool SetBarrierPower( PlayerBarrierEntity myent, int power ) {
-			bool isChanged = this.Power != power;
+		public bool SetBarrierPower( PlayerBarrierEntity myent, int power, bool skipSync = false ) {
+			int pwrChange = power - this.Power;
 			
 			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
 			
@@ -19,7 +19,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 			bool isRegenChanged = this.SetBarrierRegenScale( myent, this.RegenScale, true );
 			
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
-				string pow = "pow:" + this.Power + ( isChanged ? "*" : "" );
+				string pow = "pow:" + this.Power + ( pwrChange!=0 ? "*" : "" );
 				string hp = "hp%:" + this.HpScale + ( isHpChanged ? "*" : "" );
 				string rad = "rad%:" + this.RadiusScale + ( isRadiusChanged ? "*" : "" );
 				string def = "def%:" + this.DefenseScale + ( isDefenseChanged ? "*" : "" );
@@ -29,13 +29,13 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 				DebugHelpers.Print( "Barrier "+ myent.Core.WhoAmI+" scales", pow+", "+hp+", "+rad+", "+def+", "+res+", "+reg, 20 );
 			}
 
-			if( isChanged || isHpChanged || isRadiusChanged || isDefenseChanged || isShrinkResistChanged || isRegenChanged ) {
-				if( Main.netMode == 1 ) {
+			if( pwrChange != 0 || isHpChanged || isRadiusChanged || isDefenseChanged || isShrinkResistChanged || isRegenChanged ) {
+				if( !skipSync && Main.netMode == 1 ) {
 					myent.SyncToAll();
 				}
+				return true;
 			}
-
-			return isChanged;
+			return false;
 		}
 
 		////

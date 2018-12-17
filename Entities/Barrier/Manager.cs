@@ -1,5 +1,5 @@
-﻿using Barriers.Entities.Barrier.Components;
-using Barriers.Entities.Barrier.PlayerBarrier;
+﻿using Barriers.Entities.Barrier.PlayerBarrier;
+using Barriers.Entities.Barrier.PlayerBarrier.Components;
 using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Errors;
@@ -19,11 +19,8 @@ namespace Barriers.Entities.Barrier {
 
 		public PlayerBarrierEntity GetForPlayer( Player player ) {
 			if( !this.PlayerBarriers.ContainsKey(player.whoAmI) ) {
-				foreach( var ent in CustomEntityManager.GetEntitiesByComponent<BarrierBehaviorEntityComponent>() ) {
-					if( !(ent is PlayerBarrierEntity) && ent.MyOwnerPlayerWho != player.whoAmI ) {
-						continue;
-					}
-
+				foreach( var ent in CustomEntityManager.GetEntitiesByComponent<PlayerBarrierBehaviorEntityComponent>() ) {
+					if( ent.MyOwnerPlayerWho != player.whoAmI ) { continue; }
 					this.PlayerBarriers[ player.whoAmI ] = (PlayerBarrierEntity)ent;
 				}
 
@@ -34,7 +31,7 @@ namespace Barriers.Entities.Barrier {
 				}
 			}
 
-			var barrier = this.PlayerBarriers[player.whoAmI];
+			var barrier = this.PlayerBarriers[ player.whoAmI ];
 
 			if( !CustomEntityManager.IsInWorld(barrier) ) {
 				CustomEntityManager.AddToWorld( barrier );
@@ -51,24 +48,21 @@ namespace Barriers.Entities.Barrier {
 
 		////////////////
 
-		public void UpdateBarrierForPlayer( Player player, int power ) {
+		public void UpdateBarrierForPlayer( Player barrierOwnerPlayer, int power ) {
 			if( !Promises.IsPromiseValidated( SaveableEntityComponent.LoadAllValidator ) ) {
 				return;
 			}
 
-			var ent = this.GetForPlayer( player );
+			var ent = this.GetForPlayer( barrierOwnerPlayer );
 			if( ent == null ) {
 				if( Main.netMode != 2 ) {
-					throw new HamstarException( "Missing player "+player.name+"'s barrier entity." );
+					throw new HamstarException( "Missing player "+barrierOwnerPlayer.name+"'s barrier entity." );
 				}
 				return;
 			}
 
-			ent.Core.Center = player.Center;
-
-			if( (Main.netMode == 0 || Main.netMode == 1) && !Main.dedServ ) {
-				ent.SetBarrierPower( power );
-			}
+			ent.Core.Center = barrierOwnerPlayer.Center;
+			ent.SetBarrierPower( power, Main.dedServ || (barrierOwnerPlayer.whoAmI != Main.myPlayer) );
 		}
 	}
 }

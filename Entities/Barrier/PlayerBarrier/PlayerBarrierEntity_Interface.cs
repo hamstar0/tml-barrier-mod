@@ -4,9 +4,9 @@ using HamstarHelpers.Helpers.DebugHelpers;
 
 namespace Barriers.Entities.Barrier.PlayerBarrier {
 	public partial class PlayerBarrierEntity : BarrierEntity {
-		public bool SetBarrierPower( int power ) {
+		public bool SetBarrierPower( int power, bool skipSync = false ) {
 			var plrBehavComp = this.GetComponentByType<PlayerBarrierBehaviorEntityComponent>();
-			return plrBehavComp.SetBarrierPower( this, power );
+			return plrBehavComp.SetBarrierPower( this, power, skipSync );
 		}
 
 		////

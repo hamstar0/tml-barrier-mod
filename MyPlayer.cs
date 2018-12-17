@@ -1,10 +1,8 @@
 ﻿using Barriers.Items;
 using Barriers.NetProtocols;
-using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network;
 using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Helpers.PlayerHelpers;
-using HamstarHelpers.Services.Promises;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -40,9 +38,9 @@ namespace Barriers {
 		////////////////
 
 		private void OnConnectHost() {
-			Promises.AddValidatedPromise( SaveableEntityComponent.LoadAllValidator, () => {
+			/*Promises.AddValidatedPromise( SaveableEntityComponent.LoadAllValidator, () => {
 				return false;
-			} );
+			} );*/
 		}
 
 		////////////////
