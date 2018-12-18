@@ -16,7 +16,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 		////
 
-		public override Tuple<bool, bool> SyncClientServer => Tuple.Create( true, false );
+		public override Tuple<bool, bool> SyncFromClientServer => Tuple.Create( true, false );
 
 
 		////////////////

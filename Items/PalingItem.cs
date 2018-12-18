@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using Barriers.Entities.Barrier.Components;
 using HamstarHelpers.Items;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,8 +28,9 @@ namespace Barriers.Items {
 			var mymod = (BarriersMod)this.mod;
 
 			this.DisplayName.SetDefault( "Protective Paling" );
-			this.Tooltip.SetDefault( "Projects a protective barrier." );
-			//+ '\n' + "May be placed freely." );
+			this.Tooltip.SetDefault( "Projects a protective barrier."
+				+ '\n' + "Select on hotbar to adjust barrier stats." );
+				//+ '\n' + "May be placed freely." );
 		}
 
 
@@ -67,9 +71,36 @@ namespace Barriers.Items {
 
 		////////////////
 
+		public override void ModifyTooltips( List<TooltipLine> tooltips ) {
+			var mymod = (BarriersMod)this.mod;
+			var barrer = mymod.BarrierManager.GetForPlayer( Main.LocalPlayer );
+			var behavComp = barrer.GetComponentByType<BarrierBehaviorEntityComponent>();
+
+			var hpStat = new TooltipLine( this.mod, "stat_hp", "  Hp: " + (int)behavComp.Hp + "/" + behavComp.MaxHp );
+			var radStat = new TooltipLine( this.mod, "stat_rad", "  Radius: " + (int)behavComp.Radius + "/" + behavComp.MaxRadius );
+			var defStat = new TooltipLine( this.mod, "stat_def", "  Defense: " + behavComp.Defense );
+			var regStat = new TooltipLine( this.mod, "stat_reg", "  Regen.: " + (behavComp.RegenRate*60f).ToString("N2")+" per second" );
+			var hardStat = new TooltipLine( this.mod, "stat_hard", "  Hardness: " + (behavComp.ShrinkResistScale*100f).ToString("N0")+"%" );
+
+			hpStat.overrideColor = Color.Gray;
+			radStat.overrideColor = Color.Gray;
+			defStat.overrideColor = Color.Gray;
+			regStat.overrideColor = Color.Gray;
+			hardStat.overrideColor = Color.Gray;
+
+			tooltips.Add( hpStat );
+			tooltips.Add( radStat );
+			tooltips.Add( defStat );
+			tooltips.Add( regStat );
+			tooltips.Add( hardStat );
+		}
+
+
+		////////////////
+
 		public int GetPower() {
 			var mymod = (BarriersMod)this.mod;
-			return mymod.Config.DefaultShieldPower;    //TODO
+			return mymod.Config.PlayerBarrierDefaultShieldPower;    //TODO
 		}
 	}
 }

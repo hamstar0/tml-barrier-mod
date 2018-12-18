@@ -13,12 +13,14 @@ namespace Barriers {
 		public string VersionSinceUpdate = "";
 
 		public bool DebugModeInfo = false;
-
-		public int DefaultShieldPower = 128;
-
-		public float HardnessDamageDeflectionMaximumAmount = 10f;
-		public float HardnessDamageReflectionMultiplierAmount = 2f;
+		
+		public int BarrierDefenseBaseAmount = 8;
+		public float BarrierHardnessDamageDeflectionMaximumAmount = 10f;
+		public float BarrierHardnessDamageReflectionMultiplierAmount = 2f;
+		public float BarrierRegenBaseAmount = 6f / 60f;
 		public float BarrierRegenMultiplier = 1f;
+
+		public int PlayerBarrierDefaultShieldPower = 128;
 
 
 

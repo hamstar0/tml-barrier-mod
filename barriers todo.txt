@@ -1,17 +1,18 @@
 v2
 -	Implement paling tile
 -	Define barrier item upgrades
+-	Implement barrier creation API
 
 
 
 v1
--	Implement barrier creation API
+-	Release beta
+
 -	F&T
 	-	Add power and tweak stats
 	-	Sync barrier scale stats to other clients
 	-	Prevent players from affecting stats of other (current?) player's barrier
 -	@Test MP
-
 -	Fix server sync erasing client barriers
 -	Fix starting stats
 -	@Fix MH UI failing to shift correctly

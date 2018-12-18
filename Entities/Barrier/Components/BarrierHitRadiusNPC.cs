@@ -40,7 +40,10 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		public override bool PreHurt( CustomEntity ent, NPC npc, ref int damage ) {
-			return !npc.friendly;
+			var myent = (BarrierEntity)ent;
+			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
+
+			return !npc.friendly && behavComp.Hp > 0;
 		}
 
 		public override void PostHurt( CustomEntity ent, NPC npc, int damage ) {
@@ -52,13 +55,13 @@ namespace Barriers.Entities.Barrier.Components {
 			int defDamage = Math.Max( 0, damage - behavComp.Defense );
 			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );
 
-			if( defDamage > ( mymod.Config.HardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale ) ) {
+			if( defDamage > ( mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale ) ) {
 				behavComp.Hp = behavComp.Hp > defDamage ? behavComp.Hp - defDamage : 0;
 				behavComp.Radius = behavComp.Radius > radDamage ? behavComp.Radius - radDamage : 0;
 			}
 
 			float npcDamage = damage;
-			npcDamage += damage * behavComp.ShrinkResistScale * mymod.Config.HardnessDamageReflectionMultiplierAmount;
+			npcDamage += damage * behavComp.ShrinkResistScale * mymod.Config.BarrierHardnessDamageReflectionMultiplierAmount;
 			
 			if( npcDamage > 0 ) {
 				NPCHelpers.Hurt( npc, (int)npcDamage );

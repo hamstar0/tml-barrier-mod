@@ -60,9 +60,10 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		}
 
 		internal static PlayerBarrierEntity CreateDefaultPlayerBarrierEntity( Player ownerPlr ) {
-			int defaultPow = BarriersMod.Instance.Config.DefaultShieldPower;
+			var mymod = BarriersMod.Instance;
+			int defaultPow = BarriersMod.Instance.Config.PlayerBarrierDefaultShieldPower;
 
-			return PlayerBarrierEntity.CreatePlayerBarrierEntity( ownerPlr, defaultPow, 1f, 1f, 0f, 0f, PlayerBarrierEntity.DefaultRegen, Main.LocalPlayer.Center );
+			return PlayerBarrierEntity.CreatePlayerBarrierEntity( ownerPlr, defaultPow, 1f, 1f, 0f, 0f, mymod.Config.BarrierDefenseBaseAmount, Main.LocalPlayer.Center );
 		}
 
 
@@ -70,14 +71,15 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		////////////////
 		
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
+			var mymod = BarriersMod.Instance;
 			var myfactory = factory as PlayerBarrierEntityFactory;
 			IList<CustomEntityComponent> comps = base.CreateComponents<T>( factory );
 
 			if( myfactory != null ) {
 				comps.Insert( 0, PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent( myfactory.Power, myfactory.HpScale, myfactory.RadiusScale, myfactory.DefenseScale, myfactory.RegenScale ) );
 			} else {
-				int defaultPow = BarriersMod.Instance.Config.DefaultShieldPower;
-				comps.Insert( 0, PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent( defaultPow, 1f, 1f, 0f, PlayerBarrierEntity.DefaultRegen ) );
+				int defaultPow = BarriersMod.Instance.Config.PlayerBarrierDefaultShieldPower;
+				comps.Insert( 0, PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent( defaultPow, 1f, 1f, 0f, mymod.Config.BarrierDefenseBaseAmount ) );
 			}
 
 			return comps;

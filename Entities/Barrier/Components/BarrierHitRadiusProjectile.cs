@@ -40,7 +40,10 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		public override bool PreHurt( CustomEntity ent, Projectile projectile, ref int damage ) {
-			return projectile.hostile || !projectile.friendly;
+			var myent = (BarrierEntity)ent;
+			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
+
+			return (projectile.hostile || !projectile.friendly) && behavComp.Hp > 0;
 		}
 
 		public override void PostHurt( CustomEntity ent, Projectile projectile, int damage ) {
@@ -51,7 +54,7 @@ namespace Barriers.Entities.Barrier.Components {
 			int defDamage = Math.Max( 0, damage - behavComp.Defense );
 			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );
 
-			if( defDamage > (mymod.Config.HardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale) ) {
+			if( defDamage > (mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale) ) {
 				behavComp.Hp -= defDamage;
 				if( behavComp.Hp < 0 ) { behavComp.Hp = 0; }
 
