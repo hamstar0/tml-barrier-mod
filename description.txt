@@ -1,1 +1,5 @@
-Implements protective barriers, craftable by way of a 'Protecctive Paling' item. Palings may be equipped as accessories, or placed as a tile to protect an area. Palings may be crafted and upgraded with Magi-Tech items (dropped from mech bosses, martian invasions, or crafted from end-game ingredients). Upgrades include size, strength, and hardness.
+NOTE: Work-in-progress.
+
+Implements protective barriers, craftable by way of a 'Protective Paling' item (accessory). Craftable from Magi-Tech Scrap, dropped by mech bosses (WIP). Barriers may have their size/hp, regeneration rate, defense, or hardness (shrink resist) adjusted freely.
+
+Upgrades, placeable palings (as tiles), and an API will be added eventually.

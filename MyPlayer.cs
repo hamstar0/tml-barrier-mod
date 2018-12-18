@@ -1,7 +1,9 @@
 ﻿using Barriers.Items;
 using Barriers.NetProtocols;
+using HamstarHelpers.Components.Config;
 using HamstarHelpers.Components.Network;
 using HamstarHelpers.Helpers.DebugHelpers;
+using HamstarHelpers.Helpers.DotNetHelpers;
 using HamstarHelpers.Helpers.PlayerHelpers;
 using Terraria;
 using Terraria.ModLoader;
@@ -37,6 +39,15 @@ namespace Barriers {
 
 		////////////////
 
+		private void OnConnectAny() {	// TODO: Add Mod Helpers API for config options
+			var helperMod = ModLoader.GetMod( "HamstarHelpers" );
+			ConfigurationDataBase config;
+
+			if( ReflectionHelpers.GetProperty<ConfigurationDataBase>( helperMod, "Config", out config ) ) {
+				ReflectionHelpers.SetField( config, "MagiTechScrapMechBossDropsEnabled", true );
+			}
+		}
+
 		private void OnConnectHost() {
 			/*Promises.AddValidatedPromise( SaveableEntityComponent.LoadAllValidator, () => {
 				return false;
@@ -47,14 +58,17 @@ namespace Barriers {
 
 		private void OnConnectSingle() {
 			this.OnConnectHost();
+			this.OnConnectAny();
 		}
 
 		private void OnConnectClient() {
 			PacketProtocolRequestToServer.QuickRequest<ModSettingsProtocol>();
+			this.OnConnectAny();
 		}
 
 		private void OnConnectServer() {
 			this.OnConnectHost();
+			this.OnConnectAny();
 		}
 
 

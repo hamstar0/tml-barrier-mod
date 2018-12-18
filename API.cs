@@ -1,5 +1,4 @@
-﻿using Barriers.Entities.Barrier;
-using Terraria;
+﻿using Terraria;
 
 
 namespace Barriers {
