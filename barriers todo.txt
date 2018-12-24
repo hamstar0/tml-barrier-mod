@@ -1,13 +1,12 @@
-v2
+v3
 -	Implement paling tile
 -	Define barrier item upgrades
+v2
 -	Implement barrier creation API
-
-
+-	Define NPC barrier
 
 v1
 -	Release beta
-
 -	F&T
 	-	Add power and tweak stats
 	-	Sync barrier scale stats to other clients

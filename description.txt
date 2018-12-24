@@ -1,5 +1,5 @@
 NOTE: Work-in-progress.
 
-Implements protective barriers, craftable by way of a 'Protective Paling' item (accessory). Craftable from Magi-Tech Scrap, dropped by mech bosses (WIP). Barriers may have their size/hp, regeneration rate, defense, or hardness (shrink resist) adjusted freely.
+Implements protective barriers, craftable by way of a Protective Paling item (accessory). Barriers will stop incoming projectiles and enemy NPCs, as long as they have a charge (scales with size). Charge is reduced by damage. Craftable from Magi-Tech Scrap, which is dropped by mech bosses. Barriers may have their size/hp, regeneration rate, defense, or hardness (shrink resist) adjusted freely.
 
 Upgrades, placeable palings (as tiles), and an API will be added eventually.

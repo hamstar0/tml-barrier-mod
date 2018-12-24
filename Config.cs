@@ -22,6 +22,8 @@ namespace Barriers {
 
 		public int PlayerBarrierDefaultShieldPower = 128;
 
+		public int NpcBarrierHpBaseAmount = 128;
+
 
 
 		////////////////

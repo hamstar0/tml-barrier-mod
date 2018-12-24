@@ -11,6 +11,7 @@ namespace Barriers.Items {
 	[AutoloadEquip( EquipType.Back )]
 	public class PalingItem : ModItem {
 		public bool IsUsingUI { get; private set; }
+
 		public override bool CloneNewInstances => true;
 
 

@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using Barriers.Entities.Barrier.PlayerBarrier;
+using Microsoft.Xna.Framework;
+using Terraria;
 
 
 namespace Barriers {
@@ -13,8 +15,8 @@ namespace Barriers {
 
 		////////////////
 
-		//public static void CreateFriendlyBarrier( Player player, int maxRadius, int maxHp, float regenRatePerSecond, int defense, float shrinkResistScale ) {
-		//	BarrierEntity.CreateBarrierEntity()
-		//}
+		public static void CreateFriendlyBarrier( Player player, Vector2 position, int power, float hpScale, float radiusScale, float defenseScale, float shrinkResistScale, float regenScale ) {
+			PlayerBarrierEntity.CreatePlayerBarrierEntity( player, power, hpScale, radiusScale, defenseScale, shrinkResistScale, regenScale, position );
+		}
 	}
 }

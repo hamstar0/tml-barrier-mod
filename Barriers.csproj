@@ -39,6 +39,10 @@
     <Compile Include="Entities\Barrier\BarrierEntity.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Fx.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Factory.cs" />
+    <Compile Include="Entities\Barrier\NpcBarrier\Components\NpcBarrierBehavior.cs" />
+    <Compile Include="Entities\Barrier\NpcBarrier\Components\NpcBarrierBehavior_Factory.cs" />
+    <Compile Include="Entities\Barrier\NpcBarrier\NpcBarrierEntity.cs" />
+    <Compile Include="Entities\Barrier\NpcBarrier\NpcBarrierEntity_Factory.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\Components\PlayerBarrierBehavior_Factory.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\Components\PlayerBarrierBehavior.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Interface.cs" />
