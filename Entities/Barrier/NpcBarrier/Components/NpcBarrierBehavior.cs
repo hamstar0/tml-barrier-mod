@@ -9,7 +9,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier.Components {
 		public float Radius;
 		public int Defense;
 		public float ShrinkResistScale;
-		public float RegenScale;
+		public float RegenRate;
 
 
 

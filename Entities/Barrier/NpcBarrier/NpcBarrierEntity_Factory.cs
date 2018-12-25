@@ -1,4 +1,5 @@
-﻿using Barriers.Entities.Barrier.NpcBarrier.Components;
+﻿using Barriers.Entities.Barrier.Components;
+using Barriers.Entities.Barrier.NpcBarrier.Components;
 using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
@@ -9,22 +10,31 @@ using Terraria;
 namespace Barriers.Entities.Barrier.NpcBarrier {
 	public partial class NpcBarrierEntity : BarrierEntity {
 		private class NpcBarrierEntityFactory : BarrierEntityFactory<NpcBarrierEntity> {
-			public Vector2 Center;
+			public override float HpGet => this.Hp;
+			public override float RadiusGet => this.Radius;
+			public override int DefenseGet => this.Defense;
+			public override float ShrinkResistScaleGet => this.ShrinkResistScale;
+			public override float RegenRateGet => this.RegenRate;
+			public override Vector2 CenterGetSet { get; protected set; }
 
 			////
-			
-			public override float HpGet { get; }
-			public override float RadiusGet { get; }
-			public override int DefenseGet { get; }
-			public override float ShrinkResistScaleGet { get; }
-			public override float RegenRateGet { get; }
-			public override Vector2 CenterGetSet { get; protected set; }
-			
+
+			private float Hp;
+			private float Radius;
+			private int Defense;
+			private float ShrinkResistScale;
+			private float RegenRate;
+
 
 			////////////////
 
-			public NpcBarrierEntityFactory( NPC npc, float hp, float radius, int defense, float shrinkResistScale, float regenScale ) : base( null ) {
-				this.Center = npc.Center;
+			public NpcBarrierEntityFactory( NPC npc, float hp, float radius, int defense, float shrinkResistScale, float regenRate ) : base( null ) {
+				this.Hp = hp;
+				this.Radius = radius;
+				this.Defense = defense;
+				this.ShrinkResistScale = shrinkResistScale;
+				this.RegenRate = regenRate;
+				this.CenterGetSet = npc.Center;
 			}
 		}
 
@@ -78,6 +88,9 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 					mymod.Config.BarrierRegenBaseAmount
 				) );
 			}
+
+			comps.Add( BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent(1, 1) );
+			comps.Add( BarrierHitRadiusPlayerEntityComponent.CreateBarrierHitRadiusPlayerEntityComponent() );
 
 			return comps;
 		}

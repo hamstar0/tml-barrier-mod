@@ -9,24 +9,39 @@ using Terraria;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	class BarrierHitRadiusNpcEntityComponent : HitRadiusNPCEntityComponent {
+	class BarrierHitRadiusNpcEntityComponent : HitRadiusNpcEntityComponent {
 		private class BarrierHitRadiusNpcEntityComponentFactory : CustomEntityComponentFactory<BarrierHitRadiusNpcEntityComponent> {
-			protected override void InitializeComponent( BarrierHitRadiusNpcEntityComponent data ) { }
+			public bool HitsFriendly;
+
+
+			public BarrierHitRadiusNpcEntityComponentFactory( bool hitsFriendly ) {
+				this.HitsFriendly = hitsFriendly;
+			}
+			
+			protected override void InitializeComponent( BarrierHitRadiusNpcEntityComponent data ) {
+				data.HitsFriendly = this.HitsFriendly;
+			}
 		}
 
 
 
 		////////////////
 
-		public static BarrierHitRadiusNpcEntityComponent CreateBarrierHitRadiusNpcEntityComponent() {
-			var factory = new BarrierHitRadiusNpcEntityComponentFactory();
+		public static BarrierHitRadiusNpcEntityComponent CreateBarrierHitRadiusNpcEntityComponent( bool hitsFriendly ) {
+			var factory = new BarrierHitRadiusNpcEntityComponentFactory( hitsFriendly );
 			return factory.Create();
 		}
 
 
 
 		////////////////
-		
+
+		public bool HitsFriendly;
+
+
+
+		////////////////
+
 		protected BarrierHitRadiusNpcEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		
@@ -43,7 +58,7 @@ namespace Barriers.Entities.Barrier.Components {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
 
-			return !npc.friendly && behavComp.Hp > 0;
+			return this.HitsFriendly == npc.friendly && behavComp.Hp > 0;
 		}
 
 		public override void PostHurt( CustomEntity ent, NPC npc, int damage ) {
@@ -66,7 +81,7 @@ namespace Barriers.Entities.Barrier.Components {
 			if( npcDamage > 0 ) {
 				NPCHelpers.Hurt( npc, (int)npcDamage );
 
-				npc.velocity += Vector2.Normalize( npc.position - ent.Core.position );
+				npc.velocity += Vector2.Normalize( npc.position - ent.Core.position ) * (npcDamage / 20);
 
 				myent.EmitImpactFx( npc.Center, npc.width, npc.height, npcDamage );
 			}

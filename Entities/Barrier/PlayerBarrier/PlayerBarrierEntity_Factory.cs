@@ -1,4 +1,5 @@
-﻿using Barriers.Entities.Barrier.PlayerBarrier.Components;
+﻿using Barriers.Entities.Barrier.Components;
+using Barriers.Entities.Barrier.PlayerBarrier.Components;
 using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
@@ -63,8 +64,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 			return PlayerBarrierEntity.CreatePlayerBarrierEntity( ownerPlr, defaultPow, 1f, 1f, 0f, 0f, defaultRegen, Main.LocalPlayer.Center );
 		}
 
-
-
+		
 		////////////////
 		
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
@@ -78,14 +78,17 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 					myfactory.HpScale,
 					myfactory.RadiusScale,
 					myfactory.DefenseScale,
-					myfactory.RegenScale )
-				);
+					myfactory.RegenScale
+				) );
 			} else {
 				int defaultPow = mymod.Config.PlayerBarrierDefaultShieldPower;
 				float defaultRegen = mymod.Config.BarrierRegenBaseAmount;
 
 				comps.Insert( 0, PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent( defaultPow, 1f, 1f, 0f, defaultRegen ) );
 			}
+
+			comps.Add( BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent( -1, 1 ) );
+			comps.Add( BarrierHitRadiusNpcEntityComponent.CreateBarrierHitRadiusNpcEntityComponent( false ) );
 
 			return comps;
 		}

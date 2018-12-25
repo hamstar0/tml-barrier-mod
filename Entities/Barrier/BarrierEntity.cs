@@ -54,9 +54,7 @@ namespace Barriers.Entities.Barrier {
 				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( hp, radius, regenRate, defense, shrinkResist ),
 				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent(),
 				BarrierDrawOnMapEntityComponent.CreateBarrierDrawOnMapEntityComponent(),
-				BarrierPeriodicSyncEntityComponent.CreateBarrierPeriodicSyncEntityComponent(),
-				BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent(),
-				BarrierHitRadiusNpcEntityComponent.CreateBarrierHitRadiusNpcEntityComponent()
+				BarrierPeriodicSyncEntityComponent.CreateBarrierPeriodicSyncEntityComponent()
 			};
 
 			return comps;

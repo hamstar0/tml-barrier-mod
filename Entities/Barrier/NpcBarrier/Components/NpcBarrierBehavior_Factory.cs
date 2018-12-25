@@ -9,15 +9,15 @@ namespace Barriers.Entities.Barrier.NpcBarrier.Components {
 			public float Radius;
 			public int Defense;
 			public float ShrinkResistScale;
-			public float RegenScale;
+			public float RegenRate;
 
 			
-			public NpcBarrierBehaviorEntityComponentFactory( float hp, float radius, int defense, float shrinkResistScale, float regenScale ) {
+			public NpcBarrierBehaviorEntityComponentFactory( float hp, float radius, int defense, float shrinkResistScale, float regenRate ) {
 				this.Hp = hp;
 				this.Radius = radius;
 				this.Defense = defense;
 				this.ShrinkResistScale = shrinkResistScale;
-				this.RegenScale = regenScale;
+				this.RegenRate = regenRate;
 			}
 
 			protected override void InitializeComponent( T data ) {
@@ -25,7 +25,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier.Components {
 				data.Radius = this.Radius;
 				data.Defense = this.Defense;
 				data.ShrinkResistScale = this.ShrinkResistScale;
-				data.RegenScale = this.RegenScale;
+				data.RegenRate = this.RegenRate;
 			}
 		}
 
@@ -33,15 +33,15 @@ namespace Barriers.Entities.Barrier.NpcBarrier.Components {
 
 		////////////////
 
-		public static NpcBarrierBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, int defense, float shrinkResistScale, float regenScale ) {
-			var factory = new NpcBarrierBehaviorEntityComponentFactory<NpcBarrierBehaviorEntityComponent>( hp, radius, defense, shrinkResistScale, regenScale );
+		public static NpcBarrierBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, int defense, float shrinkResistScale, float regenRate ) {
+			var factory = new NpcBarrierBehaviorEntityComponentFactory<NpcBarrierBehaviorEntityComponent>( hp, radius, defense, shrinkResistScale, regenRate );
 			NpcBarrierBehaviorEntityComponent comp = factory.Create();
 
 			comp.Hp = factory.Hp;
 			comp.Radius = factory.Defense;
 			comp.Defense = factory.Defense;
 			comp.ShrinkResistScale = factory.ShrinkResistScale;
-			comp.RegenScale = factory.RegenScale;
+			comp.RegenRate = factory.RegenRate;
 
 			return comp;
 		}
