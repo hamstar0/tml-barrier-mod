@@ -35,7 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="API.cs" />
-    <Compile Include="API_Call.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Fx.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Factory.cs" />

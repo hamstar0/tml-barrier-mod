@@ -16,16 +16,15 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 			public float DefenseScale;
 			public float ShrinkResist;
 			public float RegenScale;
-			public Vector2 Center;
 
 			////
 
-			public override float HpGet => PlayerBarrierEntity.ComputeBarrierMaxHp( this.Power, this.HpScale );
-			public override float RadiusGet => PlayerBarrierEntity.ComputeBarrierMaxRadius( this.Power, this.RadiusScale );
-			public override int DefenseGet => PlayerBarrierEntity.ComputeBarrierDefense( this.Power, this.DefenseScale );
-			public override float ShrinkResistScaleGet => PlayerBarrierEntity.ComputeBarrierShrinkResist( this.Power, this.ShrinkResist );
-			public override float RegenRateGet => PlayerBarrierEntity.ComputeBarrierRegen( this.Power, this.RegenScale );
-			public override Vector2 CenterGetSet { get; protected set; }
+			public override float Hp => PlayerBarrierEntity.ComputeBarrierMaxHp( this.Power, this.HpScale );
+			public override float Radius => PlayerBarrierEntity.ComputeBarrierMaxRadius( this.Power, this.RadiusScale );
+			public override int Defense => PlayerBarrierEntity.ComputeBarrierDefense( this.Power, this.DefenseScale );
+			public override float ShrinkResistScale => PlayerBarrierEntity.ComputeBarrierShrinkResist( this.Power, this.ShrinkResist );
+			public override float RegenRate => PlayerBarrierEntity.ComputeBarrierRegen( this.Power, this.RegenScale );
+			public override Vector2 Center { get; }
 
 			////////////////
 

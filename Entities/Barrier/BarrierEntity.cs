@@ -16,9 +16,9 @@ namespace Barriers.Entities.Barrier {
 			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
 			var myfactory = factory as IBarrierEntityFactory;
 
-			float rad = myfactory?.RadiusGet * 2f ?? 64f;
+			float rad = myfactory?.Radius * 2f ?? 64f;
 
-			return new CustomEntityCore( "Barrier", (int)rad, (int)rad, ( myfactory?.CenterGetSet ?? default( Vector2 ) ), 1 );
+			return new CustomEntityCore( "Barrier", (int)rad, (int)rad, ( myfactory?.Center ?? default( Vector2 ) ), 1 );
 		}
 
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
@@ -31,11 +31,11 @@ namespace Barriers.Entities.Barrier {
 			float shrinkResist = 0f;
 
 			if( myfactory != null ) {
-				hp = myfactory.HpGet;
-				radius = myfactory.RadiusGet;
-				defense = myfactory.DefenseGet;
-				regenRate = myfactory.RegenRateGet;
-				shrinkResist = myfactory.ShrinkResistScaleGet;
+				hp = myfactory.Hp;
+				radius = myfactory.Radius;
+				defense = myfactory.Defense;
+				regenRate = myfactory.RegenRate;
+				shrinkResist = myfactory.ShrinkResistScale;
 			}
 
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {

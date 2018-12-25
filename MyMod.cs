@@ -2,6 +2,8 @@ using Barriers.Entities.Barrier;
 using Barriers.Items;
 using Barriers.UI;
 using HamstarHelpers.Components.Config;
+using HamstarHelpers.Components.Errors;
+using HamstarHelpers.Helpers.DotNetHelpers;
 using HamstarHelpers.Services.Promises;
 using System;
 using System.Collections.Generic;
@@ -76,15 +78,22 @@ namespace Barriers {
 		////////////////
 
 		public override object Call( params object[] args ) {
-			if( args.Length == 0 ) { throw new Exception( "Undefined call type." ); }
+			if( args == null || args.Length == 0 ) { throw new HamstarException( "Undefined call type." ); }
 
 			string callType = args[0] as string;
-			if( args == null ) { throw new Exception( "Invalid call type." ); }
+			if( callType == null ) { throw new HamstarException( "Invalid call type." ); }
+
+			var methodInfo = typeof(BarriersAPI).GetMethod( callType );
+			if( methodInfo == null ) { throw new HamstarException( "Invalid call type " + callType ); }
 
 			var newArgs = new object[args.Length - 1];
 			Array.Copy( args, 1, newArgs, 0, args.Length - 1 );
 
-			return BarriersAPI.Call( callType, newArgs );
+			try {
+				return ReflectionHelpers.SafeCall( methodInfo, null, newArgs );
+			} catch( Exception e ) {
+				throw new HamstarException( "Barriers.BarrierMod.Call - Bad API call.", e );
+			}
 		}
 
 

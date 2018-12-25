@@ -10,31 +10,25 @@ using Terraria;
 namespace Barriers.Entities.Barrier.NpcBarrier {
 	public partial class NpcBarrierEntity : BarrierEntity {
 		private class NpcBarrierEntityFactory : BarrierEntityFactory<NpcBarrierEntity> {
-			public override float HpGet => this.Hp;
-			public override float RadiusGet => this.Radius;
-			public override int DefenseGet => this.Defense;
-			public override float ShrinkResistScaleGet => this.ShrinkResistScale;
-			public override float RegenRateGet => this.RegenRate;
-			public override Vector2 CenterGetSet { get; protected set; }
-
-			////
-
-			private float Hp;
-			private float Radius;
-			private int Defense;
-			private float ShrinkResistScale;
-			private float RegenRate;
+			public NPC Npc { get; }
+			public override float Hp { get; }
+			public override float Radius { get; }
+			public override int Defense { get; }
+			public override float ShrinkResistScale { get; }
+			public override float RegenRate { get; }
+			public override Vector2 Center { get; }
 
 
 			////////////////
 
-			public NpcBarrierEntityFactory( NPC npc, float hp, float radius, int defense, float shrinkResistScale, float regenRate ) : base( null ) {
+			public NpcBarrierEntityFactory( NPC npc, Vector2 center, float hp, float radius, int defense, float shrinkResistScale, float regenRate ) : base( null ) {
+				this.Npc = npc;
+				this.Center = center;
 				this.Hp = hp;
 				this.Radius = radius;
 				this.Defense = defense;
 				this.ShrinkResistScale = shrinkResistScale;
 				this.RegenRate = regenRate;
-				this.CenterGetSet = npc.Center;
 			}
 		}
 
@@ -42,24 +36,23 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 
 		////////////////
 
-		public static NpcBarrierEntity CreateNpcBarrierEntity( NPC npc,
-				float hp, float radius, int defense, float shrinkResistScale, float regenScale ) {
+		public static NpcBarrierEntity CreateNpcBarrierEntity( NPC npc, Vector2 center, float hp, float radius, int defense, float shrinkResistScale, float regenScale ) {
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
-				LogHelpers.Log( "Creating new barrier at " + npc.Center );
+				LogHelpers.Log( "Creating new barrier at " + center );
 			}
 
-			var factory = new NpcBarrierEntityFactory( npc, hp, radius, defense, shrinkResistScale, regenScale );
+			var factory = new NpcBarrierEntityFactory( npc, center, hp, radius, defense, shrinkResistScale, regenScale );
 			NpcBarrierEntity myent = factory.Create();
 
 			return myent;
 		}
 
-		internal static NpcBarrierEntity CreateDefaultNpcBarrierEntity( NPC npc ) {
+		internal static NpcBarrierEntity CreateDefaultNpcBarrierEntity( NPC npc, Vector2 center ) {
 			var mymod = BarriersMod.Instance;
 			int defaultHp = mymod.Config.NpcBarrierHpBaseAmount;
 			float defaultRegen = mymod.Config.BarrierRegenBaseAmount;
 
-			return NpcBarrierEntity.CreateNpcBarrierEntity( npc, defaultHp, defaultHp, 0, 0f, defaultRegen );
+			return NpcBarrierEntity.CreateNpcBarrierEntity( npc, center, defaultHp, defaultHp, 0, 0f, defaultRegen );
 		}
 
 
@@ -73,14 +66,16 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 
 			if( myfactory != null ) {
 				comps.Insert( 0, NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
-					myfactory.HpGet,
-					myfactory.RadiusGet,
-					myfactory.DefenseGet,
-					myfactory.ShrinkResistScaleGet,
-					myfactory.RegenRateGet )
+					myfactory.Npc,
+					myfactory.Hp,
+					myfactory.Radius,
+					myfactory.Defense,
+					myfactory.ShrinkResistScale,
+					myfactory.RegenRate )
 				);
 			} else {
-				comps.Insert( 0, NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent( 
+				comps.Insert( 0, NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
+					null,
 					mymod.Config.NpcBarrierHpBaseAmount,
 					mymod.Config.NpcBarrierHpBaseAmount,
 					mymod.Config.BarrierDefenseBaseAmount,

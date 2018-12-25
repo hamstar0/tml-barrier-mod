@@ -1,5 +1,6 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Helpers.DebugHelpers;
+using Terraria;
 
 
 namespace Barriers.Entities.Barrier.NpcBarrier.Components {
@@ -33,7 +34,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier.Components {
 
 		////////////////
 
-		public static NpcBarrierBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, int defense, float shrinkResistScale, float regenRate ) {
+		public static NpcBarrierBehaviorEntityComponent CreateBarrierEntityComponent( NPC npc, float hp, float radius, int defense, float shrinkResistScale, float regenRate ) {
 			var factory = new NpcBarrierBehaviorEntityComponentFactory<NpcBarrierBehaviorEntityComponent>( hp, radius, defense, shrinkResistScale, regenRate );
 			NpcBarrierBehaviorEntityComponent comp = factory.Create();
 
