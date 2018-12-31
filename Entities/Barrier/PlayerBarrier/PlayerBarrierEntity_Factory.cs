@@ -1,21 +1,28 @@
-﻿using Barriers.Entities.Barrier.Components;
-using Barriers.Entities.Barrier.PlayerBarrier.Components;
-using HamstarHelpers.Components.CustomEntity;
-using HamstarHelpers.Helpers.DebugHelpers;
+﻿using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 
 
 namespace Barriers.Entities.Barrier.PlayerBarrier {
 	public partial class PlayerBarrierEntity : BarrierEntity {
-		private class PlayerBarrierEntityFactory : BarrierEntityFactory<PlayerBarrierEntity> {
-			public int Power;
-			public float HpScale;
-			public float RadiusScale;
-			public float DefenseScale;
-			public float ShrinkResist;
-			public float RegenScale;
+		protected interface IPlayerBarrierEntityFactory : IBarrierEntityFactory {
+			int Power { get; }
+			float HpScale { get; }
+			float RadiusScale { get; }
+			float DefenseScale { get; }
+			float ShrinkResist { get; }
+			float RegenScale { get; }
+		}
+
+
+
+		protected class PlayerBarrierEntityFactory<T> : BarrierEntityFactory<T>, IPlayerBarrierEntityFactory where T : PlayerBarrierEntity {
+			public int Power { get; }
+			public float HpScale { get; }
+			public float RadiusScale { get; }
+			public float DefenseScale { get; }
+			public float ShrinkResist { get; }
+			public float RegenScale { get; }
 
 			////
 
@@ -32,7 +39,8 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 			////////////////
 
 			public PlayerBarrierEntityFactory( Player ownerPlr, int power, float hpScale, float radiusScale, float defenseScale,
-					float shrinkResist, float regenScale, Vector2 center, Color? bodyColor = null, Color? edgeColor = null ) : base( ownerPlr ) {
+					float shrinkResist, float regenScale, Vector2 center, Color? bodyColor = null, Color? edgeColor = null ) :
+					base( ownerPlr ) {
 				this.Power = power;
 				this.HpScale = hpScale;
 				this.RadiusScale = radiusScale;
@@ -56,7 +64,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 				LogHelpers.Log( "Creating new barrier at " + center );
 			}
 
-			var factory = new PlayerBarrierEntityFactory( ownerPlr, power, hpScale, radiusScale, defenseScale, shrinkResist, regenScale, center, bodyColor, edgeColor );
+			var factory = new PlayerBarrierEntityFactory<PlayerBarrierEntity>( ownerPlr, power, hpScale, radiusScale, defenseScale, shrinkResist, regenScale, center, bodyColor, edgeColor );
 			PlayerBarrierEntity myent = factory.Create();
 
 			return myent;
@@ -68,35 +76,6 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 			float defaultRegen = mymod.Config.BarrierRegenBaseAmount;
 
 			return PlayerBarrierEntity.CreatePlayerBarrierEntity( ownerPlr, defaultPow, 1f, 1f, 0f, 0f, defaultRegen, Main.LocalPlayer.Center );
-		}
-
-		
-		////////////////
-		
-		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
-			var mymod = BarriersMod.Instance;
-			var myfactory = factory as PlayerBarrierEntityFactory;
-			IList<CustomEntityComponent> comps = base.CreateComponents<T>( factory );
-
-			if( myfactory != null ) {
-				comps.Insert( 0, PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
-					myfactory.Power,
-					myfactory.HpScale,
-					myfactory.RadiusScale,
-					myfactory.DefenseScale,
-					myfactory.RegenScale
-				) );
-			} else {
-				int defaultPow = mymod.Config.PlayerBarrierDefaultShieldPower;
-				float defaultRegen = mymod.Config.BarrierRegenBaseAmount;
-
-				comps.Insert( 0, PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent( defaultPow, 1f, 1f, 0f, defaultRegen ) );
-			}
-
-			comps.Add( BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent( -1, 1 ) );
-			comps.Add( BarrierHitRadiusNpcEntityComponent.CreateBarrierHitRadiusNpcEntityComponent( false ) );
-
-			return comps;
 		}
 	}
 }

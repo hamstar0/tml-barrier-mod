@@ -41,24 +41,29 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 		////
 
 		internal bool SetBarrierHpScale( PlayerBarrierEntity myent, float hpScale, bool skipSync = false ) {
+LogHelpers.Log("1");
 			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
-
+			
+LogHelpers.Log("2");
 			float maxHp = PlayerBarrierEntity.ComputeBarrierMaxHp( this.Power, hpScale );
 			float hp = behavComp.Hp > maxHp ? maxHp : behavComp.Hp;
 			bool isChanged = this.HpScale != hpScale
 				|| behavComp.MaxHp != maxHp
 				|| behavComp.Hp != hp;
-
+			
+LogHelpers.Log("3");
 			this.HpScale = hpScale;
 			behavComp.MaxHp = maxHp;
 			behavComp.Hp = hp;
-
+			
+LogHelpers.Log("4");
 			if( isChanged ) {
 				if( !skipSync && Main.netMode == 1 ) {
 					myent.SyncToAll();
 				}
 			}
-
+			
+LogHelpers.Log("5");
 			return isChanged;
 		}
 

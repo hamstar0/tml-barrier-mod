@@ -102,7 +102,7 @@ namespace Barriers.Entities.Barrier.Components {
 		}
 
 		private void UpdateAny( CustomEntity ent ) {
-			this.ApplyRegen();
+			this.ApplyRegen( ent );
 
 			var center = ent.Core.Center;
 

@@ -1,15 +1,17 @@
-﻿using Barriers.Entities.Barrier.Components;
-using Barriers.Entities.Barrier.NpcBarrier.Components;
-using HamstarHelpers.Components.CustomEntity;
-using HamstarHelpers.Helpers.DebugHelpers;
+﻿using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 
 
 namespace Barriers.Entities.Barrier.NpcBarrier {
 	public partial class NpcBarrierEntity : BarrierEntity {
-		private class NpcBarrierEntityFactory : BarrierEntityFactory<NpcBarrierEntity> {
+		protected interface INpcBarrierEntityFactory : IBarrierEntityFactory {
+			NPC Npc { get; }
+		}
+
+
+
+		protected class NpcBarrierEntityFactory<T> : BarrierEntityFactory<T>, INpcBarrierEntityFactory where T : BarrierEntity {
 			public NPC Npc { get; }
 			public override float Hp { get; }
 			public override float Radius { get; }
@@ -25,7 +27,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 			////////////////
 
 			public NpcBarrierEntityFactory( NPC npc, Vector2 center, float hp, float radius, int defense, float shrinkResistScale,
-					float regenRate, int regenRegenDurationHighest, Color? bodyColor=null, Color? edgeColor=null ) : base( null ) {
+					float regenRate, int regenRegenDurationHighest, Color? bodyColor = null, Color? edgeColor = null ) : base( null ) {
 				this.Npc = npc;
 				this.Center = center;
 				this.Hp = hp;
@@ -50,7 +52,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 				LogHelpers.Log( "Creating new barrier at " + center );
 			}
 
-			var factory = new NpcBarrierEntityFactory( npc, center, hp, radius, defense, shrinkResistScale, regenRate, regenRegenDurationHighest, bodyColor, edgeColor );
+			var factory = new NpcBarrierEntityFactory<NpcBarrierEntity>( npc, center, hp, radius, defense, shrinkResistScale, regenRate, regenRegenDurationHighest, bodyColor, edgeColor );
 			NpcBarrierEntity myent = factory.Create();
 
 			return myent;
@@ -63,41 +65,6 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 
 			return NpcBarrierEntity.CreateNpcBarrierEntity( npc, center, defaultHp, defaultHp, 0, 0f, defaultRegen,
 				mymod.Config.PlayerBarrierDefaultRegenRegenDurationHighest );
-		}
-
-
-
-		////////////////
-		
-		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
-			var mymod = BarriersMod.Instance;
-			var myfactory = factory as NpcBarrierEntityFactory;
-			IList<CustomEntityComponent> comps = base.CreateComponents<T>( factory );
-
-			if( myfactory != null ) {
-				comps.Insert( 0, NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
-					myfactory.Npc,
-					myfactory.Hp,
-					myfactory.Radius,
-					myfactory.Defense,
-					myfactory.ShrinkResistScale,
-					myfactory.RegenRate )
-				);
-			} else {
-				comps.Insert( 0, NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
-					null,
-					mymod.Config.NpcBarrierHpBaseAmount,
-					mymod.Config.NpcBarrierHpBaseAmount,
-					mymod.Config.BarrierDefenseBaseAmount,
-					mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount,
-					mymod.Config.BarrierRegenBaseAmount
-				) );
-			}
-
-			comps.Add( BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent(1, 1) );
-			comps.Add( BarrierHitRadiusPlayerEntityComponent.CreateBarrierHitRadiusPlayerEntityComponent() );
-
-			return comps;
 		}
 	}
 }

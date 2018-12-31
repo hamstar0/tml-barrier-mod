@@ -1,8 +1,6 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
-using HamstarHelpers.Components.Network;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
-using Newtonsoft.Json;
 
 
 namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
