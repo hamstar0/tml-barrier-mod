@@ -11,7 +11,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 
 
 
-		protected class NpcBarrierEntityFactory<T> : BarrierEntityFactory<T>, INpcBarrierEntityFactory where T : BarrierEntity {
+		protected class NpcBarrierEntityFactory<T> : BarrierEntityFactory<T>, INpcBarrierEntityFactory where T : NpcBarrierEntity {
 			public NPC Npc { get; }
 			public override float Hp { get; }
 			public override float Radius { get; }
