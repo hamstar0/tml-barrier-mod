@@ -12,6 +12,9 @@ namespace Barriers.Entities.Barrier {
 			int Defense { get; }
 			float ShrinkResistScale { get; }
 			float RegenRate { get; }
+			int RegenRegenDurationHighest { get; }
+			Color BarrierBodyColor { get; }
+			Color BarrierEdgeColor { get; }
 			Vector2 Center { get; }
 		}
 
@@ -23,6 +26,9 @@ namespace Barriers.Entities.Barrier {
 			public abstract int Defense { get; }
 			public abstract float ShrinkResistScale { get; }
 			public abstract float RegenRate { get; }
+			public abstract int RegenRegenDurationHighest { get; }
+			public abstract Color BarrierBodyColor { get; }
+			public abstract Color BarrierEdgeColor { get; }
 			public abstract Vector2 Center { get; }
 
 

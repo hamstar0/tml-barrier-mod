@@ -21,6 +21,7 @@ namespace Barriers {
 		public float BarrierRegenMultiplier = 1f;
 
 		public int PlayerBarrierDefaultShieldPower = 128;
+		public int PlayerBarrierDefaultRegenRegenDurationHighest = 60 * 3;	// 3 seconds
 
 		public int NpcBarrierHpBaseAmount = 128;
 

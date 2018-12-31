@@ -12,17 +12,28 @@ using Terraria;
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierDrawInGameEntityComponent : DrawsInGameEntityComponent {
 		private class BarrierDrawOnMapEntityComponentFactory : DrawsInGameEntityComponentFactory<BarrierDrawInGameEntityComponent> {
-			public BarrierDrawOnMapEntityComponentFactory() : base( "Barriers", "Entities/Barrier/Barrier128", 1 ) { }
+			public Color BarrierBodyColor;
+			public Color BarrierEdgeColor;
 
-			protected override void InitializeDerivedComponent( BarrierDrawInGameEntityComponent data ) { }
+
+			public BarrierDrawOnMapEntityComponentFactory( Color bodyColor, Color edgeColor )
+					: base( "Barriers", "Entities/Barrier/Barrier128", 1 ) {
+				this.BarrierBodyColor = bodyColor;
+				this.BarrierEdgeColor = edgeColor;
+			}
+
+			protected override void InitializeDerivedComponent( BarrierDrawInGameEntityComponent data ) {
+				data.BarrierBodyColor = this.BarrierBodyColor;
+				data.BarrierEdgeColor = this.BarrierEdgeColor;
+			}
 		}
 
 
 
 		////////////////
 
-		public static BarrierDrawInGameEntityComponent CreateBarrierDrawInGameEntityComponent() {
-			var factory = new BarrierDrawOnMapEntityComponentFactory();
+		public static BarrierDrawInGameEntityComponent CreateBarrierDrawInGameEntityComponent( Color bodyColor, Color edgeColor ) {
+			var factory = new BarrierDrawOnMapEntityComponentFactory( bodyColor, edgeColor );
 			return factory.Create();
 		}
 
@@ -48,6 +59,11 @@ namespace Barriers.Entities.Barrier.Components {
 		[PacketProtocolIgnore]
 		[JsonIgnore]
 		protected Texture2D Edge128;
+		
+		////
+
+		public Color BarrierBodyColor;
+		public Color BarrierEdgeColor;
 
 
 

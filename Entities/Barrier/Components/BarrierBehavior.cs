@@ -14,14 +14,16 @@ namespace Barriers.Entities.Barrier.Components {
 			public float RadiusRegenRate;
 			public int Defense;
 			public float ShrinkResist;
+			public int RegenRegenDurationHighest;
 
 
-			public BarrierBehaviorEntityComponentFactory( float hp, float radius, float regenRate, int defense, float shrinkResist ) {
+			public BarrierBehaviorEntityComponentFactory( float hp, float radius, float regenRate, int defense, float shrinkResist, int regenRegenDurationHighest ) {
 				this.Hp = hp;
 				this.Radius = radius;
 				this.RadiusRegenRate = regenRate;
 				this.Defense = defense;
 				this.ShrinkResist = shrinkResist;
+				this.RegenRegenDurationHighest = regenRegenDurationHighest;
 			}
 
 			protected override void InitializeComponent( T data ) {
@@ -32,6 +34,7 @@ namespace Barriers.Entities.Barrier.Components {
 				data.RegenRate = this.RadiusRegenRate;
 				data.Defense = this.Defense;
 				data.ShrinkResistScale = this.ShrinkResist;
+				data.RegenRegenDurationHighest = this.RegenRegenDurationHighest;
 			}
 		}
 
@@ -39,8 +42,8 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, float regenRate, int defense, float shrinkResist ) {
-			var factory = new BarrierBehaviorEntityComponentFactory<BarrierBehaviorEntityComponent>( hp, radius, regenRate, defense, shrinkResist );
+		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, float regenRate, int defense, float shrinkResist, int regenRegenDurationHighest ) {
+			var factory = new BarrierBehaviorEntityComponentFactory<BarrierBehaviorEntityComponent>( hp, radius, regenRate, defense, shrinkResist, regenRegenDurationHighest );
 			return factory.Create();
 		}
 
@@ -59,6 +62,7 @@ namespace Barriers.Entities.Barrier.Components {
 		public float RegenRate;
 		public int Defense;
 		public float ShrinkResistScale;
+		public int RegenRegenDurationHighest;
 
 
 

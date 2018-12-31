@@ -4,6 +4,7 @@ using Barriers.UI;
 using HamstarHelpers.Components.Config;
 using HamstarHelpers.Components.Errors;
 using HamstarHelpers.Helpers.DotNetHelpers;
+using HamstarHelpers.Helpers.TmlHelpers;
 using HamstarHelpers.Services.Promises;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,9 @@ namespace Barriers {
 		////////////////
 
 		public override void Load() {
+			string depErr = TmlHelpers.ReportBadDependencyMods( this );
+			if( depErr != null ) { throw new HamstarException( depErr ); }
+
 			BarriersMod.Instance = this;
 
 			this.LoadConfig();

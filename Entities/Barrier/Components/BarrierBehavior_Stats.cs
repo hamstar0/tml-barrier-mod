@@ -7,9 +7,10 @@ namespace Barriers.Entities.Barrier.Components {
 	public partial class BarrierBehaviorEntityComponent : CustomEntityComponent {
 		private void ApplyRegen() {
 			if( this.Hp == 0 ) {
-				int regenRegenMax = Math.Max( 30, 120 - (int)(60f * this.RegenRate) );
+				int regenRegenMaxOffset = (int)(60f * this.RegenRate);
+				int regenRegenThresh = Math.Max( 30, this.RegenRegenDurationHighest - regenRegenMaxOffset );
 
-				if( this.RegenRegen++ >= regenRegenMax ) {
+				if( this.RegenRegen++ >= regenRegenThresh ) {
 					this.RegenRegen = 0;
 					this.Hp = 1;
 				} else {

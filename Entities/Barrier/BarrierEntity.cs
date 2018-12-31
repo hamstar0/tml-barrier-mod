@@ -29,6 +29,9 @@ namespace Barriers.Entities.Barrier {
 			int defense = 0;
 			float regenRate = BarriersMod.Instance.Config.BarrierDefenseBaseAmount;
 			float shrinkResist = 0f;
+			int regenRegenDurationHighest = 120;
+			var bodyColor = new Color( 128, 128, 128 );
+			var edgeColor = new Color( 160, 160, 160 );
 
 			if( myfactory != null ) {
 				hp = myfactory.Hp;
@@ -36,6 +39,9 @@ namespace Barriers.Entities.Barrier {
 				defense = myfactory.Defense;
 				regenRate = myfactory.RegenRate;
 				shrinkResist = myfactory.ShrinkResistScale;
+				regenRegenDurationHighest = myfactory.RegenRegenDurationHighest;
+				bodyColor = myfactory.BarrierBodyColor;
+				edgeColor = myfactory.BarrierEdgeColor;
 			}
 
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
@@ -51,8 +57,8 @@ namespace Barriers.Entities.Barrier {
 			}
 
 			var comps = new List<CustomEntityComponent> {
-				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( hp, radius, regenRate, defense, shrinkResist ),
-				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent(),
+				BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( hp, radius, regenRate, defense, shrinkResist, regenRegenDurationHighest ),
+				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent( bodyColor, edgeColor ),
 				BarrierDrawOnMapEntityComponent.CreateBarrierDrawOnMapEntityComponent(),
 				BarrierPeriodicSyncEntityComponent.CreateBarrierPeriodicSyncEntityComponent()
 			};

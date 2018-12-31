@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Barriers</RootNamespace>
     <AssemblyName>Barriers</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -32,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="API.cs" />
@@ -47,7 +48,6 @@
     <Compile Include="Entities\Barrier\PlayerBarrier\Components\PlayerBarrierBehavior.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Interface.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Factory.cs" />
-    <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Fx.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Compute.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\Components\PlayerBarrierBehavior_Stats.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierBehavior_Stats.cs" />

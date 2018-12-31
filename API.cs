@@ -17,12 +17,16 @@ namespace Barriers {
 
 		////////////////
 
-		public static PlayerBarrierEntity CreatePlayerBarrier( Player player, Vector2 position, int power, float hpScale, float radiusScale, float defenseScale, float shrinkResistScale, float regenScale ) {
-			return PlayerBarrierEntity.CreatePlayerBarrierEntity( player, power, hpScale, radiusScale, defenseScale, shrinkResistScale, regenScale, position );
+		public static PlayerBarrierEntity CreatePlayerBarrier( Player player, Vector2 position, int power, float hpScale,
+				float radiusScale, float defenseScale, float shrinkResistScale, float regenScale,
+				[Nullable]Color? bodyColor, [Nullable]Color? edgeColor ) {
+			return PlayerBarrierEntity.CreatePlayerBarrierEntity( player, power, hpScale, radiusScale, defenseScale, shrinkResistScale, regenScale, position, bodyColor, edgeColor );
 		}
 
-		public static NpcBarrierEntity CreateNpcBarrier( [Nullable]NPC npc, Vector2 position, float hp, float radius, int defense, float shrinkResistScale, float regenScale ) {
-			return NpcBarrierEntity.CreateNpcBarrierEntity( npc, position, hp, radius, defense, shrinkResistScale, regenScale );
+		public static NpcBarrierEntity CreateNpcBarrier( [Nullable]NPC npc, Vector2 position, float hp, float radius, int defense,
+				float shrinkResistScale, float regenRate, int regenRegenDurationHighest,
+				[Nullable]Color? bodyColor, [Nullable]Color? edgeColor ) {
+			return NpcBarrierEntity.CreateNpcBarrierEntity( npc, position, hp, radius, defense, shrinkResistScale, regenRate, regenRegenDurationHighest, bodyColor, edgeColor );
 		}
 	}
 }

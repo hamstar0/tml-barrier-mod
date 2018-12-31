@@ -19,6 +19,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		public override Tuple<bool, bool> SyncFromClientServer => Tuple.Create( true, false );
 
 
+
 		////////////////
 
 		protected PlayerBarrierEntity( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
