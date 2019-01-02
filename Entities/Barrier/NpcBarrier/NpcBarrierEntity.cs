@@ -36,29 +36,15 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 
 		protected virtual NpcBarrierBehaviorEntityComponent CreateNpcBehaviorComponent( INpcBarrierEntityFactory myfactory ) {
 			var mymod = BarriersMod.Instance;
-			NpcBarrierBehaviorEntityComponent behavComp;
 
-			if( myfactory != null ) {
-				behavComp = NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
-					myfactory.Npc,
-					myfactory.Hp,
-					myfactory.Radius,
-					myfactory.Defense,
-					myfactory.ShrinkResistScale,
-					myfactory.RegenRate
-				);
-			} else {
-				behavComp = NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
-					null,
-					mymod.Config.NpcBarrierHpBaseAmount,
-					mymod.Config.NpcBarrierHpBaseAmount,
-					mymod.Config.BarrierDefenseBaseAmount,
-					mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount,
-					mymod.Config.BarrierRegenBaseAmount
-				);
-			}
-
-			return behavComp;
+			return NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
+				myfactory?.Npc ?? null,
+				myfactory?.Hp ?? mymod.Config.NpcBarrierHpBaseAmount,
+				myfactory?.Radius ?? mymod.Config.NpcBarrierHpBaseAmount,
+				myfactory?.Defense ?? mymod.Config.BarrierDefenseBaseAmount,
+				myfactory?.ShrinkResistScale ?? mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount,
+				myfactory?.RegenRate ?? mymod.Config.BarrierRegenBaseAmount
+			);
 		}
 	}
 }

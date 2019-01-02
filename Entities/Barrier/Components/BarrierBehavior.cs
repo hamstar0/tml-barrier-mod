@@ -7,8 +7,8 @@ using System;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	public partial class BarrierBehaviorEntityComponent : CustomEntityComponent {
-		protected class BarrierBehaviorEntityComponentFactory<T> : CustomEntityComponentFactory<T> where T : BarrierBehaviorEntityComponent {
+	public partial class BarrierStatsBehaviorEntityComponent : CustomEntityComponent {
+		protected class BarrierStatsBehaviorEntityComponentFactory<T> : CustomEntityComponentFactory<T> where T : BarrierStatsBehaviorEntityComponent {
 			public float Hp;
 			public float Radius;
 			public float RadiusRegenRate;
@@ -17,7 +17,7 @@ namespace Barriers.Entities.Barrier.Components {
 			public int RegenRegenDurationHighest;
 
 
-			public BarrierBehaviorEntityComponentFactory( float hp, float radius, float regenRate, int defense, float shrinkResist, int regenRegenDurationHighest ) {
+			public BarrierStatsBehaviorEntityComponentFactory( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
 				this.Hp = hp;
 				this.Radius = radius;
 				this.RadiusRegenRate = regenRate;
@@ -42,8 +42,8 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, float regenRate, int defense, float shrinkResist, int regenRegenDurationHighest ) {
-			var factory = new BarrierBehaviorEntityComponentFactory<BarrierBehaviorEntityComponent>( hp, radius, regenRate, defense, shrinkResist, regenRegenDurationHighest );
+		public static BarrierStatsBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
+			var factory = new BarrierStatsBehaviorEntityComponentFactory<BarrierStatsBehaviorEntityComponent>( hp, radius, defense, regenRate, shrinkResist, regenRegenDurationHighest );
 			return factory.Create();
 		}
 
@@ -68,7 +68,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		protected BarrierBehaviorEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+		protected BarrierStatsBehaviorEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 
 		////////////////

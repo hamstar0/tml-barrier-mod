@@ -9,7 +9,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 		public bool SetBarrierPower( PlayerBarrierEntity myent, int power, bool skipSync = false ) {
 			int pwrChange = power - this.Power;
 			
-			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = myent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 			
 			this.Power = power;
 			bool isHpChanged = this.SetBarrierHpScale( myent, this.HpScale, true );
@@ -41,34 +41,29 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 		////
 
 		internal bool SetBarrierHpScale( PlayerBarrierEntity myent, float hpScale, bool skipSync = false ) {
-LogHelpers.Log("1");
-			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = myent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 			
-LogHelpers.Log("2");
 			float maxHp = PlayerBarrierEntity.ComputeBarrierMaxHp( this.Power, hpScale );
 			float hp = behavComp.Hp > maxHp ? maxHp : behavComp.Hp;
 			bool isChanged = this.HpScale != hpScale
 				|| behavComp.MaxHp != maxHp
 				|| behavComp.Hp != hp;
 			
-LogHelpers.Log("3");
 			this.HpScale = hpScale;
 			behavComp.MaxHp = maxHp;
 			behavComp.Hp = hp;
 			
-LogHelpers.Log("4");
 			if( isChanged ) {
 				if( !skipSync && Main.netMode == 1 ) {
 					myent.SyncToAll();
 				}
 			}
 			
-LogHelpers.Log("5");
 			return isChanged;
 		}
 
 		internal bool SetBarrierRadiusScale( PlayerBarrierEntity myent, float radiusScale, bool skipSync = false ) {
-			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = myent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			float maxRadius = PlayerBarrierEntity.ComputeBarrierMaxRadius( this.Power, radiusScale );
 			float radius = behavComp.Radius > maxRadius ? maxRadius : behavComp.Radius;
@@ -90,7 +85,7 @@ LogHelpers.Log("5");
 		}
 
 		internal bool SetBarrierDefenseScale( PlayerBarrierEntity myent, float defenseScale, bool skipSync = false ) {
-			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = myent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			int defense = PlayerBarrierEntity.ComputeBarrierDefense( this.Power, defenseScale );
 			bool isChanged = this.DefenseScale != defenseScale
@@ -109,7 +104,7 @@ LogHelpers.Log("5");
 		}
 
 		internal bool SetBarrierShrinkResistScale( PlayerBarrierEntity myent, float resistScale, bool skipSync = false ) {
-			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = myent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			float resistScaleNew = PlayerBarrierEntity.ComputeBarrierShrinkResist( this.Power, resistScale );
 			bool isChanged = behavComp.ShrinkResistScale != resistScaleNew;
@@ -126,7 +121,7 @@ LogHelpers.Log("5");
 		}
 
 		internal bool SetBarrierRegenScale( PlayerBarrierEntity myent, float regenScale, bool skipSync = false ) {
-			var behavComp = myent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = myent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			float regenRate = PlayerBarrierEntity.ComputeBarrierRegen( this.Power, regenScale );
 			bool isChanged = this.RegenScale != regenScale

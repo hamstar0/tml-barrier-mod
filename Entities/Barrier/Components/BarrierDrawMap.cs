@@ -39,7 +39,7 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		private void UpdateScale( CustomEntity ent ) {
-			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 			float radius = behavComp.Radius;
 
 			this.Scale = radius / (128f * 8f);

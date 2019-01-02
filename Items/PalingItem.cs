@@ -75,7 +75,7 @@ namespace Barriers.Items {
 		public override void ModifyTooltips( List<TooltipLine> tooltips ) {
 			var mymod = (BarriersMod)this.mod;
 			var barrer = mymod.BarrierManager.GetForPlayer( Main.LocalPlayer );
-			var behavComp = barrer.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = barrer.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			var hpStat = new TooltipLine( this.mod, "stat_hp", "  Hp: " + (int)behavComp.Hp + "/" + behavComp.MaxHp );
 			var radStat = new TooltipLine( this.mod, "stat_rad", "  Radius: " + (int)behavComp.Radius + "/" + behavComp.MaxRadius );

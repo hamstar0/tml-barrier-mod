@@ -52,7 +52,7 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		public override float GetRadius( CustomEntity ent ) {
-			return ent.GetComponentByType<BarrierBehaviorEntityComponent>().Radius;
+			return ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>().Radius;
 		}
 
 
@@ -60,7 +60,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		public override bool PreHurt( CustomEntity ent, Projectile projectile, ref int damage ) {
 			var myent = (BarrierEntity)ent;
-			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			bool hitsFriendly = this.HitsFriendly > 0 ?
 				projectile.friendly :
@@ -79,7 +79,7 @@ namespace Barriers.Entities.Barrier.Components {
 		public override void PostHurt( CustomEntity ent, Projectile projectile, int damage ) {
 			var mymod = BarriersMod.Instance;
 			var myent = (BarrierEntity)ent;
-			var behavComp = ent.GetComponentByType<BarrierBehaviorEntityComponent>();
+			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			int defDamage = Math.Max( 0, damage - behavComp.Defense );
 			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );

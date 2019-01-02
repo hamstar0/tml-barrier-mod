@@ -46,23 +46,14 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 		protected virtual PlayerBarrierBehaviorEntityComponent CreatePlayerBehaviorComponent( IPlayerBarrierEntityFactory myfactory ) {
 			var mymod = BarriersMod.Instance;
-			PlayerBarrierBehaviorEntityComponent behavComp;
 
-			if( myfactory != null ) {
-				behavComp = PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
-					myfactory.Power,
-					myfactory.HpScale,
-					myfactory.RadiusScale,
-					myfactory.DefenseScale,
-					myfactory.RegenScale
-				);
-			} else {
-				int defaultPow = mymod.Config.PlayerBarrierDefaultShieldPower;
-				float defaultRegen = mymod.Config.BarrierRegenBaseAmount;
-
-				behavComp = PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent( defaultPow, 1f, 1f, 0f, defaultRegen );
-			}
-			return behavComp;
+			return PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
+				myfactory?.Power ?? mymod.Config.PlayerBarrierDefaultShieldPower,
+				myfactory?.HpScale ?? 1f,
+				myfactory?.RadiusScale ?? 1f,
+				myfactory?.DefenseScale ?? 0f,
+				myfactory?.RegenScale ?? mymod.Config.BarrierRegenBaseAmount
+			);
 		}
 	}
 }

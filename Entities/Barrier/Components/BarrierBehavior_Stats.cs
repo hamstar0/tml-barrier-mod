@@ -4,7 +4,7 @@ using System;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	public partial class BarrierBehaviorEntityComponent : CustomEntityComponent {
+	public partial class BarrierStatsBehaviorEntityComponent : CustomEntityComponent {
 		private void ApplyRegen( CustomEntity ent ) {
 			if( this.Hp == 0 ) {
 				int regenRegenMaxOffset = (int)( 60f * this.RegenRate );

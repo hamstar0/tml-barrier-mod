@@ -32,7 +32,7 @@ namespace Barriers.Entities.Barrier {
 				edgeColor = myfactory.BarrierEdgeColor;
 			}
 
-			var behavComp = this.CreateBehaviorComponent( myfactory );
+			var behavComp = this.CreateStatsBehaviorComponent( myfactory );
 
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				if( myfactory != null ) {
@@ -68,25 +68,15 @@ namespace Barriers.Entities.Barrier {
 
 		////
 
-		protected virtual BarrierBehaviorEntityComponent CreateBehaviorComponent( IBarrierEntityFactory myfactory ) {
-			float hp = 64f;
-			float radius = 64f;
-			int defense = 0;
-			float regenRate = BarriersMod.Instance.Config.BarrierDefenseBaseAmount;
-			float shrinkResist = 0f;
-			int regenRegenDurationHighest = 120;
-
-			if( myfactory != null ) {
-				hp = myfactory.Hp;
-				radius = myfactory.Radius;
-				defense = myfactory.Defense;
-				regenRate = myfactory.RegenRate;
-				shrinkResist = myfactory.ShrinkResistScale;
-				regenRegenDurationHighest = myfactory.RegenRegenDurationHighest;
-			}
-
-			return BarrierBehaviorEntityComponent.CreateBarrierEntityComponent( hp, radius, regenRate, defense, shrinkResist,
-				regenRegenDurationHighest );
+		protected virtual BarrierStatsBehaviorEntityComponent CreateStatsBehaviorComponent( IBarrierEntityFactory myfactory ) {
+			return BarrierStatsBehaviorEntityComponent.CreateBarrierEntityComponent(
+				myfactory?.Hp ?? 64f,
+				myfactory?.Radius ?? 64f,
+				myfactory?.Defense ?? 0,
+				myfactory?.RegenRate ?? BarriersMod.Instance.Config.BarrierDefenseBaseAmount,
+				myfactory?.ShrinkResistScale ?? 0f,
+				myfactory?.RegenRegenDurationHighest ?? 120
+			);
 		}
 	}
 }
