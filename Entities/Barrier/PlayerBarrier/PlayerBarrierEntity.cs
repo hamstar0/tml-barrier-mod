@@ -47,7 +47,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		protected virtual PlayerBarrierBehaviorEntityComponent CreatePlayerBehaviorComponent( IPlayerBarrierEntityFactory myfactory ) {
 			var mymod = BarriersMod.Instance;
 
-			return PlayerBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
+			return PlayerBarrierBehaviorEntityComponent.CreatePlayerBarrierBehaviorEntityComponent(
 				myfactory?.Power ?? mymod.Config.PlayerBarrierDefaultShieldPower,
 				myfactory?.HpScale ?? 1f,
 				myfactory?.RadiusScale ?? 1f,

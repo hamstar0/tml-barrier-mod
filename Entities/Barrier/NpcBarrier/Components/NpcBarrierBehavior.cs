@@ -47,8 +47,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier.Components {
 				myplayer.NoBuilding = true;
 			}
 		}*/
-
-		private void UpdateAny( CustomEntity ent ) {
-		}
+		
+		private void UpdateAny( CustomEntity ent ) { }
 	}
 }

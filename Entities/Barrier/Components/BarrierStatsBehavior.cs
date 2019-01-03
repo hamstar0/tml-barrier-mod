@@ -42,7 +42,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierStatsBehaviorEntityComponent CreateBarrierEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
+		public static BarrierStatsBehaviorEntityComponent CreateBarrierStatsBehaviorEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
 			var factory = new BarrierStatsBehaviorEntityComponentFactory<BarrierStatsBehaviorEntityComponent>( hp, radius, defense, regenRate, shrinkResist, regenRegenDurationHighest );
 			return factory.Create();
 		}

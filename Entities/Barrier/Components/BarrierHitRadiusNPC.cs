@@ -4,7 +4,6 @@ using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Helpers.NPCHelpers;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 
 
@@ -57,8 +56,12 @@ namespace Barriers.Entities.Barrier.Components {
 		public override bool PreHurt( CustomEntity ent, NPC npc, ref int damage ) {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			
+			if( this.HitsFriendly == npc.friendly ) {
+				return false;
+			}
 
-			return this.HitsFriendly == npc.friendly && behavComp.Hp > 0;
+			return behavComp.Hp > 0;
 		}
 
 		public override void PostHurt( CustomEntity ent, NPC npc, int damage ) {
@@ -66,22 +69,18 @@ namespace Barriers.Entities.Barrier.Components {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
-			float oldHp = behavComp.Hp;
-			int defDamage = Math.Max( 0, damage - behavComp.Defense );
-			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );
-
-			if( defDamage > ( mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale ) ) {
-				behavComp.Hp = behavComp.Hp > defDamage ? behavComp.Hp - defDamage : 0;
-				behavComp.Radius = behavComp.Radius > radDamage ? behavComp.Radius - radDamage : 0;
+			//float oldHp = behavComp.Hp;
+			if( !behavComp.HitByNpc( ent, npc, damage ) ) {
+				return;
 			}
 
 			float npcDamage = damage;
 			npcDamage += damage * behavComp.ShrinkResistScale * mymod.Config.BarrierHardnessDamageReflectionMultiplierAmount;
-			
+
 			if( npcDamage > 0 ) {
 				NPCHelpers.Hurt( npc, (int)npcDamage );
 
-				npc.velocity += Vector2.Normalize( npc.position - ent.Core.position ) * (npcDamage / 20);
+				npc.velocity += Vector2.Normalize( npc.position - ent.Core.position ) * ( npcDamage / 20 );
 
 				myent.EmitImpactFx( npc.Center, npc.width, npc.height, npcDamage );
 			}

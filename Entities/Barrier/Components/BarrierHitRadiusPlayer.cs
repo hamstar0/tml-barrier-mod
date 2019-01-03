@@ -40,39 +40,33 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public override bool PreHurt( CustomEntity ent, Player player, ref int damage ) {
+		public override bool PreHurt( CustomEntity ent, Player plr, ref int dmg ) {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
-
-			damage = (int)Math.Min( behavComp.Hp, player.statLife );
 
 			return behavComp.Hp > 0;
 		}
 
-		public override void PostHurt( CustomEntity ent, Player player, int damage ) {
+		public override void PostHurt( CustomEntity ent, Player plr, int dmg ) {
 			var mymod = BarriersMod.Instance;
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
-			float oldHp = behavComp.Hp;
-			int defDamage = Math.Max( 0, damage - behavComp.Defense );
-			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );
-
-			if( defDamage > ( mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale ) ) {
-				behavComp.Hp = Math.Max( behavComp.Hp - defDamage, 0 );
-				behavComp.Radius = Math.Max( behavComp.Radius - radDamage, 0 );
+			//float oldHp = behavComp.Hp;
+			if( !behavComp.HitByPlayer( ent, plr, dmg ) ) {
+				return;
 			}
 
-			float plrDamage = damage;
-			plrDamage += damage * behavComp.ShrinkResistScale * mymod.Config.BarrierHardnessDamageReflectionMultiplierAmount;
-			plrDamage = Math.Min( plrDamage, player.statLife );
+			float plrDmg = dmg;
+			plrDmg += (float)dmg * behavComp.ShrinkResistScale * mymod.Config.BarrierHardnessDamageReflectionMultiplierAmount;
+			plrDmg = Math.Min( plrDmg, plr.statLife );
 			
-			if( plrDamage > 0 ) {
-				PlayerHelpers.RawHurt( player, PlayerDeathReason.ByCustomReason(" forgot to knock first"), (int)plrDamage, 0 );
+			if( plrDmg > 0 ) {
+				PlayerHelpers.RawHurt( plr, PlayerDeathReason.ByCustomReason(" forgot to knock first"), (int)plrDmg, 0 );
 
-				player.velocity += Vector2.Normalize( player.position - ent.Core.position ) * (plrDamage / 40);
+				plr.velocity += Vector2.Normalize( plr.position - ent.Core.position ) * (plrDmg / 40);
 
-				myent.EmitImpactFx( player.Center, player.width, player.height, plrDamage );
+				myent.EmitImpactFx( plr.Center, plr.width, plr.height, plrDmg );
 			}
 
 			//if( mymod.Config.DebugModeInfo ) {

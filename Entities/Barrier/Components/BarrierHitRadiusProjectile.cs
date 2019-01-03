@@ -58,47 +58,42 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public override bool PreHurt( CustomEntity ent, Projectile projectile, ref int damage ) {
+		public override bool PreHurt( CustomEntity ent, Projectile proj, ref int dmg ) {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			bool hitsFriendly = this.HitsFriendly > 0 ?
-				projectile.friendly :
+				proj.friendly :
 				this.HitsFriendly < 0 ?
-					!projectile.friendly :
+					!proj.friendly :
 					false;
 			bool hitsHostile = this.HitsHostile > 0 ?
-				projectile.hostile :
+				proj.hostile :
 				this.HitsHostile < 0 ?
-					!projectile.hostile :
+					!proj.hostile :
 					false;
 
 			return (hitsFriendly || hitsHostile) && behavComp.Hp > 0;
 		}
 
-		public override void PostHurt( CustomEntity ent, Projectile projectile, int damage ) {
+		public override void PostHurt( CustomEntity ent, Projectile proj, int dmg ) {
 			var mymod = BarriersMod.Instance;
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
-			int defDamage = Math.Max( 0, damage - behavComp.Defense );
-			float radDamage = defDamage * ( 1f - behavComp.ShrinkResistScale );
-
-			if( defDamage > (mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale) ) {
-				behavComp.Hp -= defDamage;
-				if( behavComp.Hp < 0 ) { behavComp.Hp = 0; }
-
-				behavComp.Radius -= radDamage;
-				if( behavComp.Radius < 0 ) {
-					behavComp.Radius = 0;
-				}
-
-				ProjectileHelpers.Hit( projectile );
+			if( !behavComp.HitByProjectile( ent, proj, dmg ) ) {
+				return;
 			}
 
-			projectile.velocity = Vector2.Normalize( projectile.position - ent.Core.position ) * projectile.velocity.Length();
+			int defDamage = Math.Max( 0, dmg - behavComp.Defense );
 
-			myent.EmitImpactFx( projectile.Center, projectile.width, projectile.height, defDamage );
+			if( defDamage > (mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale) ) {
+				ProjectileHelpers.Hit( proj );
+			}
+
+			proj.velocity = Vector2.Normalize( proj.position - ent.Core.position ) * proj.velocity.Length();
+
+			myent.EmitImpactFx( proj.Center, proj.width, proj.height, defDamage );
 		}
 	}
 }

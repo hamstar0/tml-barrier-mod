@@ -37,7 +37,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 		protected virtual NpcBarrierBehaviorEntityComponent CreateNpcBehaviorComponent( INpcBarrierEntityFactory myfactory ) {
 			var mymod = BarriersMod.Instance;
 
-			return NpcBarrierBehaviorEntityComponent.CreateBarrierEntityComponent(
+			return NpcBarrierBehaviorEntityComponent.CreateNpcBarrierBehaviorEntityComponent(
 				myfactory?.Npc ?? null,
 				myfactory?.Hp ?? mymod.Config.NpcBarrierHpBaseAmount,
 				myfactory?.Radius ?? mymod.Config.NpcBarrierHpBaseAmount,

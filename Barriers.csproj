@@ -40,6 +40,9 @@
     <Compile Include="Entities\Barrier\BarrierEntity_Fx.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Factory.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusPlayer.cs" />
+    <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior_HitProjectile.cs" />
+    <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior_HitPlayer.cs" />
+    <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior_HitNpc.cs" />
     <Compile Include="Entities\Barrier\NpcBarrier\Components\NpcBarrierBehavior.cs" />
     <Compile Include="Entities\Barrier\NpcBarrier\Components\NpcBarrierBehavior_Factory.cs" />
     <Compile Include="Entities\Barrier\NpcBarrier\NpcBarrierEntity.cs" />
@@ -50,14 +53,14 @@
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Factory.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity_Compute.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\Components\PlayerBarrierBehavior_Stats.cs" />
-    <Compile Include="Entities\Barrier\Components\BarrierBehavior_Stats.cs" />
+    <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior_Stats.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusNpc.cs" />
     <Compile Include="Entities\Barrier\Manager.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusProjectile.cs" />
     <Compile Include="MyMod.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Entities\Barrier\PlayerBarrier\PlayerBarrierEntity.cs" />
-    <Compile Include="Entities\Barrier\Components\BarrierBehavior.cs" />
+    <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierDrawGame.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierDrawMap.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierPeriodicSync.cs" />

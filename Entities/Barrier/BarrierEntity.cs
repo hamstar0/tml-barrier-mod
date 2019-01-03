@@ -69,7 +69,7 @@ namespace Barriers.Entities.Barrier {
 		////
 
 		protected virtual BarrierStatsBehaviorEntityComponent CreateStatsBehaviorComponent( IBarrierEntityFactory myfactory ) {
-			return BarrierStatsBehaviorEntityComponent.CreateBarrierEntityComponent(
+			return BarrierStatsBehaviorEntityComponent.CreateBarrierStatsBehaviorEntityComponent(
 				myfactory?.Hp ?? 64f,
 				myfactory?.Radius ?? 64f,
 				myfactory?.Defense ?? 0,

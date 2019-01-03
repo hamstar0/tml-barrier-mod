@@ -33,7 +33,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 
 		////////////////
 
-		public static PlayerBarrierBehaviorEntityComponent CreateBarrierEntityComponent( int power, float hpScale, float radiusScale, float defenseScale, float regenScale ) {
+		public static PlayerBarrierBehaviorEntityComponent CreatePlayerBarrierBehaviorEntityComponent( int power, float hpScale, float radiusScale, float defenseScale, float regenScale ) {
 			var factory = new PlayerBarrierBehaviorEntityComponentFactory<PlayerBarrierBehaviorEntityComponent>( power, hpScale, radiusScale, defenseScale, regenScale );
 			PlayerBarrierBehaviorEntityComponent comp = factory.Create();
 			
