@@ -19,8 +19,9 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		internal int UiRadialPosition2 = 0;
 
 		////
-
-		public override Tuple<bool, bool> SyncFromClientServer => Tuple.Create( true, false );
+		
+		public override bool SyncFromClient => true;
+		public override bool SyncFromServer => false;
 
 
 

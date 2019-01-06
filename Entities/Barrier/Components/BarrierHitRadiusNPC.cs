@@ -4,6 +4,7 @@ using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Helpers.NPCHelpers;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 
 
@@ -17,9 +18,12 @@ namespace Barriers.Entities.Barrier.Components {
 				this.HitsFriendly = hitsFriendly;
 			}
 			
-			protected override void InitializeComponent( BarrierHitRadiusNpcEntityComponent data ) {
+			protected sealed override void InitializeComponent( BarrierHitRadiusNpcEntityComponent data ) {
 				data.HitsFriendly = this.HitsFriendly;
+				this.InitializeBarrierHitRadiusNpcComponent( data );
 			}
+
+			protected virtual void InitializeBarrierHitRadiusNpcComponent( BarrierHitRadiusNpcEntityComponent data ) { }
 		}
 
 
@@ -53,32 +57,33 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public override bool PreHurt( CustomEntity ent, NPC npc, ref int damage ) {
+		public override bool PreHurt( CustomEntity ent, NPC npc, ref int dmg ) {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+
+			dmg = (int)Math.Min( npc.life, behavComp.Hp );
 			
-			if( this.HitsFriendly == npc.friendly ) {
+			if( this.HitsFriendly != npc.friendly ) {
 				return false;
 			}
 
 			return behavComp.Hp > 0;
 		}
 
-		public override void PostHurt( CustomEntity ent, NPC npc, int damage ) {
+		public override void PostHurt( CustomEntity ent, NPC npc, int dmg ) {
 			var mymod = BarriersMod.Instance;
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
 			//float oldHp = behavComp.Hp;
-			if( !behavComp.HitByNpc( ent, npc, damage ) ) {
+			if( !behavComp.HitByNpc( ent, npc, ref dmg ) ) {
 				return;
 			}
 
-			float npcDamage = damage;
-			npcDamage += damage * behavComp.ShrinkResistScale * mymod.Config.BarrierHardnessDamageReflectionMultiplierAmount;
+			float npcDamage = dmg + behavComp.Defense;
 
 			if( npcDamage > 0 ) {
-				NPCHelpers.Hurt( npc, (int)npcDamage );
+				NPCHelpers.HurtRaw( npc, (int)npcDamage );
 
 				npc.velocity += Vector2.Normalize( npc.position - ent.Core.position ) * ( npcDamage / 20 );
 

@@ -22,7 +22,7 @@ namespace Barriers.Entities.Barrier.Components {
 				this.BarrierEdgeColor = edgeColor;
 			}
 
-			protected override void InitializeDerivedComponent( BarrierDrawInGameEntityComponent data ) {
+			protected override void InitializeDrawsInGameEntityComponent( BarrierDrawInGameEntityComponent data ) {
 				data.BarrierBodyColor = this.BarrierBodyColor;
 				data.BarrierEdgeColor = this.BarrierEdgeColor;
 			}
@@ -95,7 +95,7 @@ namespace Barriers.Entities.Barrier.Components {
 			if( radius == 0 ) {
 				return;
 			}
-
+			
 			float stability = 1f - (Main.rand.NextFloat() * (1f - (behavComp.Hp / behavComp.MaxHp)));
 			Color bodyColor = myent.GetBarrierColor() * stability;
 			Color edgeColor = myent.GetEdgeColor() * stability;

@@ -8,49 +8,6 @@ using System;
 
 namespace Barriers.Entities.Barrier.Components {
 	public partial class BarrierStatsBehaviorEntityComponent : CustomEntityComponent {
-		protected class BarrierStatsBehaviorEntityComponentFactory<T> : CustomEntityComponentFactory<T> where T : BarrierStatsBehaviorEntityComponent {
-			public float Hp;
-			public float Radius;
-			public float RadiusRegenRate;
-			public int Defense;
-			public float ShrinkResist;
-			public int RegenRegenDurationHighest;
-
-
-			public BarrierStatsBehaviorEntityComponentFactory( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
-				this.Hp = hp;
-				this.Radius = radius;
-				this.RadiusRegenRate = regenRate;
-				this.Defense = defense;
-				this.ShrinkResist = shrinkResist;
-				this.RegenRegenDurationHighest = regenRegenDurationHighest;
-			}
-
-			protected override void InitializeComponent( T data ) {
-				data.Hp = this.Hp;
-				data.MaxHp = this.Hp;
-				data.Radius = this.Radius;
-				data.MaxRadius = this.Radius;
-				data.RegenRate = this.RadiusRegenRate;
-				data.Defense = this.Defense;
-				data.ShrinkResistScale = this.ShrinkResist;
-				data.RegenRegenDurationHighest = this.RegenRegenDurationHighest;
-			}
-		}
-
-
-
-		////////////////
-
-		public static BarrierStatsBehaviorEntityComponent CreateBarrierStatsBehaviorEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
-			var factory = new BarrierStatsBehaviorEntityComponentFactory<BarrierStatsBehaviorEntityComponent>( hp, radius, defense, regenRate, shrinkResist, regenRegenDurationHighest );
-			return factory.Create();
-		}
-
-
-
-		////////////////
-
 		[JsonIgnore]
 		[PacketProtocolIgnore]
 		private int RegenRegen = 0;
@@ -109,14 +66,20 @@ namespace Barriers.Entities.Barrier.Components {
 			ent.Core.Width = ent.Core.Height = (int)Math.Max( this.Radius * 2, 1 );
 			ent.Core.Center = center;
 
-			if( BarriersMod.Instance.Config.DebugModeInfo ) {
-				DebugHelpers.Print( "Barrier " + ent.Core.WhoAmI + "'s Behavior",
-					"hp:" + this.Hp.ToString( "N0" ) + "/" + this.MaxHp.ToString( "N0" )
-					+ ", radius:" + this.Radius.ToString( "N0" ) + "/" + this.MaxRadius.ToString("N0")
-					+ ", defense:" + this.Defense
-					+ ", Regen:" + this.RegenRate.ToString( "N0" ),
-					20 );
+			if( BarriersMod.Instance.Config.DebugModeStatsInfo ) {
+				DebugHelpers.Print( "Barrier " + ent.Core.WhoAmI + "'s Behavior", this.GetStatsInfo(ent), 20 );
 			}
+		}
+
+
+		////////////////
+
+		public string GetStatsInfo( CustomEntity ent ) {
+			return "Barrier " + ent.Core.WhoAmI + "'s stats:"
+					+ "hp:" + this.Hp.ToString( "N0" ) + "/" + this.MaxHp.ToString( "N0" )
+					+ ", radius:" + this.Radius.ToString( "N0" ) + "/" + this.MaxRadius.ToString( "N0" )
+					+ ", defense:" + this.Defense
+					+ ", Regen:" + this.RegenRate.ToString( "N0" );
 		}
 	}
 }

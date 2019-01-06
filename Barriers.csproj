@@ -40,6 +40,7 @@
     <Compile Include="Entities\Barrier\BarrierEntity_Fx.cs" />
     <Compile Include="Entities\Barrier\BarrierEntity_Factory.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierHitRadiusPlayer.cs" />
+    <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior_Factory.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior_HitProjectile.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior_HitPlayer.cs" />
     <Compile Include="Entities\Barrier\Components\BarrierStatsBehavior_HitNpc.cs" />

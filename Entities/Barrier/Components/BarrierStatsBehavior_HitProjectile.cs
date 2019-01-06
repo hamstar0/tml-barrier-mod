@@ -6,17 +6,17 @@ using Terraria;
 
 namespace Barriers.Entities.Barrier.Components {
 	public partial class BarrierStatsBehaviorEntityComponent : CustomEntityComponent {
-		public bool HitByProjectile( CustomEntity ent, Projectile proj, int dmg ) {
+		public bool HitByProjectile( CustomEntity ent, Projectile proj, ref int dmg ) {
 			var mymod = BarriersMod.Instance;
 
 			int defDmg = Math.Max( 0, dmg - this.Defense );
 			float radDmg = defDmg * ( 1f - this.ShrinkResistScale );
 
-			if( !this.OnPreHitByProjectile( ent, proj, ref defDmg, ref radDmg ) ) {
+			if( !this.OnPreHitByProjectile( ent, proj, ref dmg, ref defDmg, ref radDmg ) ) {
 				return false;
 			}
 
-			if( defDmg > ( mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount * this.ShrinkResistScale ) ) {
+			if( defDmg > 0 ) {
 				this.Hp -= defDmg;
 				if( this.Hp < 0 ) { this.Hp = 0; }
 
@@ -26,7 +26,7 @@ namespace Barriers.Entities.Barrier.Components {
 				}
 			}
 
-			this.OnPostHitByProjectile( ent, proj, defDmg, radDmg );
+			this.OnPostHitByProjectile( ent, proj, dmg, defDmg, radDmg );
 
 			return true;
 		}
@@ -34,10 +34,10 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public virtual bool OnPreHitByProjectile( CustomEntity ent, Projectile proj, ref int dmg, ref float radiusDmg ) {
+		public virtual bool OnPreHitByProjectile( CustomEntity ent, Projectile proj, ref int dmg, ref int defDmg, ref float radiusDmg ) {
 			return true;
 		}
 
-		public virtual void OnPostHitByProjectile( CustomEntity ent, Projectile proj, int dmg, float radiusDmg ) { }
+		public virtual void OnPostHitByProjectile( CustomEntity ent, Projectile proj, int dmg, int defDmg, float radiusDmg ) { }
 	}
 }

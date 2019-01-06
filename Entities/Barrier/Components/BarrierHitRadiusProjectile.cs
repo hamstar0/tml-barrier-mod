@@ -20,10 +20,13 @@ namespace Barriers.Entities.Barrier.Components {
 				this.HitsHostile = hitsHostile;
 			}
 
-			protected override void InitializeComponent( BarrierHitRadiusProjectileEntityComponent data ) {
+			protected sealed override void InitializeComponent( BarrierHitRadiusProjectileEntityComponent data ) {
 				data.HitsFriendly = this.HitsFriendly;
 				data.HitsHostile = this.HitsHostile;
+				this.InitializeBarrierHitRadiusProjectileComponent( data );
 			}
+
+			protected virtual void InitializeBarrierHitRadiusProjectileComponent( BarrierHitRadiusProjectileEntityComponent data ) { }
 		}
 
 
@@ -81,15 +84,15 @@ namespace Barriers.Entities.Barrier.Components {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
-			if( !behavComp.HitByProjectile( ent, proj, dmg ) ) {
+			if( !behavComp.HitByProjectile( ent, proj, ref dmg ) ) {
 				return;
 			}
 
 			int defDamage = Math.Max( 0, dmg - behavComp.Defense );
 
-			if( defDamage > (mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount * behavComp.ShrinkResistScale) ) {
-				ProjectileHelpers.Hit( proj );
-			}
+			//if( dmg > (behavComp.Defense * behavComp.ShrinkResistScale) ) {
+			//	ProjectileHelpers.Hit( proj );
+			//}
 
 			proj.velocity = Vector2.Normalize( proj.position - ent.Core.position ) * proj.velocity.Length();
 

@@ -44,6 +44,8 @@ namespace Barriers.Entities.Barrier.Components {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
+			dmg = (int)Math.Min( plr.statLife, behavComp.Hp );
+
 			return behavComp.Hp > 0;
 		}
 
@@ -52,13 +54,14 @@ namespace Barriers.Entities.Barrier.Components {
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 
+			int barrierDmg = Math.Max( 0, dmg - behavComp.Defense );
+
 			//float oldHp = behavComp.Hp;
-			if( !behavComp.HitByPlayer( ent, plr, dmg ) ) {
+			if( !behavComp.HitByPlayer( ent, plr, ref barrierDmg ) ) {
 				return;
 			}
 
-			float plrDmg = dmg;
-			plrDmg += (float)dmg * behavComp.ShrinkResistScale * mymod.Config.BarrierHardnessDamageReflectionMultiplierAmount;
+			float plrDmg = dmg + behavComp.Defense;
 			plrDmg = Math.Min( plrDmg, plr.statLife );
 			
 			if( plrDmg > 0 ) {

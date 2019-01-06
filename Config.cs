@@ -13,10 +13,12 @@ namespace Barriers {
 		public string VersionSinceUpdate = "";
 
 		public bool DebugModeInfo = false;
-		
+		public bool DebugModeStatsInfo = false;
+
 		public int BarrierDefenseBaseAmount = 8;
-		public float BarrierHardnessDamageDeflectionMaximumAmount = 10f;
-		public float BarrierHardnessDamageReflectionMultiplierAmount = 2f;
+		//public float BarrierHardnessDamageDeflectionMaximumAmount = 10f;
+		//public float BarrierHardnessDamageReflectionMultiplierAmount = 2f;
+		public float BarrierHardnessScaleBaseAmount = 0f;
 		public float BarrierRegenBaseAmount = 6f / 60f;
 		public float BarrierRegenMultiplier = 1f;
 

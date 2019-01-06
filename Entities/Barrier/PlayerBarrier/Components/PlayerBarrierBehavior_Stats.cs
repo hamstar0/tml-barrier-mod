@@ -18,7 +18,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 			bool isShrinkResistChanged = this.SetBarrierShrinkResistScale( myent, behavComp.ShrinkResistScale, true );
 			bool isRegenChanged = this.SetBarrierRegenScale( myent, this.RegenScale, true );
 			
-			if( BarriersMod.Instance.Config.DebugModeInfo ) {
+			if( BarriersMod.Instance.Config.DebugModeStatsInfo ) {
 				string pow = "pow:" + this.Power + ( pwrChange!=0 ? "*" : "" );
 				string hp = "hp%:" + this.HpScale + ( isHpChanged ? "*" : "" );
 				string rad = "rad%:" + this.RadiusScale + ( isRadiusChanged ? "*" : "" );

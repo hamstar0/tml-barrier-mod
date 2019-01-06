@@ -7,7 +7,6 @@ using HamstarHelpers.Helpers.DebugHelpers;
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierPeriodicSyncEntityComponent : PeriodicSyncEntityComponent {
 		private class BarrierPeriodicSyncEntityComponentFactory : CustomEntityComponentFactory<BarrierPeriodicSyncEntityComponent> {
-			public BarrierPeriodicSyncEntityComponentFactory() { }
 			protected override void InitializeComponent( BarrierPeriodicSyncEntityComponent data ) { }
 		}
 

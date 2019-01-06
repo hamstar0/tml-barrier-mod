@@ -21,13 +21,16 @@ namespace Barriers.Entities.Barrier.NpcBarrier.Components {
 				this.RegenRate = regenRate;
 			}
 
-			protected override void InitializeComponent( T data ) {
+			protected sealed override void InitializeComponent( T data ) {
 				data.Hp = this.Hp;
 				data.Radius = this.Radius;
 				data.Defense = this.Defense;
 				data.ShrinkResistScale = this.ShrinkResistScale;
 				data.RegenRate = this.RegenRate;
+				this.InitializeNpcBarrierBehaviorComponent( data );
 			}
+
+			protected virtual void InitializeNpcBarrierBehaviorComponent( T data ) { }
 		}
 
 

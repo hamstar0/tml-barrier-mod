@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Barriers.Entities.Barrier.Components;
 using Barriers.Entities.Barrier.NpcBarrier.Components;
 using HamstarHelpers.Components.CustomEntity;
@@ -9,7 +8,8 @@ using HamstarHelpers.Helpers.DebugHelpers;
 
 namespace Barriers.Entities.Barrier.NpcBarrier {
 	public partial class NpcBarrierEntity : BarrierEntity {
-		public override Tuple<bool, bool> SyncFromClientServer => Tuple.Create( false, true );
+		public override bool SyncFromClient => false;
+		public override bool SyncFromServer => true;
 
 
 
@@ -42,7 +42,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 				myfactory?.Hp ?? mymod.Config.NpcBarrierHpBaseAmount,
 				myfactory?.Radius ?? mymod.Config.NpcBarrierHpBaseAmount,
 				myfactory?.Defense ?? mymod.Config.BarrierDefenseBaseAmount,
-				myfactory?.ShrinkResistScale ?? mymod.Config.BarrierHardnessDamageDeflectionMaximumAmount,
+				myfactory?.ShrinkResistScale ?? mymod.Config.BarrierHardnessScaleBaseAmount,
 				myfactory?.RegenRate ?? mymod.Config.BarrierRegenBaseAmount
 			);
 		}
