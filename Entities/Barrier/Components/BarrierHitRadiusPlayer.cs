@@ -30,7 +30,9 @@ namespace Barriers.Entities.Barrier.Components {
 
 		protected BarrierHitRadiusPlayerEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
-		
+		protected override void OnInitialize() { }
+
+
 		////////////////
 
 		public override float GetRadius( CustomEntity ent ) {
@@ -53,28 +55,26 @@ namespace Barriers.Entities.Barrier.Components {
 			var mymod = BarriersMod.Instance;
 			var myent = (BarrierEntity)ent;
 			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
-
-			int barrierDmg = Math.Max( 0, dmg - behavComp.Defense );
-
-			//float oldHp = behavComp.Hp;
-			if( !behavComp.HitByPlayer( ent, plr, ref barrierDmg ) ) {
+			
+			float oldHp = behavComp.Hp;
+			if( !behavComp.HitByPlayer( ent, plr, ref dmg ) ) {
 				return;
 			}
 
-			float plrDmg = dmg + behavComp.Defense;
+			int plrDmg = dmg + behavComp.Defense;
 			plrDmg = Math.Min( plrDmg, plr.statLife );
 			
 			if( plrDmg > 0 ) {
-				PlayerHelpers.RawHurt( plr, PlayerDeathReason.ByCustomReason(" forgot to knock first"), (int)plrDmg, 0 );
+				PlayerHelpers.RawHurt( plr, PlayerDeathReason.ByCustomReason(plr.name+" forgot to knock first"), (int)plrDmg, 0 );
 
 				plr.velocity += Vector2.Normalize( plr.position - ent.Core.position ) * (plrDmg / 40);
 
 				myent.EmitImpactFx( plr.Center, plr.width, plr.height, plrDmg );
 			}
 
-			//if( mymod.Config.DebugModeInfo ) {
-			//	DebugHelpers.Print( "barrier hurts "+npc.TypeName+" ("+npc.whoAmI+")", "dmg:"+damage+", -hp:"+(oldHp-behavComp.Hp)+", -rad:"+radDamage+", npc hit:"+npcDamage, 20 );
-			//}
+			if( mymod.Config.DebugModeStatsInfo ) {
+				DebugHelpers.Print( "barrier hurts " + plr.name + " (" + plr.whoAmI + ")", "dmg:" + dmg + ", -hp:" + (oldHp - behavComp.Hp) + ", plrDmg:" + plrDmg, 20 );
+			}
 		}
 	}
 }

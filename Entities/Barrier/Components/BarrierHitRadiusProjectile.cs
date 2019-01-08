@@ -1,5 +1,6 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
+using HamstarHelpers.Components.Errors;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Helpers.ProjectileHelpers;
@@ -51,6 +52,15 @@ namespace Barriers.Entities.Barrier.Components {
 
 		protected BarrierHitRadiusProjectileEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
+		protected override void OnInitialize() {
+			if( this.HitsFriendly < -1 || this.HitsFriendly > 1 ) {
+				throw new HamstarException( "Invalid HitsFriendly value." );
+			}
+			if( this.HitsHostile < -1 || this.HitsHostile > 1 ) {
+				throw new HamstarException( "Invalid HitsHostile value." );
+			}
+		}
+
 
 		////////////////
 
@@ -91,8 +101,9 @@ namespace Barriers.Entities.Barrier.Components {
 			int defDamage = Math.Max( 0, dmg - behavComp.Defense );
 
 			//if( dmg > (behavComp.Defense * behavComp.ShrinkResistScale) ) {
-			//	ProjectileHelpers.Hit( proj );
-			//}
+			if( dmg > 0 ) {
+				ProjectileHelpers.Hit( proj );
+			}
 
 			proj.velocity = Vector2.Normalize( proj.position - ent.Core.position ) * proj.velocity.Length();
 

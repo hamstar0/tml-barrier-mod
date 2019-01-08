@@ -71,7 +71,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		protected BarrierDrawInGameEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
-		protected override void PostPostInitialize() {
+		protected override void PostInitialize() {
 			var mymod = BarriersMod.Instance;
 
 			if( !Main.dedServ ) {
@@ -92,7 +92,7 @@ namespace Barriers.Entities.Barrier.Components {
 			var behavComp = myent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 			float radius = behavComp.Radius;
 
-			if( radius == 0 ) {
+			if( radius == 0 || behavComp.Hp == 0 ) {
 				return;
 			}
 			

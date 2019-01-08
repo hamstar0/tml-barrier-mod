@@ -47,7 +47,9 @@ namespace Barriers.Entities.Barrier.Components {
 
 		protected BarrierHitRadiusNpcEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
-		
+		protected override void OnInitialize() { }
+
+
 		////////////////
 
 		public override float GetRadius( CustomEntity ent ) {
@@ -83,7 +85,7 @@ namespace Barriers.Entities.Barrier.Components {
 			float npcDamage = dmg + behavComp.Defense;
 
 			if( npcDamage > 0 ) {
-				NPCHelpers.HurtRaw( npc, (int)npcDamage );
+				NPCHelpers.RawHurt( npc, (int)npcDamage );
 
 				npc.velocity += Vector2.Normalize( npc.position - ent.Core.position ) * ( npcDamage / 20 );
 

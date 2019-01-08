@@ -16,9 +16,11 @@ namespace Barriers.Entities.Barrier {
 			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
 			var myfactory = factory as IBarrierEntityFactory;
 
-			float rad = myfactory?.Radius * 2f ?? 64f;
+			float rad = myfactory?.Radius ?? 64f;
+			float dim = rad * 2f;
+			Vector2 pos = (myfactory?.Center ?? default(Vector2)) - new Vector2(rad, rad);
 
-			return new CustomEntityCore( "Barrier", (int)rad, (int)rad, ( myfactory?.Center ?? default( Vector2 ) ), 1 );
+			return new CustomEntityCore( "Barrier", (int)dim, (int)dim, pos, 1 );
 		}
 
 		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {

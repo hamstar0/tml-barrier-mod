@@ -25,6 +25,8 @@ namespace Barriers.Entities.Barrier.Components {
 
 		protected BarrierPeriodicSyncEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 		
+		////
+
 		protected override bool UpdateMe( CustomEntity ent ) {
 			bool isUpdated = base.UpdateMe( ent );
 

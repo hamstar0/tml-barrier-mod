@@ -46,18 +46,21 @@ namespace Barriers.Entities.Barrier.Components {
 		}
 
 		public override bool PreDrawFullscreenMap( SpriteBatch sb, CustomEntity ent ) {
+			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 			this.UpdateScale( ent );
-			return true;
+			return behavComp.Hp > 0 && behavComp.Radius > 0;
 		}
 
 		public override bool PreDrawMiniMap( SpriteBatch sb, CustomEntity ent ) {
+			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 			this.UpdateScale( ent );
-			return true;
+			return behavComp.Hp > 0 && behavComp.Radius > 0;
 		}
 
 		public override bool PreDrawOverlayMap( SpriteBatch sb, CustomEntity ent ) {
+			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
 			this.UpdateScale( ent );
-			return true;
+			return behavComp.Hp > 0 && behavComp.Radius > 0;
 		}
 	}
 }

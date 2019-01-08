@@ -17,6 +17,8 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 
 		protected PlayerBarrierBehaviorEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
+		protected override void OnInitialize() { }
+
 
 		////////////////
 
