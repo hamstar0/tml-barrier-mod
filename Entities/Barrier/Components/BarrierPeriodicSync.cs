@@ -32,7 +32,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 			if( isUpdated ) {
 				if( BarriersMod.Instance.Config.DebugModeInfo ) {
-					LogHelpers.Log( "Barriers.BarrierPeriodicSyncEntityComponentFactory.UpdateMe - Sync occurred" );
+					LogHelpers.Alert( "Sync occurred" );
 				}
 			}
 

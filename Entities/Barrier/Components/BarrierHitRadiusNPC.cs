@@ -53,7 +53,7 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		public override float GetRadius( CustomEntity ent ) {
-			return ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>().Radius;
+			return ent.GetComponentByType<BarrierStatsEntityComponent>().Radius;
 		}
 
 
@@ -61,28 +61,28 @@ namespace Barriers.Entities.Barrier.Components {
 
 		public override bool PreHurt( CustomEntity ent, NPC npc, ref int dmg ) {
 			var myent = (BarrierEntity)ent;
-			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = ent.GetComponentByType<BarrierStatsEntityComponent>();
 
-			dmg = (int)Math.Min( npc.life, behavComp.Hp );
+			dmg = (int)Math.Min( npc.life, statsComp.Hp );
 			
 			if( this.HitsFriendly != npc.friendly ) {
 				return false;
 			}
 
-			return behavComp.Hp > 0;
+			return statsComp.Hp > 0;
 		}
 
 		public override void PostHurt( CustomEntity ent, NPC npc, int dmg ) {
 			var mymod = BarriersMod.Instance;
 			var myent = (BarrierEntity)ent;
-			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = ent.GetComponentByType<BarrierStatsEntityComponent>();
 
 			//float oldHp = behavComp.Hp;
-			if( !behavComp.HitByNpc( ent, npc, ref dmg ) ) {
+			if( !statsComp.HitByNpc( ent, npc, ref dmg ) ) {
 				return;
 			}
 
-			float npcDamage = dmg + behavComp.Defense;
+			float npcDamage = dmg + statsComp.Defense;
 
 			if( npcDamage > 0 ) {
 				NPCHelpers.RawHurt( npc, (int)npcDamage );

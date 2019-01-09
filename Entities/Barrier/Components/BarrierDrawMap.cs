@@ -39,28 +39,28 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		private void UpdateScale( CustomEntity ent ) {
-			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
-			float radius = behavComp.Radius;
+			var statsComp = ent.GetComponentByType<BarrierStatsEntityComponent>();
+			float radius = statsComp.Radius;
 
 			this.Scale = radius / (128f * 8f);
 		}
 
 		public override bool PreDrawFullscreenMap( SpriteBatch sb, CustomEntity ent ) {
-			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = ent.GetComponentByType<BarrierStatsEntityComponent>();
 			this.UpdateScale( ent );
-			return behavComp.Hp > 0 && behavComp.Radius > 0;
+			return statsComp.Hp > 0 && statsComp.Radius > 0;
 		}
 
 		public override bool PreDrawMiniMap( SpriteBatch sb, CustomEntity ent ) {
-			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = ent.GetComponentByType<BarrierStatsEntityComponent>();
 			this.UpdateScale( ent );
-			return behavComp.Hp > 0 && behavComp.Radius > 0;
+			return statsComp.Hp > 0 && statsComp.Radius > 0;
 		}
 
 		public override bool PreDrawOverlayMap( SpriteBatch sb, CustomEntity ent ) {
-			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = ent.GetComponentByType<BarrierStatsEntityComponent>();
 			this.UpdateScale( ent );
-			return behavComp.Hp > 0 && behavComp.Radius > 0;
+			return statsComp.Hp > 0 && statsComp.Radius > 0;
 		}
 	}
 }

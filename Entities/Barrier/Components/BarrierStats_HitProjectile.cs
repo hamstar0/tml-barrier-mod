@@ -5,7 +5,7 @@ using Terraria;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	public partial class BarrierStatsBehaviorEntityComponent : CustomEntityComponent {
+	public partial class BarrierStatsEntityComponent : CustomEntityComponent {
 		public bool HitByProjectile( CustomEntity ent, Projectile proj, ref int dmg ) {
 			var mymod = BarriersMod.Instance;
 

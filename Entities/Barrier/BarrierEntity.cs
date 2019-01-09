@@ -34,7 +34,7 @@ namespace Barriers.Entities.Barrier {
 				edgeColor = myfactory.BarrierEdgeColor;
 			}
 
-			var behavComp = this.CreateStatsBehaviorComponent( myfactory );
+			var statsComp = this.CreateStatsComponent( myfactory );
 
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				if( myfactory != null ) {
@@ -42,14 +42,15 @@ namespace Barriers.Entities.Barrier {
 						+ ", rad:" + myfactory.Radius
 						+ ", def:" + myfactory.Defense
 						+ ", regen:" + myfactory.RegenRate
-						+ ", hard:" + myfactory.ShrinkResistScale );
+						+ ", hard:" + myfactory.ShrinkResistScale
+					);
 				} else {
 					LogHelpers.LogOnce( "New template barrier (probably sync) " + this.ToString() );
 				}
 			}
 
 			var comps = new List<CustomEntityComponent> {
-				behavComp,
+				statsComp,
 				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent( bodyColor, edgeColor ),
 				BarrierDrawOnMapEntityComponent.CreateBarrierDrawOnMapEntityComponent(),
 				BarrierPeriodicSyncEntityComponent.CreateBarrierPeriodicSyncEntityComponent()
@@ -70,8 +71,8 @@ namespace Barriers.Entities.Barrier {
 
 		////
 
-		protected virtual BarrierStatsBehaviorEntityComponent CreateStatsBehaviorComponent( IBarrierEntityFactory myfactory ) {
-			return BarrierStatsBehaviorEntityComponent.CreateBarrierStatsBehaviorEntityComponent(
+		protected virtual BarrierStatsEntityComponent CreateStatsComponent( IBarrierEntityFactory myfactory ) {
+			return BarrierStatsEntityComponent.CreateBarrierStatsEntityComponent(
 				myfactory?.Hp ?? 64f,
 				myfactory?.Radius ?? 64f,
 				myfactory?.Defense ?? 0,

@@ -5,7 +5,7 @@ using Terraria;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	public partial class BarrierStatsBehaviorEntityComponent : CustomEntityComponent {
+	public partial class BarrierStatsEntityComponent : CustomEntityComponent {
 		public bool HitByPlayer( CustomEntity ent, Player plr, ref int dmg ) {
 			var mymod = BarriersMod.Instance;
 			int defDmg = Math.Max( 0, dmg - this.Defense );

@@ -4,8 +4,8 @@ using System;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	public partial class BarrierStatsBehaviorEntityComponent : CustomEntityComponent {
-		protected class BarrierStatsBehaviorEntityComponentFactory<T> : CustomEntityComponentFactory<T> where T : BarrierStatsBehaviorEntityComponent {
+	public partial class BarrierStatsEntityComponent : CustomEntityComponent {
+		protected class BarrierStatsEntityComponentFactory<T> : CustomEntityComponentFactory<T> where T : BarrierStatsEntityComponent {
 			public float Hp;
 			public float Radius;
 			public float RadiusRegenRate;
@@ -14,7 +14,7 @@ namespace Barriers.Entities.Barrier.Components {
 			public int RegenRegenDurationHighest;
 
 
-			public BarrierStatsBehaviorEntityComponentFactory( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
+			public BarrierStatsEntityComponentFactory( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
 				this.Hp = hp;
 				this.Radius = radius;
 				this.RadiusRegenRate = regenRate;
@@ -32,18 +32,18 @@ namespace Barriers.Entities.Barrier.Components {
 				data.Defense = this.Defense;
 				data.ShrinkResistScale = this.ShrinkResist;
 				data.RegenRegenDurationHighest = this.RegenRegenDurationHighest;
-				this.InitializeBarrierStatsBehaviorComponent( data );
+				this.InitializeBarrierStatsComponent( data );
 			}
 
-			protected virtual void InitializeBarrierStatsBehaviorComponent( T data ) { }
+			protected virtual void InitializeBarrierStatsComponent( T data ) { }
 		}
 
 
 
 		////////////////
 
-		public static BarrierStatsBehaviorEntityComponent CreateBarrierStatsBehaviorEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
-			var factory = new BarrierStatsBehaviorEntityComponentFactory<BarrierStatsBehaviorEntityComponent>( hp, radius, defense, regenRate, shrinkResist, regenRegenDurationHighest );
+		public static BarrierStatsEntityComponent CreateBarrierStatsEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResist, int regenRegenDurationHighest ) {
+			var factory = new BarrierStatsEntityComponentFactory<BarrierStatsEntityComponent>( hp, radius, defense, regenRate, shrinkResist, regenRegenDurationHighest );
 			return factory.Create();
 		}
 	}

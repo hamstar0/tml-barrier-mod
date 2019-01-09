@@ -89,7 +89,7 @@ namespace Barriers.Entities.Barrier.Components {
 		
 		public override void Draw( SpriteBatch sb, CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
-			var behavComp = myent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var behavComp = myent.GetComponentByType<BarrierStatsEntityComponent>();
 			float radius = behavComp.Radius;
 
 			if( radius == 0 || behavComp.Hp == 0 ) {

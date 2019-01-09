@@ -7,7 +7,7 @@ using System;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	public partial class BarrierStatsBehaviorEntityComponent : CustomEntityComponent {
+	public partial class BarrierStatsEntityComponent : CustomEntityComponent {
 		[JsonIgnore]
 		[PacketProtocolIgnore]
 		private int RegenRegen = 0;
@@ -25,7 +25,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		protected BarrierStatsBehaviorEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+		protected BarrierStatsEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		protected override void OnInitialize() { }
 

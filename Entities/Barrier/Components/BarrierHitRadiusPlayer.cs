@@ -36,7 +36,7 @@ namespace Barriers.Entities.Barrier.Components {
 		////////////////
 
 		public override float GetRadius( CustomEntity ent ) {
-			return ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>().Radius;
+			return ent.GetComponentByType<BarrierStatsEntityComponent>().Radius;
 		}
 
 
@@ -44,24 +44,24 @@ namespace Barriers.Entities.Barrier.Components {
 
 		public override bool PreHurt( CustomEntity ent, Player plr, ref int dmg ) {
 			var myent = (BarrierEntity)ent;
-			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = ent.GetComponentByType<BarrierStatsEntityComponent>();
 
-			dmg = (int)Math.Min( plr.statLife, behavComp.Hp );
+			dmg = (int)Math.Min( plr.statLife, statsComp.Hp );
 
-			return behavComp.Hp > 0;
+			return statsComp.Hp > 0;
 		}
 
 		public override void PostHurt( CustomEntity ent, Player plr, int dmg ) {
 			var mymod = BarriersMod.Instance;
 			var myent = (BarrierEntity)ent;
-			var behavComp = ent.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = ent.GetComponentByType<BarrierStatsEntityComponent>();
 			
-			float oldHp = behavComp.Hp;
-			if( !behavComp.HitByPlayer( ent, plr, ref dmg ) ) {
+			float oldHp = statsComp.Hp;
+			if( !statsComp.HitByPlayer( ent, plr, ref dmg ) ) {
 				return;
 			}
 
-			int plrDmg = dmg + behavComp.Defense;
+			int plrDmg = dmg + statsComp.Defense;
 			plrDmg = Math.Min( plrDmg, plr.statLife );
 			
 			if( plrDmg > 0 ) {
@@ -73,7 +73,7 @@ namespace Barriers.Entities.Barrier.Components {
 			}
 
 			if( mymod.Config.DebugModeStatsInfo ) {
-				DebugHelpers.Print( "barrier hurts " + plr.name + " (" + plr.whoAmI + ")", "dmg:" + dmg + ", -hp:" + (oldHp - behavComp.Hp) + ", plrDmg:" + plrDmg, 20 );
+				DebugHelpers.Print( "barrier hurts " + plr.name + " (" + plr.whoAmI + ")", "dmg:" + dmg + ", -hp:" + (oldHp - statsComp.Hp) + ", plrDmg:" + plrDmg, 20 );
 			}
 		}
 	}

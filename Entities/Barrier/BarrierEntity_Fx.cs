@@ -9,10 +9,10 @@ using Terraria;
 namespace Barriers.Entities.Barrier {
 	public abstract partial class BarrierEntity : CustomEntity {
 		public virtual Color GetBarrierColor() {
-			var behavComp = this.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = this.GetComponentByType<BarrierStatsEntityComponent>();
 			var drawComp = this.GetComponentByType<BarrierDrawInGameEntityComponent>();
 
-			float opacity = Math.Min( (float)behavComp.Defense / 64f, 1f );
+			float opacity = Math.Min( (float)statsComp.Defense / 64f, 1f );
 			opacity = 0.25f + ( opacity * 0.6f );
 
 			return drawComp.BarrierBodyColor * opacity;
@@ -20,10 +20,10 @@ namespace Barriers.Entities.Barrier {
 
 
 		public virtual Color GetEdgeColor() {
-			var behavComp = this.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = this.GetComponentByType<BarrierStatsEntityComponent>();
 			var drawComp = this.GetComponentByType<BarrierDrawInGameEntityComponent>();
 
-			return drawComp.BarrierEdgeColor * behavComp.ShrinkResistScale;
+			return drawComp.BarrierEdgeColor * statsComp.ShrinkResistScale;
 		}
 
 

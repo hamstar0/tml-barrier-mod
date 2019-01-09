@@ -75,13 +75,13 @@ namespace Barriers.Items {
 		public override void ModifyTooltips( List<TooltipLine> tooltips ) {
 			var mymod = (BarriersMod)this.mod;
 			var barrer = mymod.BarrierManager.GetForPlayer( Main.LocalPlayer );
-			var behavComp = barrer.GetComponentByType<BarrierStatsBehaviorEntityComponent>();
+			var statsComp = barrer.GetComponentByType<BarrierStatsEntityComponent>();
 
-			var hpStat = new TooltipLine( this.mod, "stat_hp", "  Hp: " + (int)behavComp.Hp + "/" + behavComp.MaxHp );
-			var radStat = new TooltipLine( this.mod, "stat_rad", "  Radius: " + (int)behavComp.Radius + "/" + behavComp.MaxRadius );
-			var defStat = new TooltipLine( this.mod, "stat_def", "  Defense: " + behavComp.Defense );
-			var regStat = new TooltipLine( this.mod, "stat_reg", "  Regen.: " + (behavComp.RegenRate*60f).ToString("N2")+" per second" );
-			var hardStat = new TooltipLine( this.mod, "stat_hard", "  Hardness: " + (behavComp.ShrinkResistScale*100f).ToString("N0")+"%" );
+			var hpStat = new TooltipLine( this.mod, "stat_hp", "  Hp: " + (int)statsComp.Hp + "/" + statsComp.MaxHp );
+			var radStat = new TooltipLine( this.mod, "stat_rad", "  Radius: " + (int)statsComp.Radius + "/" + statsComp.MaxRadius );
+			var defStat = new TooltipLine( this.mod, "stat_def", "  Defense: " + statsComp.Defense );
+			var regStat = new TooltipLine( this.mod, "stat_reg", "  Regen.: " + (statsComp.RegenRate*60f).ToString("N2")+" per second" );
+			var hardStat = new TooltipLine( this.mod, "stat_hard", "  Hardness: " + (statsComp.ShrinkResistScale*100f).ToString("N0")+"%" );
 
 			hpStat.overrideColor = Color.Gray;
 			radStat.overrideColor = Color.Gray;

@@ -2,6 +2,9 @@ v3
 -	Implement paling tile
 -	Define barrier item upgrades
 v2
+-	F&T
+	-	Fix redundant player barrier on creation
+	-	Disable player barrier while dead
 -	Implement barrier creation API
 -	Define NPC barrier
 
