@@ -4,7 +4,6 @@ using Barriers.Entities.Barrier.Components;
 using Barriers.Entities.Barrier.PlayerBarrier.Components;
 using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.Network;
-using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Newtonsoft.Json;
 
@@ -27,19 +26,20 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 		////////////////
 
-		protected PlayerBarrierEntity( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+		private PlayerBarrierEntity() : base( null ) { }
+		protected PlayerBarrierEntity( PlayerBarrierEntityFactory ctor ) : base( ctor ) { }
 
 
 		////////////////
 
-		protected override IList<CustomEntityComponent> CreateComponents( CustomEntityFactory factory ) {
+		protected override IList<CustomEntityComponent> CreateComponents( CustomEntityConstructor factory ) {
 			var mymod = BarriersMod.Instance;
 			var myfactory = factory as IPlayerBarrierEntityFactory; //PlayerBarrierEntityFactory;
 			IList<CustomEntityComponent> comps = base.CreateComponents( factory );
 
 			comps.Insert( 0, this.CreatePlayerBehaviorComponent( myfactory ) );
-			comps.Add( BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent( -1, 1 ) );
-			comps.Add( BarrierHitRadiusNpcEntityComponent.CreateBarrierHitRadiusNpcEntityComponent( false ) );
+			comps.Add( new BarrierHitRadiusProjectileEntityComponent( -1, 1 ) );
+			comps.Add( new BarrierHitRadiusNpcEntityComponent( false ) );
 
 			return comps;
 		}
@@ -48,7 +48,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		protected virtual PlayerBarrierBehaviorEntityComponent CreatePlayerBehaviorComponent( IPlayerBarrierEntityFactory myfactory ) {
 			var mymod = BarriersMod.Instance;
 
-			return PlayerBarrierBehaviorEntityComponent.CreatePlayerBarrierBehaviorEntityComponent(
+			return new PlayerBarrierBehaviorEntityComponent(
 				myfactory?.Power ?? mymod.Config.PlayerBarrierDefaultShieldPower,
 				myfactory?.HpScale ?? 1f,
 				myfactory?.RadiusScale ?? 1f,

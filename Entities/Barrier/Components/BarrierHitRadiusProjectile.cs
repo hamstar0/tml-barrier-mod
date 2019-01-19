@@ -1,7 +1,6 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Errors;
-using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Helpers.ProjectileHelpers;
 using Microsoft.Xna.Framework;
@@ -10,29 +9,7 @@ using Terraria;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	class BarrierHitRadiusProjectileEntityComponent : HitRadiusProjectileEntityComponent {
-		private class BarrierHitRadiusProjectileEntityComponentFactory {
-			public int HitsFriendly;	// .friendly = Hurts enemies
-			public int HitsHostile;		// .hostile = Hurts player and friends
-			
-			public BarrierHitRadiusProjectileEntityComponentFactory( int hitsFriendly, int hitsHostile ) {
-				this.HitsFriendly = hitsFriendly;
-				this.HitsHostile = hitsHostile;
-			}
-		}
-
-
-		////////////////
-
-		public static BarrierHitRadiusProjectileEntityComponent CreateBarrierHitRadiusProjectileEntityComponent( int hitsFriendly, int hitsHostile ) {
-			var factory = new BarrierHitRadiusProjectileEntityComponentFactory( hitsFriendly, hitsHostile );
-			return BarrierHitRadiusProjectileEntityComponent.CreateDefault<BarrierHitRadiusProjectileEntityComponent>( factory );
-		}
-
-
-
-		////////////////
-
+	public class BarrierHitRadiusProjectileEntityComponent : HitRadiusProjectileEntityComponent {
 		public int HitsFriendly;
 		public int HitsHostile;
 
@@ -40,7 +17,14 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		protected BarrierHitRadiusProjectileEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+		private BarrierHitRadiusProjectileEntityComponent() { }
+
+		public BarrierHitRadiusProjectileEntityComponent( int hitsFriendly, int hitsHostile ) : this() {
+			this.HitsFriendly = hitsFriendly;   // .friendly = Hurts enemies
+			this.HitsHostile = hitsHostile;		// .hostile = Hurts player and friends
+		}
+
+		////
 
 		protected override void OnInitialize() {
 			if( this.HitsFriendly < -1 || this.HitsFriendly > 1 ) {
@@ -49,12 +33,6 @@ namespace Barriers.Entities.Barrier.Components {
 			if( this.HitsHostile < -1 || this.HitsHostile > 1 ) {
 				throw new HamstarException( "Invalid HitsHostile value." );
 			}
-		}
-
-		////
-
-		protected override Type GetMyFactoryType() {
-			return typeof( BarrierHitRadiusProjectileEntityComponentFactory );
 		}
 
 

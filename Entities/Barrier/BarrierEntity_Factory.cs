@@ -20,7 +20,7 @@ namespace Barriers.Entities.Barrier {
 
 
 
-		protected abstract class BarrierEntityFactory : CustomEntityConstructor, IBarrierEntityFactory {
+		protected abstract class BarrierEntityConstructor : CustomEntityConstructor, IBarrierEntityFactory {
 			public abstract float Hp { get; }
 			public abstract float Radius { get; }
 			public abstract int Defense { get; }
@@ -32,7 +32,7 @@ namespace Barriers.Entities.Barrier {
 			public abstract Vector2 Center { get; }
 
 
-			protected BarrierEntityFactory( Player ownerPlr ) : base( ownerPlr ) { }
+			protected BarrierEntityConstructor( Player ownerPlr ) : base( ownerPlr ) { }
 		}
 	}
 }

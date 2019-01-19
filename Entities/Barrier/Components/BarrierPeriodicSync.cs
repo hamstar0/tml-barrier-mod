@@ -1,18 +1,13 @@
 ﻿using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
-using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using System;
 
+
 namespace Barriers.Entities.Barrier.Components {
-	class BarrierPeriodicSyncEntityComponent : PeriodicSyncEntityComponent {
-		protected BarrierPeriodicSyncEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
-
-		////
-
-		protected override Type GetMyFactoryType() {
-			return null;
-		}
+	public class BarrierPeriodicSyncEntityComponent : PeriodicSyncEntityComponent {
+		private BarrierPeriodicSyncEntityComponent() : base() { }
+		public BarrierPeriodicSyncEntityComponent( object _ = null ) : this() { }
 
 
 		////////////////

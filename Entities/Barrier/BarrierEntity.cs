@@ -1,6 +1,5 @@
 ﻿using Barriers.Entities.Barrier.Components;
 using HamstarHelpers.Components.CustomEntity;
-using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -9,12 +8,12 @@ using System.Collections.Generic;
 namespace Barriers.Entities.Barrier {
 	public abstract partial class BarrierEntity : CustomEntity {
 		private BarrierEntity() : base( null ) { }
+		protected BarrierEntity( BarrierEntityConstructor ctor ) : base( ctor ) { }
 
-		////
 
-		protected override CustomEntityCore CreateCore( CustomEntityFactory factory ) {
+		protected override CustomEntityCore CreateCore( CustomEntityConstructor ctor ) {
 			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
-			var myfactory = factory as IBarrierEntityFactory;
+			var myfactory = ctor as IBarrierEntityFactory;
 
 			float rad = myfactory?.Radius ?? 64f;
 			float dim = rad * 2f;
@@ -23,9 +22,9 @@ namespace Barriers.Entities.Barrier {
 			return new CustomEntityCore( "Barrier", (int)dim, (int)dim, pos, 1 );
 		}
 
-		protected override IList<CustomEntityComponent> CreateComponents( CustomEntityFactory factory ) {
+		protected override IList<CustomEntityComponent> CreateComponents( CustomEntityConstructor ctor ) {
 			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
-			var myfactory = factory as IBarrierEntityFactory;
+			var myfactory = ctor as IBarrierEntityFactory;
 			var bodyColor = new Color( 128, 128, 128 );
 			var edgeColor = new Color( 160, 160, 160 );
 
@@ -51,9 +50,9 @@ namespace Barriers.Entities.Barrier {
 
 			var comps = new List<CustomEntityComponent> {
 				statsComp,
-				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent( bodyColor, edgeColor ),
-				PacketProtocolData.CreateDefault<BarrierDrawOnMapEntityComponent>(),
-				PacketProtocolData.CreateDefault<BarrierPeriodicSyncEntityComponent>()
+				new BarrierDrawInGameEntityComponent( bodyColor, edgeColor ),
+				new BarrierDrawOnMapEntityComponent(),
+				new BarrierPeriodicSyncEntityComponent()
 			};
 
 			return comps;
@@ -72,7 +71,7 @@ namespace Barriers.Entities.Barrier {
 		////
 
 		protected virtual BarrierStatsEntityComponent CreateStatsComponent( IBarrierEntityFactory myfactory ) {
-			return BarrierStatsEntityComponent.CreateBarrierStatsEntityComponent(
+			return new BarrierStatsEntityComponent(
 				myfactory?.Hp ?? 64f,
 				myfactory?.Radius ?? 64f,
 				myfactory?.Defense ?? 0,

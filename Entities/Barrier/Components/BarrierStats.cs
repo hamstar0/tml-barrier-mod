@@ -25,15 +25,20 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		protected BarrierStatsEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
-
-		protected override void OnInitialize() { }
+		private BarrierStatsEntityComponent() { }
+		public BarrierStatsEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResistScale, int regenRegenDurationHighest ) : this() {
+			this.Hp = hp;
+			this.Radius = radius;
+			this.MaxRadius = radius;
+			this.RegenRate = regenRate;
+			this.Defense = defense;
+			this.ShrinkResistScale = shrinkResistScale;
+			this.RegenRegenDurationHighest = regenRegenDurationHighest;
+		}
 
 		////
 
-		protected override Type GetMyFactoryType() {
-			return typeof( BarrierStatsEntityComponentFactory );
-		}
+		protected override void OnInitialize() { }
 
 
 		////////////////

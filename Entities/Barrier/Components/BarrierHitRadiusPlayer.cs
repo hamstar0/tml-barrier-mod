@@ -10,16 +10,11 @@ using Terraria.DataStructures;
 
 
 namespace Barriers.Entities.Barrier.Components {
-	class BarrierHitRadiusPlayerEntityComponent : HitRadiusPlayerEntityComponent {
-		protected BarrierHitRadiusPlayerEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+	public class BarrierHitRadiusPlayerEntityComponent : HitRadiusPlayerEntityComponent {
+		private BarrierHitRadiusPlayerEntityComponent() { }
+		public BarrierHitRadiusPlayerEntityComponent( object _ = null ) : this() { }
 
 		protected override void OnInitialize() { }
-
-		////
-
-		protected override Type GetMyFactoryType() {
-			return null;
-		}
 
 
 		////////////////

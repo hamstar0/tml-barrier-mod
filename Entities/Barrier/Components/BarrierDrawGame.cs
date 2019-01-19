@@ -2,7 +2,6 @@
 using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network;
-using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,22 +11,6 @@ using Terraria;
 
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierDrawInGameEntityComponent : DrawsInGameEntityComponent {
-		private class BarrierDrawInGameEntityComponentFactory : DrawsInGameEntityComponentFactory {
-			public Color BarrierBodyColor;
-			public Color BarrierEdgeColor;
-
-
-			public BarrierDrawInGameEntityComponentFactory( Color bodyColor, Color edgeColor )
-					: base( "Barriers", "Entities/Barrier/Barrier128", 1 ) {
-				this.BarrierBodyColor = bodyColor;
-				this.BarrierEdgeColor = edgeColor;
-			}
-		}
-
-
-
-		////////////////
-
 		[PacketProtocolIgnore]
 		[JsonIgnore]
 		protected Texture2D Body2048;
@@ -56,7 +39,13 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		protected BarrierDrawInGameEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+		private BarrierDrawInGameEntityComponent() : base( "Barriers", "Entities/Barrier/Barrier128", 1 ) { }
+		public BarrierDrawInGameEntityComponent( Color bodyColor, Color edgeColor ) : this() {
+			this.BarrierBodyColor = bodyColor;
+			this.BarrierEdgeColor = edgeColor;
+		}
+
+		////
 
 		protected override void PostInitialize() {
 			var mymod = BarriersMod.Instance;
@@ -69,12 +58,6 @@ namespace Barriers.Entities.Barrier.Components {
 				this.Edge512 = mymod.GetTexture( "Entities/Barrier/BarrierRing512" );
 				this.Edge2048 = mymod.GetTexture( "Entities/Barrier/BarrierRing2048" );
 			}
-		}
-
-		////
-
-		protected override Type GetMyFactoryType() {
-			return typeof( BarrierDrawInGameEntityComponentFactory );
 		}
 
 

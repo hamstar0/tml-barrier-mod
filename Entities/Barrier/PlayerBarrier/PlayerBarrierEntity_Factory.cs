@@ -16,7 +16,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 
 
-		protected class PlayerBarrierEntityFactory : BarrierEntityFactory, IPlayerBarrierEntityFactory {
+		protected class PlayerBarrierEntityFactory : BarrierEntityConstructor, IPlayerBarrierEntityFactory {
 			public int Power { get; }
 			public float HpScale { get; }
 			public float RadiusScale { get; }
@@ -65,7 +65,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 			}
 
 			var factory = new PlayerBarrierEntityFactory( ownerPlr, power, hpScale, radiusScale, defenseScale, shrinkResist, regenScale, center, bodyColor, edgeColor );
-			return PlayerBarrierEntity.CreateDefault<PlayerBarrierEntity>( factory );
+			return new PlayerBarrierEntity( factory );
 		}
 
 		internal static PlayerBarrierEntity CreateDefaultPlayerBarrierEntity( Player ownerPlr ) {
