@@ -8,11 +8,11 @@ using System.Collections.Generic;
 
 namespace Barriers.Entities.Barrier {
 	public abstract partial class BarrierEntity : CustomEntity {
-		protected BarrierEntity( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+		private BarrierEntity() : base( null ) { }
 
 		////
 
-		protected override CustomEntityCore CreateCore<T>( CustomEntityFactory<T> factory ) {
+		protected override CustomEntityCore CreateCore( CustomEntityFactory factory ) {
 			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
 			var myfactory = factory as IBarrierEntityFactory;
 
@@ -23,7 +23,7 @@ namespace Barriers.Entities.Barrier {
 			return new CustomEntityCore( "Barrier", (int)dim, (int)dim, pos, 1 );
 		}
 
-		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
+		protected override IList<CustomEntityComponent> CreateComponents( CustomEntityFactory factory ) {
 			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
 			var myfactory = factory as IBarrierEntityFactory;
 			var bodyColor = new Color( 128, 128, 128 );
@@ -38,22 +38,22 @@ namespace Barriers.Entities.Barrier {
 
 			if( BarriersMod.Instance.Config.DebugModeInfo ) {
 				if( myfactory != null ) {
-					LogHelpers.Log( "New barrier stats = hp:" + myfactory.Hp
+					LogHelpers.Log( "Initializing barrier components - Stats = hp:" + myfactory.Hp
 						+ ", rad:" + myfactory.Radius
 						+ ", def:" + myfactory.Defense
 						+ ", regen:" + myfactory.RegenRate
 						+ ", hard:" + myfactory.ShrinkResistScale
 					);
 				} else {
-					LogHelpers.LogOnce( "New template barrier (probably sync) " + this.ToString() );
+					LogHelpers.LogOnce( "Initializing template barrier components (probably sync) - " + this.ToString() );
 				}
 			}
 
 			var comps = new List<CustomEntityComponent> {
 				statsComp,
 				BarrierDrawInGameEntityComponent.CreateBarrierDrawInGameEntityComponent( bodyColor, edgeColor ),
-				BarrierDrawOnMapEntityComponent.CreateBarrierDrawOnMapEntityComponent(),
-				BarrierPeriodicSyncEntityComponent.CreateBarrierPeriodicSyncEntityComponent()
+				PacketProtocolData.CreateDefault<BarrierDrawOnMapEntityComponent>(),
+				PacketProtocolData.CreateDefault<BarrierPeriodicSyncEntityComponent>()
 			};
 
 			return comps;
@@ -61,11 +61,11 @@ namespace Barriers.Entities.Barrier {
 
 
 		public override CustomEntityCore CreateCoreTemplate() {
-			return this.CreateCore<BarrierEntity>( null );
+			return this.CreateCore( null );
 		}
 
 		public override IList<CustomEntityComponent> CreateComponentsTemplate() {
-			return this.CreateComponents<BarrierEntity>( null );
+			return this.CreateComponents( null );
 		}
 
 

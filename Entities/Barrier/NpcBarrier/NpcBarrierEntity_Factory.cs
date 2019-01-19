@@ -11,7 +11,7 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 
 
 
-		protected class NpcBarrierEntityFactory<T> : BarrierEntityFactory<T>, INpcBarrierEntityFactory where T : NpcBarrierEntity {
+		protected class NpcBarrierEntityFactory : BarrierEntityFactory, INpcBarrierEntityFactory {
 			public NPC Npc { get; }
 			public override float Hp { get; }
 			public override float Radius { get; }
@@ -52,10 +52,8 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 				LogHelpers.Log( "Creating new barrier at " + center );
 			}
 
-			var factory = new NpcBarrierEntityFactory<NpcBarrierEntity>( npc, center, hp, radius, defense, shrinkResistScale, regenRate, regenRegenDurationHighest, bodyColor, edgeColor );
-			NpcBarrierEntity myent = factory.Create();
-
-			return myent;
+			var factory = new NpcBarrierEntityFactory( npc, center, hp, radius, defense, shrinkResistScale, regenRate, regenRegenDurationHighest, bodyColor, edgeColor );
+			return NpcBarrierEntity.CreateDefault<NpcBarrierEntity>( factory );
 		}
 
 		internal static NpcBarrierEntity CreateDefaultNpcBarrierEntity( NPC npc, Vector2 center ) {

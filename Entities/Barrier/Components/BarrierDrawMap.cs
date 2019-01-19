@@ -4,11 +4,11 @@ using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierDrawOnMapEntityComponent : DrawsOnMapEntityComponent {
-		private class BarrierDrawOnMapEntityComponentFactory : DrawsOnMapEntityComponentFactory<BarrierDrawOnMapEntityComponent> {
+		private class BarrierDrawOnMapEntityComponentFactory : DrawsOnMapEntityComponentFactory {
 			public BarrierDrawOnMapEntityComponentFactory() : base( "Barriers", "Entities/Barrier/Barrier128", 1, 0.5f, true ) { }
 		}
 
@@ -16,16 +16,13 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////////////////
 
-		public static BarrierDrawOnMapEntityComponent CreateBarrierDrawOnMapEntityComponent() {
-			var factory = new BarrierDrawOnMapEntityComponentFactory();
-			return factory.Create();
-		}
-
-
-
-		////////////////
-
 		protected BarrierDrawOnMapEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
+
+		////
+
+		protected override Type GetMyFactoryType() {
+			return typeof( BarrierDrawOnMapEntityComponentFactory );
+		}
 
 
 		////////////////

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Barriers.Entities.Barrier.Components;
 using Barriers.Entities.Barrier.NpcBarrier.Components;
 using HamstarHelpers.Components.CustomEntity;
@@ -17,18 +18,24 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 
 		protected NpcBarrierEntity( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
+		////
+
+		protected override Type GetMyFactoryType() {
+			return typeof(NpcBarrierEntityFactory);
+		}
+
 
 
 		////////////////
 
-		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
+		protected override IList<CustomEntityComponent> CreateComponents( CustomEntityFactory factory ) {
 			var mymod = BarriersMod.Instance;
 			var myfactory = factory as INpcBarrierEntityFactory;    //NpcBarrierEntityFactory
-			IList<CustomEntityComponent> comps = base.CreateComponents<T>( factory );
+			IList<CustomEntityComponent> comps = base.CreateComponents( factory );
 
 			comps.Insert( 0, this.CreateNpcBehaviorComponent( myfactory ) );
 			comps.Add( BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent( 1, 1 ) );
-			comps.Add( BarrierHitRadiusPlayerEntityComponent.CreateBarrierHitRadiusPlayerEntityComponent() );
+			comps.Add( PacketProtocolData.CreateDefault<BarrierHitRadiusPlayerEntityComponent>() );
 
 			return comps;
 		}
@@ -36,8 +43,8 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 
 		protected virtual NpcBarrierBehaviorEntityComponent CreateNpcBehaviorComponent( INpcBarrierEntityFactory myfactory ) {
 			var mymod = BarriersMod.Instance;
-
-			return NpcBarrierBehaviorEntityComponent.CreateNpcBarrierBehaviorEntityComponent(
+			
+			return NpcBarrierBehaviorEntityComponent.CreateNpcBarrierHitRadiusProjectileEntityComponent(
 				myfactory?.Npc ?? null,
 				myfactory?.Hp ?? mymod.Config.NpcBarrierHpBaseAmount,
 				myfactory?.Radius ?? mymod.Config.NpcBarrierHpBaseAmount,

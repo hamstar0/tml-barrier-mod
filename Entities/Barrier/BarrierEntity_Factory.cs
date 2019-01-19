@@ -20,7 +20,7 @@ namespace Barriers.Entities.Barrier {
 
 
 
-		protected abstract class BarrierEntityFactory<T> : CustomEntityFactory<T>, IBarrierEntityFactory where T : BarrierEntity {
+		protected abstract class BarrierEntityFactory : CustomEntityConstructor, IBarrierEntityFactory {
 			public abstract float Hp { get; }
 			public abstract float Radius { get; }
 			public abstract int Defense { get; }

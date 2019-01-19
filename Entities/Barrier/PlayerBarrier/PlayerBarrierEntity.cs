@@ -32,10 +32,10 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 		////////////////
 
-		protected override IList<CustomEntityComponent> CreateComponents<T>( CustomEntityFactory<T> factory ) {
+		protected override IList<CustomEntityComponent> CreateComponents( CustomEntityFactory factory ) {
 			var mymod = BarriersMod.Instance;
 			var myfactory = factory as IPlayerBarrierEntityFactory; //PlayerBarrierEntityFactory;
-			IList<CustomEntityComponent> comps = base.CreateComponents<T>( factory );
+			IList<CustomEntityComponent> comps = base.CreateComponents( factory );
 
 			comps.Insert( 0, this.CreatePlayerBehaviorComponent( myfactory ) );
 			comps.Add( BarrierHitRadiusProjectileEntityComponent.CreateBarrierHitRadiusProjectileEntityComponent( -1, 1 ) );

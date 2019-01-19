@@ -11,38 +11,28 @@ using Terraria;
 
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierHitRadiusProjectileEntityComponent : HitRadiusProjectileEntityComponent {
-		private class BarrierHitRadiusProjectileEntityComponentFactory : CustomEntityComponentFactory<BarrierHitRadiusProjectileEntityComponent> {
+		private class BarrierHitRadiusProjectileEntityComponentFactory {
 			public int HitsFriendly;	// .friendly = Hurts enemies
-			public int HitsHostile;	// .hostile = Hurts player and friends
-
-
+			public int HitsHostile;		// .hostile = Hurts player and friends
+			
 			public BarrierHitRadiusProjectileEntityComponentFactory( int hitsFriendly, int hitsHostile ) {
 				this.HitsFriendly = hitsFriendly;
 				this.HitsHostile = hitsHostile;
 			}
-
-			protected sealed override void InitializeComponent( BarrierHitRadiusProjectileEntityComponent data ) {
-				data.HitsFriendly = this.HitsFriendly;
-				data.HitsHostile = this.HitsHostile;
-				this.InitializeBarrierHitRadiusProjectileComponent( data );
-			}
-
-			protected virtual void InitializeBarrierHitRadiusProjectileComponent( BarrierHitRadiusProjectileEntityComponent data ) { }
 		}
-
 
 
 		////////////////
 
 		public static BarrierHitRadiusProjectileEntityComponent CreateBarrierHitRadiusProjectileEntityComponent( int hitsFriendly, int hitsHostile ) {
 			var factory = new BarrierHitRadiusProjectileEntityComponentFactory( hitsFriendly, hitsHostile );
-			return factory.Create();
+			return BarrierHitRadiusProjectileEntityComponent.CreateDefault<BarrierHitRadiusProjectileEntityComponent>( factory );
 		}
 
 
 
 		////////////////
-		
+
 		public int HitsFriendly;
 		public int HitsHostile;
 
@@ -59,6 +49,12 @@ namespace Barriers.Entities.Barrier.Components {
 			if( this.HitsHostile < -1 || this.HitsHostile > 1 ) {
 				throw new HamstarException( "Invalid HitsHostile value." );
 			}
+		}
+
+		////
+
+		protected override Type GetMyFactoryType() {
+			return typeof( BarrierHitRadiusProjectileEntityComponentFactory );
 		}
 
 

@@ -1,4 +1,5 @@
-﻿using HamstarHelpers.Components.CustomEntity;
+﻿using System;
+using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network;
 using HamstarHelpers.Components.Network.Data;
@@ -11,30 +12,16 @@ using Terraria;
 
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierDrawInGameEntityComponent : DrawsInGameEntityComponent {
-		private class BarrierDrawOnMapEntityComponentFactory : DrawsInGameEntityComponentFactory<BarrierDrawInGameEntityComponent> {
+		private class BarrierDrawInGameEntityComponentFactory : DrawsInGameEntityComponentFactory {
 			public Color BarrierBodyColor;
 			public Color BarrierEdgeColor;
 
 
-			public BarrierDrawOnMapEntityComponentFactory( Color bodyColor, Color edgeColor )
+			public BarrierDrawInGameEntityComponentFactory( Color bodyColor, Color edgeColor )
 					: base( "Barriers", "Entities/Barrier/Barrier128", 1 ) {
 				this.BarrierBodyColor = bodyColor;
 				this.BarrierEdgeColor = edgeColor;
 			}
-
-			protected override void InitializeDrawsInGameEntityComponent( BarrierDrawInGameEntityComponent data ) {
-				data.BarrierBodyColor = this.BarrierBodyColor;
-				data.BarrierEdgeColor = this.BarrierEdgeColor;
-			}
-		}
-
-
-
-		////////////////
-
-		public static BarrierDrawInGameEntityComponent CreateBarrierDrawInGameEntityComponent( Color bodyColor, Color edgeColor ) {
-			var factory = new BarrierDrawOnMapEntityComponentFactory( bodyColor, edgeColor );
-			return factory.Create();
 		}
 
 
@@ -84,9 +71,15 @@ namespace Barriers.Entities.Barrier.Components {
 			}
 		}
 
+		////
+
+		protected override Type GetMyFactoryType() {
+			return typeof( BarrierDrawInGameEntityComponentFactory );
+		}
+
 
 		////////////////
-		
+
 		public override void Draw( SpriteBatch sb, CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
 			var behavComp = myent.GetComponentByType<BarrierStatsEntityComponent>();

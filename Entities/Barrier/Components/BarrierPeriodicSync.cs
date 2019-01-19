@@ -2,30 +2,20 @@
 using HamstarHelpers.Components.CustomEntity.Components;
 using HamstarHelpers.Components.Network.Data;
 using HamstarHelpers.Helpers.DebugHelpers;
-
+using System;
 
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierPeriodicSyncEntityComponent : PeriodicSyncEntityComponent {
-		private class BarrierPeriodicSyncEntityComponentFactory : CustomEntityComponentFactory<BarrierPeriodicSyncEntityComponent> {
-			protected override void InitializeComponent( BarrierPeriodicSyncEntityComponent data ) { }
-		}
-
-
-
-		////////////////
-
-		public static BarrierPeriodicSyncEntityComponent CreateBarrierPeriodicSyncEntityComponent() {
-			var factory = new BarrierPeriodicSyncEntityComponentFactory();
-			return factory.Create();
-		}
-
-
-
-		////////////////
-
 		protected BarrierPeriodicSyncEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
-		
+
 		////
+
+		protected override Type GetMyFactoryType() {
+			return null;
+		}
+
+
+		////////////////
 
 		protected override bool UpdateMe( CustomEntity ent ) {
 			bool isUpdated = base.UpdateMe( ent );

@@ -16,7 +16,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 
 
-		protected class PlayerBarrierEntityFactory<T> : BarrierEntityFactory<T>, IPlayerBarrierEntityFactory where T : PlayerBarrierEntity {
+		protected class PlayerBarrierEntityFactory : BarrierEntityFactory, IPlayerBarrierEntityFactory {
 			public int Power { get; }
 			public float HpScale { get; }
 			public float RadiusScale { get; }
@@ -64,10 +64,8 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 				LogHelpers.Log( "Creating new barrier at " + center );
 			}
 
-			var factory = new PlayerBarrierEntityFactory<PlayerBarrierEntity>( ownerPlr, power, hpScale, radiusScale, defenseScale, shrinkResist, regenScale, center, bodyColor, edgeColor );
-			PlayerBarrierEntity myent = factory.Create();
-
-			return myent;
+			var factory = new PlayerBarrierEntityFactory( ownerPlr, power, hpScale, radiusScale, defenseScale, shrinkResist, regenScale, center, bodyColor, edgeColor );
+			return PlayerBarrierEntity.CreateDefault<PlayerBarrierEntity>( factory );
 		}
 
 		internal static PlayerBarrierEntity CreateDefaultPlayerBarrierEntity( Player ownerPlr ) {

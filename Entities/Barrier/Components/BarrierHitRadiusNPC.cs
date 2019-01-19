@@ -10,29 +10,20 @@ using Terraria;
 
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierHitRadiusNpcEntityComponent : HitRadiusNpcEntityComponent {
-		private class BarrierHitRadiusNpcEntityComponentFactory : CustomEntityComponentFactory<BarrierHitRadiusNpcEntityComponent> {
+		private class BarrierHitRadiusNpcEntityComponentFactory {
 			public bool HitsFriendly;
-
 
 			public BarrierHitRadiusNpcEntityComponentFactory( bool hitsFriendly ) {
 				this.HitsFriendly = hitsFriendly;
 			}
-			
-			protected sealed override void InitializeComponent( BarrierHitRadiusNpcEntityComponent data ) {
-				data.HitsFriendly = this.HitsFriendly;
-				this.InitializeBarrierHitRadiusNpcComponent( data );
-			}
-
-			protected virtual void InitializeBarrierHitRadiusNpcComponent( BarrierHitRadiusNpcEntityComponent data ) { }
 		}
-
 
 
 		////////////////
 
 		public static BarrierHitRadiusNpcEntityComponent CreateBarrierHitRadiusNpcEntityComponent( bool hitsFriendly ) {
 			var factory = new BarrierHitRadiusNpcEntityComponentFactory( hitsFriendly );
-			return factory.Create();
+			return BarrierHitRadiusNpcEntityComponent.CreateDefault<BarrierHitRadiusNpcEntityComponent>( factory );
 		}
 
 
@@ -48,6 +39,12 @@ namespace Barriers.Entities.Barrier.Components {
 		protected BarrierHitRadiusNpcEntityComponent( PacketProtocolDataConstructorLock ctorLock ) : base( ctorLock ) { }
 
 		protected override void OnInitialize() { }
+
+		////
+
+		protected override Type GetMyFactoryType() {
+			return typeof( BarrierHitRadiusNpcEntityComponentFactory );
+		}
 
 
 		////////////////

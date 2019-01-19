@@ -29,6 +29,12 @@ namespace Barriers.Entities.Barrier.Components {
 
 		protected override void OnInitialize() { }
 
+		////
+
+		protected override Type GetMyFactoryType() {
+			return typeof( BarrierStatsEntityComponentFactory );
+		}
+
 
 		////////////////
 
