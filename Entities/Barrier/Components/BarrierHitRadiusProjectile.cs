@@ -21,12 +21,17 @@ namespace Barriers.Entities.Barrier.Components {
 
 		public BarrierHitRadiusProjectileEntityComponent( int hitsFriendly, int hitsHostile ) : this() {
 			this.HitsFriendly = hitsFriendly;   // .friendly = Hurts enemies
-			this.HitsHostile = hitsHostile;		// .hostile = Hurts player and friends
+			this.HitsHostile = hitsHostile;     // .hostile = Hurts player and friends
+			this.Validate();
 		}
 
 		////
 
-		protected override void OnInitialize() {
+		protected override void OnClone() {
+			this.Validate();
+		}
+
+		private void Validate() {
 			if( this.HitsFriendly < -1 || this.HitsFriendly > 1 ) {
 				throw new HamstarException( "Invalid HitsFriendly value." );
 			}

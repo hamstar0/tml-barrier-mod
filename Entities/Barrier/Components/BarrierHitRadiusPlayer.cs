@@ -14,7 +14,7 @@ namespace Barriers.Entities.Barrier.Components {
 		private BarrierHitRadiusPlayerEntityComponent() { }
 		public BarrierHitRadiusPlayerEntityComponent( object _ = null ) : this() { }
 
-		protected override void OnInitialize() { }
+		protected override void OnClone() { }
 
 
 		////////////////

@@ -15,17 +15,18 @@ namespace Barriers {
 		public bool DebugModeInfo = false;
 		public bool DebugModeStatsInfo = false;
 
-		public int BarrierDefenseBaseAmount = 8;
+		public int BarrierDefaultDefenseAmount = 8;
 		//public float BarrierHardnessDamageDeflectionMaximumAmount = 10f;
 		//public float BarrierHardnessDamageReflectionMultiplierAmount = 2f;
-		public float BarrierHardnessScaleBaseAmount = 0f;
-		public float BarrierRegenBaseAmount = 6f / 60f;
-		public float BarrierRegenMultiplier = 1f;
+		public float BarrierDefaultHardnessScaleBaseAmount = 0f;
+		public float BarrierDefaultRegenPerTick = 6f / 60f;
+		public float BarrierDefaultRegenMultiplier = 1f;
 
 		public int PlayerBarrierDefaultShieldPower = 128;
-		public int PlayerBarrierDefaultRegenRegenDurationHighest = 60 * 3;	// 3 seconds
+		public int PlayerBarrierDefaultRecoverDurationMax = 60 * 3;	// 3 seconds
 
-		public int NpcBarrierHpBaseAmount = 128;
+		public int NpcBarrierDefaultHpAmount = 128;
+		public int NpcBarrierDefaultRecoverDurationMax = 60 * 5;	// 5 seconds
 
 
 

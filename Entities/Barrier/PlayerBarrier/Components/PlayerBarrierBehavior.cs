@@ -26,7 +26,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier.Components {
 
 		////
 
-		protected override void OnInitialize() { }
+		protected override void OnClone() { }
 
 
 		////////////////

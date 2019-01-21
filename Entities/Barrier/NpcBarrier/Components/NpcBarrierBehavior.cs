@@ -12,29 +12,18 @@ namespace Barriers.Entities.Barrier.NpcBarrier.Components {
 		[PacketProtocolIgnore]
 		public NPC Npc;
 
-		public float Hp;
-		public float Radius;
-		public int Defense;
-		public float ShrinkResistScale;
-		public float RegenRate;
-
 
 
 		////////////////
 
 		private NpcBarrierBehaviorEntityComponent() { }
-		public NpcBarrierBehaviorEntityComponent( NPC npc, float hp, float radius, int defense, float shrinkResistScale, float regenRate ) {
+		public NpcBarrierBehaviorEntityComponent( NPC npc ) {
 			this.Npc = npc;
-			this.Hp = hp;
-			this.Radius = radius;
-			this.Defense = defense;
-			this.ShrinkResistScale = shrinkResistScale;
-			this.RegenRate = regenRate;
 		}
 
 		////
 
-		protected override void OnInitialize() { }
+		protected override void OnClone() { }
 
 
 		////////////////

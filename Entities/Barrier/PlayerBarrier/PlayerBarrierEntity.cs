@@ -53,7 +53,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 				myfactory?.HpScale ?? 1f,
 				myfactory?.RadiusScale ?? 1f,
 				myfactory?.DefenseScale ?? 0f,
-				myfactory?.RegenScale ?? mymod.Config.BarrierRegenBaseAmount
+				myfactory?.RegenScale ?? mymod.Config.BarrierDefaultRegenPerTick
 			);
 		}
 	}

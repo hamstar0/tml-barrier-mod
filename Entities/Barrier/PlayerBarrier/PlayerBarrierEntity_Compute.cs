@@ -25,7 +25,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		public static int ComputeBarrierDefense( int power, float defenseScale ) {
 			float defPerPowerUnit = 0.25f;
 			int def = (int)( (float)power * defenseScale * defPerPowerUnit );
-			return def + BarriersMod.Instance.Config.BarrierDefenseBaseAmount;
+			return def + BarriersMod.Instance.Config.BarrierDefaultDefenseAmount;
 		}
 
 
@@ -36,11 +36,11 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 
 		public static float ComputeBarrierRegen( int power, float regenScale ) {
 			var mymod = BarriersMod.Instance;
-			float regen = mymod.Config.BarrierRegenBaseAmount;
+			float regen = mymod.Config.BarrierDefaultRegenPerTick;
 			float regenPerPowerUnit = regen / 24f;
 			regen += regenScale * (float)power * regenPerPowerUnit;
 
-			return regen * mymod.Config.BarrierRegenMultiplier;
+			return regen * mymod.Config.BarrierDefaultRegenMultiplier;
 		}
 	}
 }

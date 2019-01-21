@@ -23,7 +23,7 @@ namespace Barriers.Entities.Barrier.Components {
 
 		////
 
-		protected override void OnInitialize() { }
+		protected override void OnClone() { }
 
 
 		////////////////

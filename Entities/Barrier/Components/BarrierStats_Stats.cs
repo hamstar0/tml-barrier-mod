@@ -7,19 +7,19 @@ namespace Barriers.Entities.Barrier.Components {
 	public partial class BarrierStatsEntityComponent : CustomEntityComponent {
 		private void ApplyRegen( CustomEntity ent ) {
 			if( this.Hp == 0 ) {
-				int regenRegenMaxOffset = (int)( 60f * this.RegenRate );
-				int regenRegenThresh = Math.Max( 30, this.RegenRegenDurationHighest - regenRegenMaxOffset );
+				int recoverMaxOffset = (int)( 60f * this.RegenRate );
+				int regenRegenThresh = Math.Max( 30, this.MaxRecoverDuration - recoverMaxOffset );
 
-				if( this.RegenRegen++ >= regenRegenThresh ) {
+				if( this.RecoverDuration++ >= regenRegenThresh ) {
 					this.OnKnockoutRecover( ent );
 
-					this.RegenRegen = 0;
+					this.RecoverDuration = 0;
 					this.Hp = 1;
 				} else {
 					return;
 				}
 			} else {
-				this.RegenRegen = 0;
+				this.RecoverDuration = 0;
 			}
 
 			if( this.Radius < this.MaxRadius ) {

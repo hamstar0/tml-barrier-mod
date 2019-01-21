@@ -10,7 +10,7 @@ namespace Barriers.Entities.Barrier.Components {
 	public partial class BarrierStatsEntityComponent : CustomEntityComponent {
 		[JsonIgnore]
 		[PacketProtocolIgnore]
-		private int RegenRegen = 0;
+		private int RecoverDuration = 0;
 
 		public float Hp;
 		public float MaxHp;
@@ -19,26 +19,26 @@ namespace Barriers.Entities.Barrier.Components {
 		public float RegenRate;
 		public int Defense;
 		public float ShrinkResistScale;
-		public int RegenRegenDurationHighest;
+		public int MaxRecoverDuration;
 
 
 
 		////////////////
 
 		private BarrierStatsEntityComponent() { }
-		public BarrierStatsEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResistScale, int regenRegenDurationHighest ) : this() {
+		public BarrierStatsEntityComponent( float hp, float radius, int defense, float regenRate, float shrinkResistScale, int maxRecoverDuration ) : this() {
 			this.Hp = hp;
 			this.Radius = radius;
 			this.MaxRadius = radius;
 			this.RegenRate = regenRate;
 			this.Defense = defense;
 			this.ShrinkResistScale = shrinkResistScale;
-			this.RegenRegenDurationHighest = regenRegenDurationHighest;
+			this.MaxRecoverDuration = maxRecoverDuration;
 		}
 
 		////
 
-		protected override void OnInitialize() { }
+		protected override void OnClone() { }
 
 
 		////////////////

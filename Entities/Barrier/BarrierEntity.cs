@@ -3,13 +3,47 @@ using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-
+using Terraria;
 
 namespace Barriers.Entities.Barrier {
 	public abstract partial class BarrierEntity : CustomEntity {
+		protected interface IBarrierEntityFactory {
+			float Hp { get; }
+			float Radius { get; }
+			int Defense { get; }
+			float ShrinkResistScale { get; }
+			float RegenRate { get; }
+			int RecoverDurationHighest { get; }
+			Color BarrierBodyColor { get; }
+			Color BarrierEdgeColor { get; }
+			Vector2 Center { get; }
+		}
+
+
+
+		protected abstract class BarrierEntityConstructor : CustomEntityConstructor, IBarrierEntityFactory {
+			public abstract float Hp { get; }
+			public abstract float Radius { get; }
+			public abstract int Defense { get; }
+			public abstract float ShrinkResistScale { get; }
+			public abstract float RegenRate { get; }
+			public abstract int RecoverDurationHighest { get; }
+			public abstract Color BarrierBodyColor { get; }
+			public abstract Color BarrierEdgeColor { get; }
+			public abstract Vector2 Center { get; }
+			
+			protected BarrierEntityConstructor( Player ownerPlr ) : base( ownerPlr ) { }
+		}
+
+
+
+		////////////////
+
 		private BarrierEntity() : base( null ) { }
 		protected BarrierEntity( BarrierEntityConstructor ctor ) : base( ctor ) { }
 
+
+		////////////////
 
 		protected override CustomEntityCore CreateCore( CustomEntityConstructor ctor ) {
 			//var myfactory = factory as BarrierEntityFactory<BarrierEntity>;
@@ -58,6 +92,7 @@ namespace Barriers.Entities.Barrier {
 			return comps;
 		}
 
+		////
 
 		public override CustomEntityCore CreateCoreTemplate() {
 			return this.CreateCore( null );
@@ -68,16 +103,16 @@ namespace Barriers.Entities.Barrier {
 		}
 
 
-		////
+		////////////////
 
 		protected virtual BarrierStatsEntityComponent CreateStatsComponent( IBarrierEntityFactory myfactory ) {
 			return new BarrierStatsEntityComponent(
 				myfactory?.Hp ?? 64f,
 				myfactory?.Radius ?? 64f,
 				myfactory?.Defense ?? 0,
-				myfactory?.RegenRate ?? BarriersMod.Instance.Config.BarrierDefenseBaseAmount,
+				myfactory?.RegenRate ?? BarriersMod.Instance.Config.BarrierDefaultDefenseAmount,
 				myfactory?.ShrinkResistScale ?? 0f,
-				myfactory?.RegenRegenDurationHighest ?? 120
+				myfactory?.RecoverDurationHighest ?? 120
 			);
 		}
 	}

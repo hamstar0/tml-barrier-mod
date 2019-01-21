@@ -31,7 +31,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 			public override int Defense => PlayerBarrierEntity.ComputeBarrierDefense( this.Power, this.DefenseScale );
 			public override float ShrinkResistScale => PlayerBarrierEntity.ComputeBarrierShrinkResist( this.Power, this.ShrinkResist );
 			public override float RegenRate => PlayerBarrierEntity.ComputeBarrierRegen( this.Power, this.RegenScale );
-			public override int RegenRegenDurationHighest => BarriersMod.Instance.Config.PlayerBarrierDefaultRegenRegenDurationHighest;
+			public override int RecoverDurationHighest => BarriersMod.Instance.Config.PlayerBarrierDefaultRecoverDurationMax;
 			public override Color BarrierBodyColor { get; }
 			public override Color BarrierEdgeColor { get; }
 			public override Vector2 Center { get; }
@@ -71,7 +71,7 @@ namespace Barriers.Entities.Barrier.PlayerBarrier {
 		internal static PlayerBarrierEntity CreateDefaultPlayerBarrierEntity( Player ownerPlr ) {
 			var mymod = BarriersMod.Instance;
 			int defaultPow = mymod.Config.PlayerBarrierDefaultShieldPower;
-			float defaultRegen = mymod.Config.BarrierRegenBaseAmount;
+			float defaultRegen = mymod.Config.BarrierDefaultRegenPerTick;
 
 			return PlayerBarrierEntity.CreatePlayerBarrierEntity( ownerPlr, defaultPow, 1f, 1f, 0f, 0f, defaultRegen, Main.LocalPlayer.Center );
 		}

@@ -24,9 +24,9 @@ namespace Barriers {
 		}
 
 		public static NpcBarrierEntity CreateNpcBarrier( [Nullable]NPC npc, Vector2 position, float hp, float radius, int defense,
-				float shrinkResistScale, float regenRate, int regenRegenDurationHighest,
+				float shrinkResistScale, float regenRate, int recoverDurationHighest,
 				[Nullable]Color? bodyColor, [Nullable]Color? edgeColor ) {
-			return NpcBarrierEntity.CreateNpcBarrierEntity( npc, position, hp, radius, defense, shrinkResistScale, regenRate, regenRegenDurationHighest, bodyColor, edgeColor );
+			return NpcBarrierEntity.CreateNpcBarrierEntity( npc, position, hp, radius, defense, shrinkResistScale, regenRate, recoverDurationHighest, bodyColor, edgeColor );
 		}
 	}
 }

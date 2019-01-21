@@ -35,17 +35,23 @@ namespace Barriers.Entities.Barrier.NpcBarrier {
 		}
 
 
+		protected override BarrierStatsEntityComponent CreateStatsComponent( IBarrierEntityFactory myfactory ) {
+			var mymod = BarriersMod.Instance;
+
+			return new BarrierStatsEntityComponent(
+				myfactory?.Hp ?? mymod.Config.NpcBarrierDefaultHpAmount,
+				myfactory?.Radius ?? mymod.Config.NpcBarrierDefaultHpAmount,
+				myfactory?.Defense ?? mymod.Config.BarrierDefaultDefenseAmount,
+				myfactory?.ShrinkResistScale ?? mymod.Config.BarrierDefaultHardnessScaleBaseAmount,
+				myfactory?.RegenRate ?? mymod.Config.BarrierDefaultRegenPerTick,
+				myfactory?.RecoverDurationHighest ?? mymod.Config.NpcBarrierDefaultRecoverDurationMax
+			);
+		}
+
 		protected virtual NpcBarrierBehaviorEntityComponent CreateNpcBehaviorComponent( INpcBarrierEntityFactory myfactory ) {
 			var mymod = BarriersMod.Instance;
 			
-			return new NpcBarrierBehaviorEntityComponent(
-				myfactory?.Npc ?? null,
-				myfactory?.Hp ?? mymod.Config.NpcBarrierHpBaseAmount,
-				myfactory?.Radius ?? mymod.Config.NpcBarrierHpBaseAmount,
-				myfactory?.Defense ?? mymod.Config.BarrierDefenseBaseAmount,
-				myfactory?.ShrinkResistScale ?? mymod.Config.BarrierHardnessScaleBaseAmount,
-				myfactory?.RegenRate ?? mymod.Config.BarrierRegenBaseAmount
-			);
+			return new NpcBarrierBehaviorEntityComponent( myfactory?.Npc ?? null );
 		}
 	}
 }
