@@ -29,7 +29,7 @@ namespace Barriers.Entities.Barrier.Components {
 		[PacketProtocolIgnore]
 		[JsonIgnore]
 		protected Texture2D Edge128;
-		
+
 		////
 
 		public Color BarrierBodyColor;
@@ -67,61 +67,71 @@ namespace Barriers.Entities.Barrier.Components {
 			var myent = (BarrierEntity)ent;
 			var behavComp = myent.GetComponentByType<BarrierStatsEntityComponent>();
 			float radius = behavComp.Radius;
+			float hpPercent = behavComp.Hp / behavComp.MaxHp;
+			float shrinkResistScale = myent.GetShrinkResistScale();
+			Vector2 mid = ent.Core.Center;
+			float dist, y;
+			Vector2 pos;
 
 			if( radius == 0 || behavComp.Hp == 0 ) {
 				return;
 			}
-			
-			float stability = 1f - (Main.rand.NextFloat() * (1f - (behavComp.Hp / behavComp.MaxHp)));
-			Color bodyColor = myent.GetBarrierColor() * stability;
-			Color edgeColor = myent.GetEdgeColor() * stability;
-			
-			if( radius <= 64 ) {
-				float scale = radius / 64f;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Body128, 1, bodyColor, scale );   //, scale * Vector2.One * 64 );
-			} else if( radius <= 256 ) {
-				float scale = radius / 256f;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Body512, 1, bodyColor, scale );    //, scale * Vector2.One * 256 );
-			} else {    //if( radius <= 1024 )
-				float scale = radius / 1024;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Body2048, 1, bodyColor, scale );   //, scale * Vector2.One * 1024 );
+
+			for( int i = 0; i < Main.screenWidth; i++ ) {
+				int j = 0, prevJ = 0;
+				pos = new Vector2( i + Main.screenPosition.X, Main.screenPosition.Y );
+
+				do {
+					y = j + Main.screenPosition.Y;
+					dist = Vector2.Distance( pos, mid );
+
+					if( y < mid.Y && dist > radius ) { // above and outside barrier
+						prevJ = j;
+						j += (Main.screenHeight - j) / 2; // lower pos; moves closer
+					} else {
+						j = prevJ + ( (j - prevJ) / 2 ); // raise pos; moves closer
+					}
+					
+					pos.Y = Main.screenPosition.Y + j;
+				} while( j < Main.screenHeight && j != prevJ );
+
+				for( j++; j < Main.screenHeight; j++ ) {
+					pos.Y = Main.screenPosition.Y + j;
+
+					dist = Vector2.Distance( pos, ent.Core.Center );
+					if( dist > radius ) {
+						break;
+					}
+					
+					this.DrawAt( sb, i, j, dist, radius, hpPercent, shrinkResistScale );
+				}
 			}
-				
-			if( radius <= 64 ) {
-				float scale = radius / 64f;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Edge128, 1, edgeColor, scale );   //, scale * Vector2.One * 64 );
-			} else if( radius <= 256 ) {
-				float scale = radius / 256f;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Edge512, 1, edgeColor, scale );    //, scale * Vector2.One * 256 );
-			} else {    //if( radius <= 1024 )
-				float scale = radius / 1024;
-				DrawsInGameEntityComponent.DrawTexture( sb, ent, this.Edge2048, 1, edgeColor, scale );   //, scale * Vector2.One * 1024 );
+		}
+
+
+		private void DrawAt( SpriteBatch sb, int screenX, int screenY, float distFromCenter, float radius,
+				float hpPercent, float shrinkResistScale ) {
+			float percentToRadius = distFromCenter / radius;
+			float distToEdge = radius - distFromCenter;
+			float stability = 1f - (Main.rand.NextFloat() * (1f - hpPercent));
+			float softness = BarriersMod.Instance.Config.BarrierDrawSoftness + 1f;
+			float rand = Main.rand.NextFloat() * softness;
+
+			if( distToEdge < ( shrinkResistScale * 24 ) ) {
+				if( rand <= 1f ) {
+					Color color = this.BarrierEdgeColor * stability;
+
+					sb.Draw( Main.magicPixel, new Rectangle( screenX, screenY, 1, 1 ), color );
+				}
+			} else {
+				float intensity = 1f - (float)Math.Sqrt( 1f - (percentToRadius * percentToRadius) );
+
+				if( rand <= intensity ) {
+					Color color = Color.Lerp( Color.Transparent, this.BarrierBodyColor, (0.15f + (intensity * 0.65f)) * stability );
+
+					sb.Draw( Main.magicPixel, new Rectangle(screenX, screenY, 1, 1), color );
+				}
 			}
-
-			//sb.End();
-			//sb.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, GameShaders.Misc["ForceField"].Shader, Main.Transform );
-			//sb.End();
-			//sb.Begin( SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.Transform );
-
-
-			/*
-			sb.End();
-			sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-
-			float num143 = 0f;
-			if (nPC.ai[3] > 0f && nPC.ai[3] <= 30f)
-			{
-				num143 = 1f - nPC.ai[3] / 30f;
-			}
-			Filters.Scene[key].GetShader().UseIntensity(1f + num143).UseProgress(0f);
-			DrawData value12 = new DrawData(TextureManager.Load("Images/Misc/Perlin"), value11 + new Vector2(300f, 300f), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, 600, 600)), Microsoft.Xna.Framework.Color.White * (num142 * 0.8f + 0.2f), nPC.rotation, new Vector2(300f, 300f), nPC.scale * (1f + num143 * 0.05f), spriteEffects, 0);
-			GameShaders.Misc["ForceField"].UseColor(new Vector3(1f + num143 * 0.5f));
-			GameShaders.Misc["ForceField"].Apply(new DrawData?(value12));
-			value12.Draw( sb );
-
-			sb.End();
-			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, this.Rasterizer, null, Main.Transform);
-			*/
 		}
 	}
 }

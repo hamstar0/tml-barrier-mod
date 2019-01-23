@@ -15,6 +15,8 @@ namespace Barriers {
 		public bool DebugModeInfo = false;
 		public bool DebugModeStatsInfo = false;
 
+		public float BarrierDrawSoftness = 2f;
+
 		public int BarrierDefaultDefenseAmount = 8;
 		//public float BarrierHardnessDamageDeflectionMaximumAmount = 10f;
 		//public float BarrierHardnessDamageReflectionMultiplierAmount = 2f;

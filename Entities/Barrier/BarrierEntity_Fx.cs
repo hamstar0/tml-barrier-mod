@@ -34,7 +34,6 @@ namespace Barriers.Entities.Barrier {
 			int particles = Math.Min( (int)damage / 3, 8 );
 
 			for( int i = 0; i < particles; i++ ) {
-				Vector2 position = Main.LocalPlayer.Center;
 				Dust.NewDust( center, width, height, 264, 0f, 0f, 0, drawComp.BarrierBodyColor, 0.66f );
 			}
 		}

@@ -10,7 +10,7 @@ namespace Barriers.Entities.Barrier.Components {
 	public partial class BarrierStatsEntityComponent : CustomEntityComponent {
 		[JsonIgnore]
 		[PacketProtocolIgnore]
-		private int RecoverDuration = 0;
+		public int RecoverDuration = 0;
 
 		public float Hp;
 		public float MaxHp;
