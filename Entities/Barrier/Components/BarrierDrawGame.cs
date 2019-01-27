@@ -1,37 +1,14 @@
 ﻿using System;
 using HamstarHelpers.Components.CustomEntity;
 using HamstarHelpers.Components.CustomEntity.Components;
-using HamstarHelpers.Components.Network;
 using HamstarHelpers.Helpers.DebugHelpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using Terraria;
 
 
 namespace Barriers.Entities.Barrier.Components {
 	class BarrierDrawInGameEntityComponent : DrawsInGameEntityComponent {
-		[PacketProtocolIgnore]
-		[JsonIgnore]
-		protected Texture2D Body2048;
-		[PacketProtocolIgnore]
-		[JsonIgnore]
-		protected Texture2D Body512;
-		[PacketProtocolIgnore]
-		[JsonIgnore]
-		protected Texture2D Body128;
-		[PacketProtocolIgnore]
-		[JsonIgnore]
-		protected Texture2D Edge2048;
-		[PacketProtocolIgnore]
-		[JsonIgnore]
-		protected Texture2D Edge512;
-		[PacketProtocolIgnore]
-		[JsonIgnore]
-		protected Texture2D Edge128;
-
-		////
-
 		public Color BarrierBodyColor;
 		public Color BarrierEdgeColor;
 
@@ -45,25 +22,41 @@ namespace Barriers.Entities.Barrier.Components {
 			this.BarrierEdgeColor = edgeColor;
 		}
 
-		////
 
-		protected override void PostInitialize() {
-			var mymod = BarriersMod.Instance;
+		////////////////
 
-			if( !Main.dedServ ) {
-				this.Body128 = mymod.GetTexture( "Entities/Barrier/Barrier128" );
-				this.Body512 = mymod.GetTexture( "Entities/Barrier/Barrier512" );
-				this.Body2048 = mymod.GetTexture( "Entities/Barrier/Barrier2048" );
-				this.Edge128 = mymod.GetTexture( "Entities/Barrier/BarrierRing128" );
-				this.Edge512 = mymod.GetTexture( "Entities/Barrier/BarrierRing512" );
-				this.Edge2048 = mymod.GetTexture( "Entities/Barrier/BarrierRing2048" );
+		public override Effect GetFx( CustomEntity ent ) {
+			var myent = (BarrierEntity)ent;
+			var behavComp = myent.GetComponentByType<BarrierStatsEntityComponent>();
+			float radius = behavComp.Radius;
+			float hpPercent = behavComp.Hp / behavComp.MaxHp;
+			float shrinkResistScale = myent.GetShrinkResistScale();
+
+			if( radius == 0 || behavComp.Hp == 0 ) {
+				return null;
 			}
+
+			Effect barrierFx = BarriersMod.Instance.BarrierFx;
+			barrierFx.Parameters["ScreenPos"].SetValue( Main.screenPosition );
+			barrierFx.Parameters["ScreenDim"].SetValue( new Vector2( Main.screenWidth, Main.screenHeight ) );
+			barrierFx.Parameters["EntCenter"].SetValue( ent.Core.Center );
+			barrierFx.Parameters["EdgeColor"].SetValue( this.BarrierEdgeColor.ToVector4() );
+			barrierFx.Parameters["BodyColor"].SetValue( this.BarrierBodyColor.ToVector4() );
+			barrierFx.Parameters["Radius"].SetValue( radius );
+			barrierFx.Parameters["HpPercent"].SetValue( hpPercent );
+			barrierFx.Parameters["ShrinkResistScale"].SetValue( shrinkResistScale );
+
+			return barrierFx;
 		}
 
 
 		////////////////
 
-		public override void Draw( SpriteBatch sb, CustomEntity ent ) {
+		public override void DrawUnder( SpriteBatch sb, CustomEntity ent ) {
+			sb.Draw( Main.magicPixel, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Transparent );
+		}
+		
+		/*public override void Draw( SpriteBatch sb, CustomEntity ent ) {
 			var myent = (BarrierEntity)ent;
 			var behavComp = myent.GetComponentByType<BarrierStatsEntityComponent>();
 			float radius = behavComp.Radius;
@@ -120,7 +113,7 @@ namespace Barriers.Entities.Barrier.Components {
 			if( distToEdge < ( shrinkResistScale * 24 ) ) {
 				if( rand <= 1f ) {
 					Color color = this.BarrierEdgeColor * stability;
-
+					
 					sb.Draw( Main.magicPixel, new Rectangle( screenX, screenY, 1, 1 ), color );
 				}
 			} else {
@@ -132,6 +125,6 @@ namespace Barriers.Entities.Barrier.Components {
 					sb.Draw( Main.magicPixel, new Rectangle(screenX, screenY, 1, 1), color );
 				}
 			}
-		}
+		}*/
 	}
 }

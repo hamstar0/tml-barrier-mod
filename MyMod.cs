@@ -6,6 +6,7 @@ using HamstarHelpers.Components.Errors;
 using HamstarHelpers.Helpers.DotNetHelpers;
 using HamstarHelpers.Helpers.TmlHelpers;
 using HamstarHelpers.Services.Promises;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -23,6 +24,7 @@ namespace Barriers {
 
 		internal BarrierManager BarrierManager = new BarrierManager();
 		internal BarrierUI BarrierUI = new BarrierUI();
+		internal Effect BarrierFx = null;
 
 		////
 
@@ -75,6 +77,10 @@ namespace Barriers {
 
 
 		public override void PostSetupContent() {
+			if( !Main.dedServ && Main.netMode != 2 ) {
+				this.BarrierFx = this.GetEffect( "Effects/Barrier" );
+			}
+
 			BarrierUI.InitializeStatic( this );
 		}
 
